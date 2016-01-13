@@ -1,0 +1,45 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">Feature List</div>
+	<div class="panel-body">
+		<div class="form-group">
+			<label for="typeSearch">Type:</label> <input type="text"
+				ng-model="search.featureType" placeholder="type "> <label
+				for="addSearch">Feature:</label> <input type="text"
+				ng-model="search.featureName" placeholder="name">
+			<button type="button" ng-click="cancel()" class="btn btn-sm">Cancel</button>
+		</div>
+		"">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th style="min-width: 200px;">Variable</th>
+					<th style="min-width: 200px;">Variable</th>
+					<th colspan="2">
+						<button ng-click="createModel()" class="btn btn-sm btn-info">
+							<span class="glyphicon glyphicon-plus"></span> Create Source
+						</button>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="model in models | filter:search | pagination: (currentPage-1) * numPerPage | limitTo: numPerPage">
+					<td>{{ model.variable }}</td>
+					<td>{{ model.variable }}</td>
+					<td><button type="button" ng-click="editModel(model.id)"
+							class="btn btn-sm btn-primary">
+							<span class="glyphicon glyphicon-edit"></span> Edit
+						</button></td>
+					<td><button type="button" ng-click="deleteModel(model)"
+							class="btn btn-sm btn-warning">
+							<span class="glyphicon glyphicon-trash"></span> Delete
+						</button></td>
+				</tr>
+			</tbody>
+		</table>
+		<div align="center">
+			<pagination ng-model="currentPage" total-items="sites.length"
+				max-size="maxSize" items-per-page="numPerPage" boundary-links="true">
+			</pagination>
+		</div>
+	</div>
+</div>

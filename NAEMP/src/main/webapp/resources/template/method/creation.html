@@ -1,0 +1,29 @@
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Create New Method</div>
+	<div class="panel-body">
+		<form novalidate="novalidate" class="form-horizontal">
+			<div class="form-group">
+				<label for="method" class="col-sm-2 control-label">Method: </label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="method.method"
+						class="form-control" id="method" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="methodLink" class="col-sm-2 control-label">Method
+					Link:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="method.methodLink"
+						class="form-control" id="methodLink" placeholder="" />
+				</div>
+			</div>
+
+			<div class="btn-group btn-md pull-right">
+				<button type="button" ng-click="createMethod()"
+					class="btn btn-primary">Create</button>
+				<button type="button" ng-click="cancel()" class="btn btn-warning">Cancel</button>
+			</div>
+		</form>
+	</div>
+</div>

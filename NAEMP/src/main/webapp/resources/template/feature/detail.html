@@ -1,0 +1,39 @@
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Feature Detail</div> 
+	<!-- Feature == {{Model}} -->
+	<div class="panel-body">
+		<form novalidate="novalidate" class="form-horizontal">
+			<div class="form-group">
+				<label for="featureID" class="col-sm-2 control-label">FeatureID:</label>
+				<div class="col-sm-10">
+					<p class="form-control-static">{{feature.featureID}}</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="featureType" class="col-sm-2 control-label">Feature
+					Type:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="feature.featureType"
+						class="form-control" id="featureType" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="featureName" class="col-sm-2 control-label">Feature
+					Name:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="feature.featureName"
+						class="form-control" id="featureName" placeholder="" />
+				</div>
+			</div>
+
+			<div class="btn-group btn-md pull-right">
+				<button type="button" ng-click="updateFeature(feature.featureID)"
+					class="btn btn-primary">
+					<span class="glyphicon glyphicon-edit"></span> Save
+				</button>
+				<button type="button" ng-click="cancel()" class="btn btn-warning">Cancel</button>
+			</div>
+		</form>
+	</div>
+</div>

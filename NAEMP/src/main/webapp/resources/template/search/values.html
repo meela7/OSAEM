@@ -1,0 +1,68 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<div class="row content">
+			<div class="col-sm-8 sideav">
+				<h4>Search Result</h4>
+			</div>
+			<div class="col-sm-4 form-inline text-right">
+				<button back class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-arrow-left"></span> Back
+				</button>
+				<button type="button" ng-click="viewInGraph()"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-stats"></span> Graph
+				</button>
+				<button type="button" ng-click="viewInMap()"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-pushpin"></span> Map
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="container" ng-show="chart1">
+			<input ng-model="highchartsNG.title.text">
+			<button ng-click="addSeries()">Update Graph</button>
+			<highchart id="chart1" config="highchartsNG"></highchart>
+		</div>
+		<table st-set-filter="customFilter" st-table="displayed"
+			st-safe-src="collection" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th st-sort="site.siteName">Location</th>
+					<th st-sort="feature.featureType">Target Type</th>
+					<th st-sort="feature.featureName">Target</th>
+					<th st-sort="variable.variableName.term">Type</th>
+					<th st-sort="dateTime">Date Time</th>
+					<th st-sort="dataValue">Result Value</th>
+				</tr>
+
+				<tr>
+					<th><input class="form-control" placeholder=" site"
+						st-search="site"></th>
+					<th><input class="form-control" placeholder=" feature"
+						st-search="feature"></th>
+					<th><input class="form-control" placeholder=" feature"
+						st-search="feature"> <!-- <st-select-multiple collection="collection" predicate="feature.featureName"></st-select-multiple> -->
+					</th>
+					<th><input class="form-control" placeholder=" variable"
+						st-search="variable"></th>
+					<th><input class="form-control" placeholder=" dateTime"
+						st-search="dateTime"></th>
+					<th><st-number-range predicate="dataValue" lower="query.lower"
+							higher="query.higher"></st-number-range></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="value in displayed">
+					<td>{{ value.site.siteName }}</td>
+					<td>{{ value.feature.featureType }}</td>
+					<td>{{ value.feature.featureName }}</td>
+					<td>{{ value.variable.variableName.term }}</td>
+					<td>{{ value.dateTime.slice(0,10) }}</td>
+					<td>{{ value.dataValue }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

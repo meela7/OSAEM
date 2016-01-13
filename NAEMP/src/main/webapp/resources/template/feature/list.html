@@ -1,0 +1,83 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<div class="row content">
+			<div class="col-sm-8 sideav">
+				<h4>
+					<strong>Feature List</strong>
+				</h4>
+			</div>
+			<div class="col-sm-4 form-inline text-right">
+				<label for="species">Search: </label> <input type="text" id="search"
+					class="form-control" ng-model="search" placeholder="search... ">
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-sm-2 sideav">
+					<div>
+						<h5></h5>
+					</div>
+					<form class="form">
+						<label for="basin" class="control-label">Feature Type: </label> <input
+							type="text" id="fishclass" class="form-control hasclear"
+							ng-model="search.featureType"> <label for="river"
+							class="control-label ">Feature Name: </label> <input type="text"
+							id="fishorder" class="form-control hasclear"
+							ng-model="search.featureName"> 
+					</form>
+				</div>
+				<div class="col-sm-10 text-left">
+					<table class="table table-condensed table-striped">
+						<thead>
+							<tr class="paginationclass">
+								<th class="col-sm-1">FeatureID</th>
+								<th class="col-sm-1">Feature Type</th>
+								<th class="col-sm-1">Feature Name</th>
+								<th colspan="2" class="col-sm-2">
+									<button ng-click="createFeature()"
+										class="btn btn-sm btn-info pull-right">
+										<span class="glyphicon glyphicon-plus"></span> Create Feature
+									</button>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="paginationclass"
+								ng-repeat="feature in features | filter:search | pagination: (currentPage-1) * numPerPage | limitTo: numPerPage">
+								<td>{{ feature.featureID }}</td>
+								<td>{{ feature.featureType }}</td>
+								<td ng-click="showDetail(feature.featureID)">{{ feature.featureName }}</td>
+								<td>
+									<div class="form-inline pull-right">
+										<button type="button"
+											ng-click="editFeature(feature.featureID)"
+											class="btn btn-sm btn-info">
+											<span class="glyphicon glyphicon-edit"></span> Edit
+										</button>
+										<!-- <td><button type="button"
+											ng-click="findFishByFeature(feature.featureID)"
+											class="btn btn-sm btn-info">
+											<span class="glyphicon glyphicon-list-alt"></span> Detail
+										</button></td> -->
+										<button type="button"
+											ng-click="deleteFeature(feature.featrueID)"
+											class="btn btn-sm btn-warning">
+											<span class="glyphicon glyphicon-trash"></span> Delete
+										</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div align="center">
+			<pagination ng-model="currentPage" total-items="features.length"
+				max-size="maxSize" items-per-page="numPerPage" boundary-links="true">
+			</pagination>
+		</div>
+	</div>
+</div>

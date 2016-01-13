@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015. 07. 25 18:40:08 by meela -->
+<hibernate-mapping>
+    <class name="org.galilee.dms.model.Fishes" table="Fishes">
+        <id name="FishID" type="int">
+            <column name="FishID" />
+            <generator class="foreign">
+            	<param name="property"> Feature</param>
+            </generator>
+        </id>
+        
+        <one-to-one name="Feature" fetch="join"
+			class="org.galilee.dms.model.Features"></one-to-one>
+			
+        <property name="FishClass" type="java.lang.String">
+            <column name="Class" />
+        </property>
+        <property name="Order" type="java.lang.String">
+            <column name="Order" />
+        </property>
+        <property name="Family" type="java.lang.String">
+            <column name="Family" />
+        </property>
+        <property name="ScientificName" type="java.lang.String" access="field">
+            <column name="ScientificName" />
+        </property>
+        <property name="Species" type="java.lang.String">
+            <column name="Species" />
+        </property>
+        <many-to-one name="ToleranceGuild" class="org.galilee.dms.model.FishCharacterCV" fetch="join">
+            <column name="ToleranceGuild" not-null="true" />
+        </many-to-one>        
+        <many-to-one name="TrophicGuild" class="org.galilee.dms.model.FishCharacterCV" fetch="join">
+            <column name="TrophicGuild" not-null="true" />
+        </many-to-one>
+        <many-to-one name="HabitatGuild" class="org.galilee.dms.model.FishCharacterCV" fetch="join">
+            <column name="HabitatGuild" not-null="true" />
+        </many-to-one>
+        
+ <!--        <property name="ToleranceGuild" type="java.lang.String" access="field">
+            <column name="ToleranceGuild" />
+        </property>
+        <property name="TrophicGuild" type="java.lang.String">
+            <column name="TrophicGuild" /> 
+        </property>
+        <property name="HabitatGuild" type="java.lang.String">
+            <column name="HabitatGuild" />
+        </property> -->
+        <property name="InvasiveSpecies" type="java.lang.String">
+            <column name="InvasiveSpecies" />
+        </property>
+        <property name="EndemicSpecies" type="java.lang.String">
+            <column name="EndemicSpecies" />
+        </property>
+        <property name="EndangeredSpecies" type="java.lang.String">
+            <column name="EndangeredSpecies" />
+        </property>
+        <property name="NaturalMonument" type="java.lang.String">
+            <column name="NaturalMonument" />
+        </property>
+        <property name="ImageLink" type="java.lang.String">
+            <column name="ImageLink" />
+        </property>
+        <property name="Description" type="java.lang.String">
+            <column name="Description" />
+        </property>
+        
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,68 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h4>Data Search - River</h4>
+		<hr class="divider">
+		<div class="form-inline">
+			<label class="control-label"> <h5>&nbsp;</h5></label>
+			<div class="btn-group  pull-right">
+				<button back class="btn btn-default btn-sm" ng-show="back">
+					<span class="glyphicon glyphicon-arrow-left"></span> Back
+				</button>
+				<button type="button" ng-click="searchRiver()"
+					class="btn btn-warning btn-sm">
+					<span class="glyphicon glyphicon-search"></span> Update River
+				</button>
+				<button type="button" ng-click="searchSiteByRiver()"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-search"></span> Search Site
+				</button>
+				
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table st-set-filter="customFilter" st-table="displayed"
+			st-safe-src="collection" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th st-sort="riverID">ID</th>
+					<th st-sort="basin">대권역</th>
+					<th st-sort="waterSystem">수계</th>
+					<th st-sort="midWatershed">중권역</th>
+					<th st-sort="subWatershed">소권역</th>
+					<th st-sort="riverName">하천</th>
+					<th st-sort="classification">하천 구분</th>
+
+				</tr>
+
+				<tr>
+					<th><input class="form-control" placeholder="search"
+						st-search="riverID"></th>
+					<th><st-select-distinct collection="collection"
+							predicate="basin"></st-select-distinct></th>
+					<th><st-select-distinct collection="collection"
+							predicate="waterSystem"></st-select-distinct></th>
+					<th><st-select-distinct collection="collection"
+							predicate="midWatershed"></st-select-distinct></th>
+					<th><input class="form-control" placeholder="search"
+						st-search="subWatershed"></th>
+					<th><input class="form-control" placeholder="search"
+						st-search="riverName"></th>
+					<th><st-select-distinct collection="collection"
+							predicate="classification"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="river in displayed">
+					<td>{{ river.riverID }}</td>
+					<td>{{ river.basin }}</td>
+					<td>{{ river.waterSystem }}</td>
+					<td>{{ river.midWatershed }}</td>
+					<td>{{ river.subWatershed }}</td>
+					<td>{{ river.riverName }}</td>
+					<td>{{ river.classification }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

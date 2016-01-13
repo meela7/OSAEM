@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015. 7. 25 ???? 6:46:44 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="org.galilee.dms.model.Methods" table="Methods">
+        <id name="MethodID" type="int">
+            <column name="MethodID" />
+            <generator class="assigned" />
+        </id>
+        <property name="MethodName" type="java.lang.String">
+            <column name="MethodName" />
+        </property>
+        <property name="MethodLink" type="java.lang.String">
+            <column name="MethodLink" />
+        </property>
+    </class>
+</hibernate-mapping>

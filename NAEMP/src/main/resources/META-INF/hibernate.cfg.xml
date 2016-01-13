@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" 
+			"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+		<property name="show_sql">true</property>
+		<mapping resource="META-INF/Sites.hbm.xml" />
+		<mapping resource="META-INF/Rivers.hbm.xml" />
+		<mapping resource="META-INF/Sources.hbm.xml" />
+		<mapping resource="META-INF/Features.hbm.xml" />
+		<mapping resource="META-INF/Fishes.hbm.xml" />
+		<mapping resource="META-INF/FishCharacterCV.hbm.xml" />
+		<mapping resource="META-INF/Variables.hbm.xml" />
+		<mapping resource="META-INF/Units.hbm.xml" />
+		<mapping resource="META-INF/VariableNameCV.hbm.xml" />
+		<mapping resource="META-INF/ValueTypeCV.hbm.xml" />
+		<mapping resource="META-INF/Methods.hbm.xml" />
+		<mapping resource="META-INF/SiteCode.hbm.xml" />
+		<mapping resource="META-INF/DataValues.hbm.xml" />
+	</session-factory>
+</hibernate-configuration>

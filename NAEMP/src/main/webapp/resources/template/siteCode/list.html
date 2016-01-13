@@ -1,0 +1,82 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<div class="row content">
+			<div class="col-sm-8 sideav">
+				<h4><strong>SiteCode List</strong></h4>
+			</div>
+			<div class="col-sm-4 form-inline text-right">
+				<label for="species">Search: </label> 
+				<input type="text" id="search" class="form-control" ng-model="search"
+				placeholder="search... ">
+			</div>
+		</div>						
+	</div>
+	<div class="panel-body">
+		<div class="container-fluid">
+				<div class="row content">
+					<div class="col-sm-2 sideav">
+						<div>
+							<h5></h5>
+						</div>
+						<form class="form">
+							<label for="basin" class="control-label">Site Name: </label> <input
+								type="text" id="method" class="form-control hasclear"
+								ng-model="search.site.siteName"> 
+							<label	for="river" class="control-label ">Survey Year: </label> <input
+								type="text" id="year" class="form-control hasclear"
+								ng-model="search.surveyYear">
+							 <label	for="river" class="control-label ">Survey Term: </label> <input
+								type="text" id="term" class="form-control hasclear"
+								ng-model="search.surveyTerm">
+						</form>
+					</div>
+					<div class="col-sm-10 text-left">
+						<table class="table table-striped">
+							<thead>
+								<tr class="paginationclass">
+									<th>Site Code</th>
+									<th>Site Name</th>
+									<th>Survey Year</th>
+									<th>Survey Term</th>
+									<th colspan="2">
+										<button ng-click="createSiteCode()" class="btn btn-sm btn-info pull-right">
+											<span class="glyphicon glyphicon-plus"></span> Create SiteCode
+										</button>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="paginationclass"
+									ng-repeat="siteCode in siteCodes | filter:search | pagination: (currentPage-1) * numPerPage | limitTo: numPerPage">
+									<td>{{ siteCode.siteCode }}</td>
+									<td>{{ siteCode.site.siteName }}</td>
+									<td>{{ siteCode.surveyYear }}</td>
+									<td>{{ siteCode.surveyTerm }}</td>
+									<td colspan= "2">
+										<div class="form-inline pull-right">
+											<button type="button"
+												ng-click="editSiteCode(siteCode.siteCodeID)"
+												class="btn btn-sm btn-info">
+												<span class="glyphicon glyphicon-edit"></span> Edit
+											</button>
+											<button type="button"
+												confirmed-click="deleteSiteCode(siteCode.siteCodeID)"
+												ng-confirm-box-click="Are you sure to Delete?"
+												class="btn btn-sm btn-warning ">
+												<span class="glyphicon glyphicon-trash"></span> Delete
+											</button>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		<div align="center">
+			<pagination ng-model="currentPage" total-items="features.length"
+				max-size="maxSize" items-per-page="numPerPage" boundary-links="true">
+			</pagination>
+		</div>
+	</div>
+</div>

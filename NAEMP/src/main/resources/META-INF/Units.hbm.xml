@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015. 7. 25 ???? 7:10:32 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="org.galilee.dms.model.Units" table="Units">
+        <id name="UnitID" type="int">
+            <column name="UnitID" />
+            <generator class="assigned" />
+        </id>
+        <property name="UnitName" type="java.lang.String">
+            <column name="UnitName" />
+        </property>
+        <property name="UnitNameLong" type="java.lang.String">
+            <column name="UnitNameLong" />
+        </property>
+    </class>
+</hibernate-mapping>

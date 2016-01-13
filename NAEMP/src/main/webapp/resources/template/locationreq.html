@@ -1,0 +1,75 @@
+<div class="form-inline">
+	<label class="control-label" for="basin">Basin:</label> <input
+		class="form-control" type="text" id="basin"
+		ng-model="search.river.basin" placeholder="basin"> <label
+		class="control-label" for="river">River:</label> <input
+		class="form-control" type="text" id="river"
+		ng-model="search.river.riverName" placeholder="river"> <label
+		class="control-label" for="classification">Classification:</label> <input
+		class="form-control" type="text" id="classification"
+		ng-model="search.river.classification" placeholder="classification">
+
+	<p></p>
+
+	<label class="control-label" for="site">Site:</label> <input
+		class="form-control" type="text" id="site" ng-model="search.siteName"
+		placeholder="site"> <label class="control-label" for="order">Order:</label>
+	<input type="text" id="order" ng-model="search.streamOrder"
+		class="form-control" placeholder="stream order">
+
+	<button type="button" class="btn btn-sm btn-warning"
+		ng-click="cancel()">
+		<span class="glyphicon glyphicon-remove-circle"></span> Cancel
+	</button>
+</div>
+<hr class="divider">
+<div class="form-inline">
+	<div class="radio">
+		<input type="radio" ng-change="GetOptions()" ng-model="timeReq"
+			ng-value="1" ng-checked="scheduleType.Checked"> <label
+			for="yearSearch"> Year: </label> <select class="form-control"
+			ng-model="ddlYear" ng-options="o as o for o in years"
+			ng-change="getYear()">
+		</select> <select class="form-control" ng-model="ddlTerm"
+			ng-options="t as t for t in terms" ng-change="getTerm()">
+		</select> <input type="radio" ng-change="GetOptions()" ng-model="timeReq"
+			ng-value="2" ng-checked="scheduleType.Checked"> <label
+			for="periodSearch"> Period: </label>
+		<div class="input-group date" id="startTime">
+			<input type="text" class="form-control" placeholder="DD/MM/YYYY">
+			<span class="input-group-addon"> <span
+				class="glyphicon glyphicon-calendar"></span>
+			</span>
+		</div>
+		~
+		<div class="input-group date" id="endTime">
+			<input type="text" class="form-control" placeholder="DD/MM/YYYY">
+			<span class="input-group-addon"> <span
+				class="glyphicon glyphicon-calendar"></span>
+			</span>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			$('#startTime').datetimepicker({
+				format : 'DD/MM/YYYY'
+			});
+			$('#endTime').datetimepicker({
+				format : 'DD/MM/YYYY',
+				useCurrent : false
+			//Important! See issue #1075
+			});
+			$("#startTime").on("dp.change", function(e) {
+				$('#endTime').data("DateTimePicker").minDate(e.date);
+			});
+			$("#endTime").on("dp.change", function(e) {
+				$('#startTime').data("DateTimePicker").maxDate(e.date);
+			});
+		});
+	</script>
+	<button type="button" ng-click="searchBySite()"
+		class="btn btn-default btn-sm pull-right"
+		enabled="searchRequest.$valid">
+		<span class="glyphicon glyphicon-search"></span> Search Value
+	</button>
+</div>

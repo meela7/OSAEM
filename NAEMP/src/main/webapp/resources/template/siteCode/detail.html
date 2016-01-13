@@ -1,0 +1,144 @@
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Site Code Detail</div>
+	<!-- Feature == {{Model}} -->
+	<div class="panel-body">
+		<form novalidate="novalidate" class="form-horizontal">
+			<div class="form-group">
+				<label for="siteCode" class="col-sm-2 control-label">Site
+					Code:</label>
+				<div class="col-sm-8">
+					<input type="text" ng-model="siteCode.siteCode"
+						class="form-control" id="siteCode" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="siteName" class="col-sm-2 control-label">Site
+					Name:</label>
+				<div class="col-sm-8">
+					<input type="text" ng-model="siteCode.site.siteName"
+						class="form-control" id="siteName" placeholder="" />
+
+				</div>
+				<div class="col-sm-10">
+					<button type="button" class="btn btn-sm" data-toggle="collapse"
+						data-target="#site">
+						<span class="glyphicon glyphicon-plus"></span> more...
+					</button>
+					
+				</div>
+			</div>
+
+
+			<div id="site" class="collapse">
+				<div class="panel panel-info">
+					<div class="panel-heading">Detail of
+						{{siteCode.site.siteName}}</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label for="siteName" class="col-sm-2 control-label">SiteName:</label>
+							<div class="col-sm-7">
+								<input type="text" ng-model="siteCode.site.siteName"
+									class="form-control" id="siteName" placeholder="" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="riverName" class="col-sm-2 control-label">RiverName:</label>
+							<div class="col-sm-7">
+								<input type="text" ng-model="siteCode.site.river.riverName"
+									class="form-control" id="riverName" placeholder="" />
+							</div>
+							<div class="col-sm-9">
+								<button type="button" class="btn btn-sm" data-toggle="collapse"
+									data-target="#river">
+									<span class="glyphicon glyphicon-plus"></span> more...
+								</button>
+							</div>
+						</div>
+						<div id="river" class="collapse">
+							<div class="panel-info">
+								<div class="panel-heading">Detail Info of
+									{{siteCode.site.river.riverName}}</div>
+								<div class="panel-body">
+									<div class="form-group">
+										<label for="basin" class="col-sm-2 control-label">Basin:</label>
+										<div class="col-sm-7">
+											<input type="text" ng-model="siteCode.site.river.basin"
+												class="form-control" id="basin"
+												placeholder="Select a River from list." />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="waterSystem" class="col-sm-2 control-label">WaterSystem:</label>
+										<div class="col-sm-7">
+											<input type="text" ng-model="siteCode.site.river.waterSystem"
+												class="form-control" id="waterSystem" placeholder="" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="midWatershed" class="col-sm-2 control-label">Mid-Watershed:</label>
+										<div class="col-sm-7">
+											<input type="text"
+												ng-model="siteCode.site.river.midWatershed"
+												class="form-control" id="midWatershed" placeholder="" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="subWatershed" class="col-sm-2 control-label">Sub-Watershed:</label>
+										<div class="col-sm-7">
+											<input type="text"
+												ng-model="siteCode.site.river.subWatershed"
+												class="form-control" id="subWatershed" placeholder="" />
+										</div>
+									</div>
+									<div class="form-group">
+										<label for="riverName" class="col-sm-2 control-label">RiverName:</label>
+										<div class="col-sm-7">
+											<input type="text" ng-model="siteCode.site.river.riverName"
+												class="form-control" id="riverName" placeholder="" />
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="streamOrder" class="col-sm-2 control-label">StreamOrder:</label>
+							<div class="col-sm-7">
+								<input type="text" ng-model="siteCode.site.streamOrder"
+									class="form-control" id="streamOrder" placeholder="" />
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="address" class="col-sm-2 control-label">Address:</label>
+							<div class="col-sm-7">
+								<input type="text" ng-model="siteCode.site.address"
+									class="form-control" id="address" placeholder="" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="surveyYear" class="col-sm-2 control-label">Survery
+					Year:</label>
+				<div class="col-sm-8">
+					<input type="text" ng-model="siteCode.surveyYear"
+						class="form-control" id="surveyYear" placeholder="" />
+				</div>
+			</div>
+
+
+			<div class="btn-group btn-md pull-right">
+				<button type="button" ng-click="updateF(feature.featureID)"
+					class="btn btn-info">
+					<span class="glyphicon glyphicon-edit"></span> Save
+				</button>
+				<button type="button" ng-click="cancel()" class="btn btn-warning">
+					<span class="glyphicon glyphicon-list"></span> Cancel
+				</button>
+			</div>
+		</form>
+	</div>
+</div>

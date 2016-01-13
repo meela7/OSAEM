@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015. 7. 26 ???? 6:05:54 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="org.galilee.dms.model.DataValues" table="DataValues">
+        <id name="ValueID" type="int">
+            <column name="ValueID" />
+            <generator class="assigned" />
+        </id>
+        <property name="DataValue" type="double">
+            <column name="DataValue" />
+        </property>
+        <property name="DateTime" type="java.lang.String">
+            <column name="DateTime" />
+        </property>
+        <property name="Duration" type="int">
+            <column name="Duration" not-null="false" />
+        </property>
+        <property name="SurveyYear" type="int">
+            <column name="SurveyYear" />
+        </property>
+        <property name="SurveyTerm" type="int">
+            <column name="SurveyTerm" />
+        </property>
+        <many-to-one name="Site" class="org.galilee.dms.model.Sites" lazy="false" fetch="join">
+            <column name="SiteID" />
+        </many-to-one>
+        <property name="Latitude" type="java.lang.String">
+            <column name="Latitude" />
+        </property>
+        <property name="Longitude" type="java.lang.String">
+            <column name="Longitude" />
+        </property>
+        <many-to-one name="Source" class="org.galilee.dms.model.Sources" lazy="false" fetch="join">
+            <column name="SourceID" /> 
+        </many-to-one>
+        <many-to-one name="Feature" class="org.galilee.dms.model.Features" lazy="false" fetch="join">
+            <column name="FeatureID" />
+        </many-to-one>
+        <many-to-one name="Variable" class="org.galilee.dms.model.Variables" lazy="false" fetch="join">
+            <column name="VariableID" />
+        </many-to-one>
+        <many-to-one name="Method" class="org.galilee.dms.model.Methods" lazy="false"
+    fetch="select">
+            <column name="MethodID" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

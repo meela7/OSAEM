@@ -1,0 +1,299 @@
+/* Fonts: 
+Oswald (300, 700)
+Open Sans (400italic, 400, 700)
+*/
+
+body {
+  font-family: 'Opens Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  background-color: #2f261a;
+  margin: 0;
+  color: #ccccc2;
+  min-width: 1650px;
+}
+h1 {
+  font-family: 'Oswald', serif;
+  font-weight: 700;
+  color: #2f261a;
+  font-size: 48px;
+  padding-left: 20px;
+  margin: 0;
+}
+h2 {
+  font-family: 'Oswald', serif;
+  font-weight: 300;
+  color: #2f261a;
+  font-size: 40px;
+  padding-left: 20px;
+  margin: 0;
+  line-height: 30px;
+  letter-spacing: 0.5px;
+}
+h3 {
+  font-family: 'Oswald', serif;
+  font-size: 24px;
+  margin: 10px 0 10px 0;
+  color: #ccccc2;
+  letter-spacing: 0.5px;
+}
+p {
+  line-height: 25px;
+}
+#institutions_label p {
+  font-style: italic;
+  font-size: 16px;
+}
+#institutions_numbers p {
+  font-size: 16px;
+  line-height: 16px;
+  margin: 7 0 14 0;
+}
+a:link {color: #a7c192;} 
+a:hover {color: #89bf5c;}
+a:active {color: #89bf5c;}
+a:visited {color :#a7c192;}
+label {
+  display: block;
+  clear: both;
+  line-height: 30px;
+  font-size: 18px;
+}
+ul, li {
+  font-size: 14px;
+  margin: 0; padding: 0;
+}
+li {
+  text-indent: 45px;
+  white-space: nowrap;
+}
+#colorScheme label{
+  margin-bottom: 7px;
+}
+ul {
+  list-style-type: none;
+}
+#header img {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.location {
+  font-size: 12px;
+}
+#container {
+  padding: 0;
+}
+#sidebarContainer {
+  padding: 0;
+  width: 995px;
+}
+#header {
+  display: inline-block;
+  width: 975px;
+  height: 115px;
+  background-color: #a7c764;
+  background: -moz-linear-gradient(top, #B3BC9E 0%, #a7c764 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#B3BC9E), color-stop(100%,#a7c764));
+  background: -webkit-linear-gradient(top, #B3BC9E 0%,#a7c764 100%);
+  background: -o-linear-gradient(top, #B3BC9E 0%,#a7c764 100%);
+  background: -ms-linear-gradient(top, #B3BC9E 0%,#a7c764 100%);
+  background: linear-gradient(to bottom, #B3BC9E 0%,#a7c764 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#B3BC9E', endColorstr='#a7c764',GradientType=0 );
+}
+#instructions {
+  display: inline-block;
+  width: 750px;
+  padding: 15px 0 0 20px;
+}
+#institutions {
+  display: inline-block;
+  width: 760px;
+  padding: 15px 0 0 20px;
+  position: relative;
+}
+#institutions_select {
+  display: inline-block;
+  width: 255px;
+  vertical-align: bottom;
+}
+#institutions_label {
+  position: absolute;
+  top: 55;
+  left: 563;
+}
+#institutions_bars_container {
+  display: inline-block;
+  width: 395px;
+  height: 120px;
+  vertical-align: bottom;
+  position: relative;
+}
+#institutions_bars {
+  position: absolute;
+}
+#institutions_bars svg {
+  top: 0;
+}
+#institutions_bars_2 {
+  margin-top: 5px;
+}
+.bar { 
+  display: block;
+  width: 395px;
+  height: 20px;
+  background-color: #1a150e;
+  margin-bottom: 10px;
+  fill: #938b7f;
+}
+#institutions_numbers {
+  display: inline-block;
+  width: 50px;
+  height: 120px;
+  vertical-align: bottom;
+  margin-left: 10px;
+}
+#colorScheme {
+  display: inline-block;
+  width: 750px;
+  height: 274px;
+  padding: 15px 0 0 20px;
+}
+#colorScheme_taxonomy {
+  display: inline-block;
+  width: 200px;
+  height: 218px;
+  vertical-align: top;
+}
+#colorScheme_iucnStat {
+  display: inline-block;
+  width: 240px;
+  height: 218px;
+  vertical-align: top;
+}
+#colorScheme_popTrend {
+  display: inline-block;
+  width: 260px;
+  height: 218px;
+  vertical-align: top;
+}
+#copyright {
+  display: inline-block;
+  width: 760px;
+  height: 20px;
+  padding: 0 0 0 20px;
+}
+#tree {
+  position: absolute;
+  left: 760px;
+  top: 20px;
+  width: 882px;
+  height: 882px;
+}
+#totalNumberContainer {
+  position: absolute;
+  left: 1473px;
+  top: 803px;
+  width: 170px;
+  height: 100px;
+  z-index: 100;
+  font-size: 20px;
+  color: #ccccc2;
+  text-align: center;
+}
+#totalNumber {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 60px;
+  line-height: 60px;
+}
+#speciesText {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 35px;
+}
+#explanation {
+  position: absolute;
+  top: 380px;
+  left: 312px;
+  width: 260px;
+  text-align: center;
+  color: #2f261a;
+  z-index: 5;
+}
+#taxon {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 30px;
+}
+#sciname {
+  font-size: 22px;
+  font-family: 'Opens Sans', sans-serif;
+  font-style: italic;
+}
+#commonname {
+  font-size: 20px;
+}
+#phylumBox, #classBox, #orderBox, #familyBox, #genusBox, #speciesBox,
+#EWbox, #CRbox, #ENbox, #VUbox, #NTbox, #LCbox, #DDbox, #NEbox,
+#popInbox, #popStBox, #popDeBox, #popUnBox {
+  width: 30px;
+  height: 20px;
+  display: block;
+  margin-bottom: 5px;
+}
+#phylumBox {
+  background-color: #c4c3c3;
+}
+#classBox {
+  background-color: #b6c3ab;
+}
+#orderBox {
+  background-color: #a7c192;
+}
+#familyBox {
+  background-color: #98c079;
+}
+#genusBox {
+  background-color: #89bf5c;
+}
+#speciesBox {
+  background-color: #78c042;
+}
+#EWBox {
+  background-color: #000000;
+}
+#CRBox {
+  background-color: #ed174a;
+}
+#ENBox {
+  background-color: #d95934;
+}
+#VUBox {
+  background-color: #f9a01b;
+}
+#NTBox {
+  background-color: #009087;
+}
+#LCBox {
+  background-color: 3cb5fc;
+}
+#DDBox {
+  background-color: #8f898e;
+}
+#NEBox {
+  background-color: #938b7f;
+}
+#popInBox {
+  background-color: #00cc00;
+}
+#popStBox {
+  background-color: #c0c000;
+}
+#popDeBox {
+  background-color: #cc0000;
+}
+#popUnBox {
+  background-color: #938b7f;
+}

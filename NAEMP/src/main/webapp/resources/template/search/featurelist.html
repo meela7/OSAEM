@@ -1,0 +1,40 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">Feature List</div>
+	<div class="panel-body">
+		<div class="form-inline">
+			<label for="type">Type:</label> <input type="text" id="type"
+				class="form-control" ng-model="search.featureType" placeholder="type "> 
+			<label for="feature">Feature:</label> <input type="text" id="feature"
+				class="form-control" ng-model="search.featureName" placeholder="name">
+			<button type="button" ng-click="searchFishByFeature()"
+					class="btn btn-info btn-sm">
+				<span class="glyphicon glyphicon-search"></span> Search Fish
+			</button>
+		</div>
+		<table class="table table-condensed table-striped">
+			<thead>
+				<tr class="paginationclass">
+					<th class="col-sm-1">FeatureID</th>
+					<th class="col-sm-1">Feature Type</th>
+					<th class="col-sm-1">Feature Name</th>
+					
+				</tr>
+			</thead>
+			<tbody>
+				<tr class="paginationclass"
+					ng-repeat="feature in searchResult = (features | filter:search) | pagination: (currentPage-1) * numPerPage | limitTo: numPerPage">
+					<td>{{ feature.featureID }}</td>
+					<td>{{ feature.featureType }}</td>
+					<td>{{ feature.featureName }}</td>
+					
+				</tr>
+			</tbody>
+		</table>
+		<p ng-hide="searchResult">There is no result</p>
+		<div align="center">
+			<pagination ng-model="currentPage" total-items="features.length"
+				max-size="maxSize" items-per-page="numPerPage" boundary-links="true">
+			</pagination>
+		</div>
+	</div>
+</div>

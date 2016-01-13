@@ -1,0 +1,53 @@
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Create New SiteCode</div>
+	<div class="panel-body">
+		<form novalidate="novalidate" class="form-horizontal">
+			<div class="form-group">
+				<label for="siteCode" class="col-sm-2 control-label">Site
+					Code:</label>
+				<div class="col-sm-8">
+					<input type="text" ng-model="siteCode.siteCode"
+						class="form-control" id="siteCode"
+						placeholder="H000 /G000 /N000 /Y000" />
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="siteName" class="col-sm-2 control-label">Site:</label>
+				<div class="col-sm-8">
+					<select ng-model="ddlSites"
+						ng-options="site as site.siteName for site in sites"
+						ng-change="getSelectedSite(site)"><option value="">select a site from list</option></select> <input type="text"
+						ng-model="selectedSiteName" class="form-control" id="selectedSiteName"
+						placeholder="" />
+				</div>
+				<div ng-hide="slectedSite"></div>
+			</div>
+			<div class="form-group">
+				<label for="surveyYear" class="col-sm-2 control-label">Year:
+				</label>
+				<div class="col-sm-8">
+					<input type="text" ng-model="siteCode.surveyYear"
+						class="form-control" id="surveyYear" placeholder="" />
+
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="surveyTerm" class="col-sm-2 control-label">Term:
+					:</label>
+				<div class="col-sm-8">
+					<input type="text" ng-model="siteCode.surveyTerm"
+						class="form-control" id="surveyYear" placeholder="" />
+
+				</div>
+			</div>
+
+			<div class="btn-group btn-md pull-right">
+				<button type="button" ng-click="createSiteCode()"
+					class="btn btn-info">Create</button>
+				<button type="button" ng-click="cancel()" class="btn btn-warning">Cancel</button>
+			</div>
+		</form>
+	</div>
+</div>

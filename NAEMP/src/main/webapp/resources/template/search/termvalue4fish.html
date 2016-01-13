@@ -1,0 +1,42 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h4>Show Fish DataValue</h4>
+		<hr class="divider">
+		<div ng-hide="time1"></div>
+		<div ng-hide="time2"></div>
+		
+		<label class="label-control">
+			<h5>{{time1}}, {{time2}} 차 조사결과</h5>
+		</label>
+		<button back class="btn btn-default btn-sm pull-right">
+			<span class="glyphicon glyphicon-arrow-left"></span> Back
+		</button>
+	</div>
+
+	<div class="panel-body">
+		
+		<div class="container" ng-show="barChart">
+			<highchart id="chart1" config="highchartsNG"></highchart>
+		</div>
+		<table st-set-filter="customFilter" st-table="displayed"
+			st-safe-src="collection" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th st-sort="siteName"> 조사구간</th>
+					<th> 개체수 </th>
+					<th st-sort="valueSet.length"> 종 수 </th>
+					<th ng-repeat="col in collection[0].nameList">{{col}}</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="row in displayed">
+					<td>{{row.siteName}} <button ng-click="showInBar(row.siteName)">Bar Chart</button></td>
+					<td>{{getSumVal(row)}}</td>
+					<td>{{row.valueSet.length}}</td>
+					<td ng-repeat="cell in row.valueSet">{{cell.data}}</td>
+				</tr>
+			</tbody>
+		</table>
+		
+	</div>
+</div>

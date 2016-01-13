@@ -1,0 +1,31 @@
+<table class="table table-hover">
+	<thead>
+		<tr class="paginationclass">
+			<th></th>
+			<th>대권역</th>
+			<th>조사구간 이름</th>
+			<th>하천 이름</th>
+			<th>하천 차수</th>
+			<th>하천 구분</th>
+
+		</tr>
+	</thead>
+	<tbody>
+		<tr class="paginationclass"
+			ng-repeat="site in searchResult = (sites | filter:search) | pagination: (currentPage-1) * numPerPage | limitTo: numPerPage">
+			<td>{{ site.siteID }}</td>
+			<td>{{ site.river.basin }}</td>
+			<td>{{ site.siteName }}</td>
+			<td>{{ site.river.riverName }}</td>
+			<td>{{ site.streamOrder }}</td>
+			<td>{{ site.river.classification }}</td>
+
+		</tr>
+	</tbody>
+</table>
+<p ng-hide="searchResult">There is no result</p>
+<div align="center">
+	<pagination ng-model="currentPage" total-items="sites.length"
+		max-size="maxSize" items-per-page="numPerPage" boundary-links="true">
+	</pagination>
+</div>

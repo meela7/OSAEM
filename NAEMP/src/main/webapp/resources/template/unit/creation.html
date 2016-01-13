@@ -1,0 +1,30 @@
+
+<div class="panel panel-primary">
+	<div class="panel-heading">Create New Unit</div>
+	<div class="panel-body">
+		<form novalidate="novalidate" class="form-horizontal">
+			
+			<div class="form-group">
+				<label for="unitName" class="col-sm-2 control-label">Unit Name: </label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="unit.unitName"
+						class="form-control" id="unitName" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="unitNameLong" class="col-sm-2 control-label">Unit
+					Name(Long):</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="unit.unitNameLong"
+						class="form-control" id="unitNameLong" placeholder="" />
+				</div>
+			</div>
+
+			<div class="btn-group btn-md pull-right">
+				<button type="button" ng-click="createUnit()"
+					class="btn btn-primary">Create</button>
+				<button type="button" ng-click="cancel()" class="btn btn-warning">Cancel</button>
+			</div>
+		</form>
+	</div>
+</div>

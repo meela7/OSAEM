@@ -1,0 +1,84 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+	<div class="row content">
+			<div class="col-sm-8 sideav">
+				<h4><strong>Variable List</strong></h4>
+			</div>
+			<div class="col-sm-4 form-inline text-right">
+				<label for="species">Search: </label> 
+				<input type="text" id="search" class="form-control" ng-model="search"
+				placeholder="search... ">
+				</div>
+		</div>
+						
+	</div>
+	<div class="panel-body">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-sm-2 sideav">
+					<div>
+						<h5></h5>
+					</div>
+					<form class="form">
+						<label for="basin" class="control-label">Variable: </label> <input
+							type="text" id="basin" class="form-control hasclear"
+							ng-model="search.variableName"> <label
+							for="river" class="control-label ">Unit: </label> <input
+							type="text" id="unit" class="form-control hasclear"
+							ng-model="search.unit.unitName"> <label
+							for="divition" class="control-label">Value Type: </label> <input
+							type="text" id="valueType" class="form-control hasclear"
+							ng-model="search.valueType">
+
+					</form>
+				</div>
+				<div class="col-sm-10 text-left">	
+					<table class="table table-striped">
+						<thead>
+							<tr class="paginationclass">
+								<th>Index</th>
+								<th>Variable Name</th>
+								<th>Unit</th>
+								<th>Value Type</th>
+								<th>Description</th>
+								<th colspan="2">
+									<button ng-click="createVariable()" class="btn btn-sm btn-info pull-right">
+										<span class="glyphicon glyphicon-plus"></span> Create Variable
+									</button>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="paginationclass"
+								ng-repeat="variable in variables | filter:search | pagination: (currentPage-1) * numPerPage | limitTo: numPerPage">
+								<td>{{ variable.variableID }}</td>
+								<td>{{ variable.variableName.term }}</td>
+								<td>{{ variable.unit.unitName }}</td>
+								<td>{{ variable.valueType.term }}</td>
+								<td>{{ variable.description }}</td>
+								<td>
+									<div class="form-inline pull-right">
+										<button type="button"
+											ng-click="editVariable(variable.variableID)"
+											class="btn btn-sm btn-info">
+											<span class="glyphicon glyphicon-edit"></span> Edit
+										</button>
+										<button type="button"
+											confirmed-click="deleteVariable(variable.variableID)" ng-confirm-box-click="Are you sure to Delete?"
+											class="btn btn-sm btn-warning">
+											<span class="glyphicon glyphicon-trash"></span> Delete
+										</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		<div align="center">
+			<pagination ng-model="currentPage" total-items="features.length"
+				max-size="maxSize" items-per-page="numPerPage" boundary-links="true">
+			</pagination>
+		</div>
+	</div>
+</div>

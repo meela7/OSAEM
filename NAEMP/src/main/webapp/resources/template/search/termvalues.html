@@ -1,0 +1,58 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<div class="row content">
+			<div class="col-sm-8 sideav">
+				<h4>Search Result</h4>
+			</div>
+			<div class="col-sm-4 form-inline text-right">
+				<button back class="btn btn-default btn-sm" >
+					<span class="glyphicon glyphicon-arrow-left"></span> Back
+				</button>
+				<button type="button" ng-click="viewInGraph()"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-stats"></span> Graph
+				</button>
+				<button type="button" ng-click="viewInMap()"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-pushpin"></span> Map
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<div class="container" ng-show="barChart">
+			<highchart id="chart1" config="highchartsNG"></highchart>
+		</div>
+		<table st-set-filter="customFilter" st-table="displayed"
+			st-safe-src="collection" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th st-sort="site.siteName">Location</th>
+					<th st-sort="feature.featureName">Target</th>
+					<th st-sort="variable.variableName.term">Type</th>
+					<th st-sort="dataValue">Result Value</th>
+				</tr>
+
+				<tr>
+					<th><input class="form-control" placeholder="search"
+						st-search="site"></th>
+					<th><input class="form-control" placeholder="search"
+						st-search="feature"></th>
+					<th><input class="form-control" placeholder="search variable"
+						st-search="variable.variableName.term"></th>
+					<th><st-number-range predicate="dataValue" lower="query.lower"
+							higher="query.higher"></st-number-range></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="row in displayed">
+					<td>{{ row.site.siteName }}</td>
+				<!-- <td>{{ row.feature.featureType }}</td>  -->
+					<td>{{ row.feature.featureName }}</td>
+					<td>{{ row.variable.variableName.term }}</td>
+					<td>{{ row.dataValue }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

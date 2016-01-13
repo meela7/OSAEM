@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015. 07. 25 18:40:08 by meela -->
+<hibernate-mapping>
+	<class name="org.galilee.dms.model.Features" table="Features">
+		<id name="FeatureID" type="int">
+			<column name="FeatureID" />
+			<generator class="native" />
+		</id>
+		<property name="FeatureType" type="java.lang.String">
+			<column name="FeatureType" />
+		</property>
+		<property name="FeatureName" type="java.lang.String">
+			<column name="FeatureName" />
+		</property>		
+	</class>
+</hibernate-mapping>

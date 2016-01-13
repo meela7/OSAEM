@@ -1,0 +1,47 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h4>Data Analysis - FAI</h4>
+		<hr class="divider">
+		<div class="form-inline">
+			<label class="control-label"> <h5>&nbsp;</h5></label>
+			<div class="btn-group  pull-right">
+				<button back class="btn btn-default btn-sm" ng-show="back">
+					<span class="glyphicon glyphicon-arrow-left"></span> Back
+				</button>
+				
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<table st-set-filter="customFilter" st-table="displayed"
+			st-safe-src="collection" class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th st-sort="site.siteName">ID</th>
+					<th st-sort="metric1">Metric1</th>
+					<th st-sort="metric2">Metric2</th>
+					<th st-sort="metric3">Metric3</th>
+					<th st-sort="metric4">Metric4</th>
+					<th st-sort="metric5">Metric5</th>
+					<th st-sort="metric6">Metric6</th>
+					<th st-sort="metric7">Metric7</th>
+					<th st-sort="metric8">Metric8</th>
+				</tr>
+
+			</thead>
+			<tbody>
+				<tr ng-repeat="row in displayed">
+					<td>{{ row.site.siteName }}</td>
+					<td>{{ row.metric1 }}</td>
+					<td>{{ row.metric2 }}</td>
+					<td>{{ row.metric3 }}</td>
+					<td>{{ row.metric4 }}</td>
+					<td>{{ row.metric5 }}</td>
+					<td>{{ row.metric6 }}</td>
+					<td>{{ row.metric7 }}</td>
+					<td>{{ row.metric7 }}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
+	<!-- Enables the Spring MVC @Controller programming model -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+		<beans:property name="contentType" value="text/html; charset=UTF-8" />
+	</beans:bean>
+
+	<beans:bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+		p:location="classpath:META-INF/jdbc.properties" />
+
+	<!-- Configuring DataSource -->
+	<beans:bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<!-- class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+		<beans:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<beans:property name="url" value="${jdbc.databaseurl}" />
+		<beans:property name="username" value="${jdbc.username}" />
+		<beans:property name="password" value="${jdbc.password}" />
+	</beans:bean>
+
+	<!-- Configuring SessionFactory -->
+	<beans:bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<beans:property name="dataSource">
+			<beans:ref bean="dataSource" />
+		</beans:property>
+		<beans:property name="configLocation"
+			value="classpath:META-INF/hibernate.cfg.xml"></beans:property>
+
+	</beans:bean>
+
+	<!-- Configuring TransactionManager -->
+	<tx:annotation-driven />
+	<beans:bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<beans:property name="sessionFactory" ref="sessionFactory" />
+	</beans:bean>
+
+	<beans:bean id="sourceDao" class="org.galilee.dms.dao.impl.SourceDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="sourceService"
+		class="org.galilee.dms.service.impl.SourceServiceImpl">
+		<beans:property name="sourceDao" ref="sourceDao" />
+	</beans:bean>
+
+	<beans:bean id="riverDao" class="org.galilee.dms.dao.impl.RiverDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="riverService"
+		class="org.galilee.dms.service.impl.RiverServiceImpl">
+		<beans:property name="riverDao" ref="riverDao" />
+	</beans:bean>
+
+	<!-- Sites -->
+	<beans:bean id="siteDao" class="org.galilee.dms.dao.impl.SiteDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="siteService"
+		class="org.galilee.dms.service.impl.SiteServiceImpl">
+		<beans:property name="siteDao" ref="siteDao" />
+	</beans:bean>
+
+	<!-- SiteCode -->
+	<beans:bean id="siteCodeDao" class="org.galilee.dms.dao.impl.SiteCodeDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="siteCodeService"
+		class="org.galilee.dms.service.impl.SiteCodeServiceImpl">
+		<beans:property name="siteCodeDao" ref="siteCodeDao" />
+	</beans:bean>
+	<!-- Features -->
+	<beans:bean id="featureDao" class="org.galilee.dms.dao.impl.FeatureDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="featureService"
+		class="org.galilee.dms.service.impl.FeatureServiceImpl">
+		<beans:property name="featureDao" ref="featureDao" />
+	</beans:bean>
+
+	<!-- Fishes -->
+	<beans:bean id="fishDao" class="org.galilee.dms.dao.impl.FishDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="fishService"
+		class="org.galilee.dms.service.impl.FishServiceImpl">
+		<beans:property name="fishDao" ref="fishDao" />
+	</beans:bean>
+
+	<!-- Variables -->
+	<beans:bean id="variableDao" class="org.galilee.dms.dao.impl.VariableDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="variableService"
+		class="org.galilee.dms.service.impl.VariableServiceImpl">
+		<beans:property name="variableDao" ref="variableDao" />
+	</beans:bean>
+
+	<!-- Methods -->
+	<beans:bean id="methodDao" class="org.galilee.dms.dao.impl.MethodDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="methodService"
+		class="org.galilee.dms.service.impl.MethodServiceImpl">
+		<beans:property name="methodDao" ref="methodDao" />
+	</beans:bean>
+
+	<!-- DataValues -->
+	<beans:bean id="dataValueDao" class="org.galilee.dms.dao.impl.DataValueDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="dataValueService"
+		class="org.galilee.dms.service.impl.DataValueServiceImpl">
+		<beans:property name="dataValueDao" ref="dataValueDao" />
+	</beans:bean>
+
+	<!-- Units -->
+	<beans:bean id="unitDao" class="org.galilee.dms.dao.impl.UnitDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+
+	<beans:bean id="unitService"
+		class="org.galilee.dms.service.impl.UnitServiceImpl">
+		<beans:property name="unitDao" ref="unitDao" />
+	</beans:bean>
+
+	<!-- Configure to plugin JSON as request and response in method handler -->
+	<beans:bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+		<beans:property name="messageConverters" ref="jsonMessageConverter" />
+	</beans:bean>
+
+	<!-- Configure bean to convert JSON to POJO and vice versa -->
+
+	<beans:bean id="jsonMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<beans:property name="supportedMediaTypes">
+			<beans:list>
+				<beans:value>text/html;charset=UTF-8</beans:value>
+				<beans:value>application/json;charset=UTF-8</beans:value>
+			</beans:list>
+		</beans:property>
+	</beans:bean>
+
+	<context:annotation-config />
+	<beans:bean id="swagger2Config"
+		class="springfox.documentation.swagger2.configuration.Swagger2DocumentationConfiguration" />
+	<beans:bean id="springConfig" class="org.galilee.dms.util.SpringConfig" />
+	<context:component-scan base-package="org.galilee.dms.controller" />
+
+</beans:beans>

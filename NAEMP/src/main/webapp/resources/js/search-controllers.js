@@ -3,89 +3,157 @@ naempApp.controller('MapAllCtrl', [
 		'$routeParams',
 		'SitesService',
 		function($scope, $routeParams, SitesService) {
-			var mapCenter = new google.maps.LatLng(36.1813, 127.3946);
-			$scope.mapOptions = {
-				center : mapCenter,
-				zoom : 8,
-				mapTypeId : google.maps.MapTypeId.MAP
+			
+			$scope.$on('mapInitialized', function(event, map) {
+				$scope.objMapa = map;
+			});
+
+			$scope.positions  = SitesService.findall();
+
+			$scope.showInfoWindow = function(event, pos) {
+				var infowindow = new google.maps.InfoWindow();
+				var position = new google.maps.LatLng(
+						pos.latitude, pos.longitude);
+				var individualNum = 0;
+				var content = '<div class="panel panel-default"><div class="panel-heading"> <h4>'
+						+ pos.siteName
+						+ '</h4></div><div class="panel-body"></div>';
+
+				infowindow.setContent(content);
+
+				infowindow.setPosition(position);
+				infowindow.open($scope.objMapa);
 			};
 
-			var sites = SitesService.findall();
+			$scope.getRadius = function(pos) {
+				var individualNum = 0;
+				for (var i = 0; i < values.length; i++) {
+					var value = values[i];
+					if (value.site.siteName == pos.siteName
+							&& value.feature.featureType == "Fish") {
+						individualNum += value.dataValue;
+					}
+				}
+				return individualNum;
+			};
+//			var mapCenter = new google.maps.LatLng(36.1813, 127.3946);
+//			$scope.mapOptions = {
+//				center : mapCenter,
+//				zoom : 8,
+//				mapTypeId : google.maps.MapTypeId.MAP
+//			};
+//
+//			var sites = SitesService.findall();
 
 			// Markers should be added after map is loaded
-			$scope.onMapIdle = function() {
-				if ($scope.myMarkers === undefined) {
-					var markers = [];
-					for (var i = 0; i < sites.length; i++) {
-						// alert(sites[i].siteName);
-						var pos = new google.maps.LatLng(sites[i].latitude,
-								sites[i].longitude);
-
-						var marker = new google.maps.Marker({
-							map : $scope.myMap,
-							position : pos,
-							title : sites[i].siteName
-						});
-						markers.push(marker);
-					}
-					// $scope.myMarkers = [marker, ];
-					$scope.myMarkers = markers;
-				}
-			};
-
-			$scope.openInfoWindow = function(e, selectedMarker) {
-				e.preventDefault();
-				google.maps.event.trigger(selectedMarker, 'click');
-			};
-			$scope.markerClicked = function(m) {
-				alert(m.title);
-			};
+//			$scope.onMapIdle = function() {
+//				if ($scope.myMarkers === undefined) {
+//					var markers = [];
+//					for (var i = 0; i < sites.length; i++) {
+//						// alert(sites[i].siteName);
+//						var pos = new google.maps.LatLng(sites[i].latitude,
+//								sites[i].longitude);
+//
+//						var marker = new google.maps.Marker({
+//							map : $scope.myMap,
+//							position : pos,
+//							title : sites[i].siteName
+//						});
+//						markers.push(marker);
+//					}
+//					// $scope.myMarkers = [marker, ];
+//					$scope.myMarkers = markers;
+//				}
+//			};
+//
+//			$scope.openInfoWindow = function(e, selectedMarker) {
+//				e.preventDefault();
+//				google.maps.event.trigger(selectedMarker, 'click');
+//			};
+//			$scope.markerClicked = function(m) {
+//				alert(m.title);
+//			};
 		} ]);
 
 naempApp.controller('MapCtrl', [
 		'$scope',
 		'$routeParams',
-		'SiteService',
-		function($scope, $routeParams, SiteService) {
-			var mapCenter = new google.maps.LatLng(36.1813, 127.3946);
-			$scope.mapOptions = {
-				center : mapCenter,
-				zoom : 8,
-				mapTypeId : google.maps.MapTypeId.MAP
-			};
-
-			var sites = SiteService.find({
-				id : $routeParams.id
+		'SiteListFind',
+		function($scope, $routeParams, SiteListFind) {
+			
+			$scope.$on('mapInitialized', function(event, map) {
+				$scope.objMapa = map;
 			});
 
-			// Markers should be added after map is loaded
-			$scope.onMapIdle = function() {
-				if ($scope.myMarkers === undefined) {
-					var markers = [];
-					for (var i = 0; i < sites.length; i++) {
-						// alert(sites[i].siteName);
-						var pos = new google.maps.LatLng(sites[i].latitude,
-								sites[i].longitude);
+			$scope.positions  =  SiteListFind.find({
+				id : $routeParams.id
+				});
 
-						var marker = new google.maps.Marker({
-							map : $scope.myMap,
-							position : pos,
-							title : sites[i].siteName
-						});
-						markers.push(marker);
+//			$scope.showInfoWindow = function(event, pos) {
+//				var infowindow = new google.maps.InfoWindow();
+//				var position = new google.maps.LatLng(
+//						pos.latitude, pos.longitude);
+//				var individualNum = 0;
+//				var content = '<div class="panel panel-default"><div class="panel-heading"> <h4>'
+//						+ pos.siteName
+//						+ '</h4></div><div class="panel-body"></div>';
+//
+//				infowindow.setContent(content);
+//
+//				infowindow.setPosition(position);
+//				infowindow.open($scope.objMapa);
+//			};
+
+			$scope.getRadius = function(pos) {
+				var individualNum = 0;
+				for (var i = 0; i < values.length; i++) {
+					var value = values[i];
+					if (value.site.siteName == pos.siteName
+							&& value.feature.featureType == "Fish") {
+						individualNum += value.dataValue;
 					}
-					// $scope.myMarkers = [marker, ];
-					$scope.myMarkers = markers;
 				}
+				return individualNum;
 			};
-
-			$scope.openInfoWindow = function(e, selectedMarker) {
-				e.preventDefault();
-				google.maps.event.trigger(selectedMarker, 'click');
-			};
-			$scope.markerClicked = function(m) {
-				alert(m.title);
-			};
+//			var mapCenter = new google.maps.LatLng(36.1813, 127.3946);
+//			$scope.mapOptions = {
+//				center : mapCenter,
+//				zoom : 8,
+//				mapTypeId : google.maps.MapTypeId.MAP
+//			};
+//
+//			var sites = SiteListFind.find({
+//				id : $routeParams.id
+//			});
+//
+//			// Markers should be added after map is loaded
+//			$scope.onMapIdle = function() {
+//				if ($scope.myMarkers === undefined) {
+//					var markers = [];
+//					for (var i = 0; i < sites.length; i++) {
+//						// alert(sites[i].siteName);
+//						var pos = new google.maps.LatLng(sites[i].latitude,
+//								sites[i].longitude);
+//
+//						var marker = new google.maps.Marker({
+//							map : $scope.myMap,
+//							position : pos,
+//							title : sites[i].siteName
+//						});
+//						markers.push(marker);
+//					}
+//					// $scope.myMarkers = [marker, ];
+//					$scope.myMarkers = markers;
+//				}
+//			};
+//
+//			$scope.openInfoWindow = function(e, selectedMarker) {
+//				e.preventDefault();
+//				google.maps.event.trigger(selectedMarker, 'click');
+//			};
+//			$scope.markerClicked = function(m) {
+//				alert(m.title);
+//			};
 		} ]);
 
 naempApp.controller('FeatureSearchCtrl',

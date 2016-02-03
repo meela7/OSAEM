@@ -35,7 +35,7 @@ public class DataValueController {
 	 * Services - basic observation web resource
 	 */
 	//--------------------Create a Observation--------------------
-	@RequestMapping(value = "/observations/new", method = RequestMethod.POST)
+	@RequestMapping(value = "/values/new", method = RequestMethod.POST)
 	public ResponseEntity<Void> create(@RequestBody DataValues value) {
 
 		logger.debug("Creating Observation: {} ..." );					
@@ -44,7 +44,7 @@ public class DataValueController {
 	}
 
 	//--------------------Read a Observation--------------------
-	@RequestMapping(value = "/observations/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/values/{id}", method = RequestMethod.GET)
 	public ResponseEntity<DataValues> find(@PathVariable("id") int id) {
 
 		logger.debug("Fetching Observation with ID: {} ...", id);
@@ -57,7 +57,7 @@ public class DataValueController {
 	}
 	
 	//--------------------Update a Observation--------------------
-	@RequestMapping(value = "/observations/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/values/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@RequestBody DataValues value, @PathVariable("id") int valueID) {
 
 		logger.debug("Updating Observation from Site : {} ...", value.getSite().getSiteName());		
@@ -76,7 +76,7 @@ public class DataValueController {
 	}
 
 	//--------------------Delete a Observation--------------------
-	@RequestMapping(value = "/observations/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/values/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable("id") int valueID) {
 
 		logger.debug("Fetching & Deleting Observation with ID {} ...", valueID);
@@ -94,7 +94,7 @@ public class DataValueController {
 	 * by sites, period search restricted by sites
 	 */
 
-	@RequestMapping(value = "/observations", params = { "start", "end" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/values", params = { "start", "end" }, method = RequestMethod.GET)
 	public List<DataValues> PeriodSearch(@RequestParam("start") String start,
 			@RequestParam("end") String end) {
 
@@ -104,7 +104,7 @@ public class DataValueController {
 
 	}
 
-	@RequestMapping(value = "/observations", params = { "year", "term" }, method = RequestMethod.GET)
+	@RequestMapping(value = "/values", params = { "year", "term" }, method = RequestMethod.GET)
 	public List<DataValues> AnnualSearch(@RequestParam("year") int year,
 			@RequestParam("term") int term) {
 
@@ -112,7 +112,7 @@ public class DataValueController {
 		return this.dataValueService.findTermData(year, term);
 	}
 
-	@RequestMapping(value = "/sites/{id}/observations", params = { "start",
+	@RequestMapping(value = "/sites/{id}/values", params = { "start",
 			"end" }, method = RequestMethod.GET)
 	public List<DataValues> PeriodSearchBySites(
 			@PathVariable("id") List<Integer> sIDList,
@@ -124,7 +124,7 @@ public class DataValueController {
 
 	}
 
-	@RequestMapping(value = "/sites/{id}/observations", params = { "year",
+	@RequestMapping(value = "/sites/{id}/values", params = { "year",
 			"term" }, method = RequestMethod.GET)
 	public List<DataValues> AnnualSearchBySites(
 			@PathVariable("id") List<Integer> sIDList,
@@ -136,7 +136,7 @@ public class DataValueController {
 		return this.dataValueService.searchBySites(year, term, sIDList);
 	}
 
-	@RequestMapping(value = "/fishes/{id}/observations", params = { "start",
+	@RequestMapping(value = "/fishes/{id}/values", params = { "start",
 			"end" }, method = RequestMethod.GET)
 	public List<DataValues> PeriodSearchByFishes(
 			@PathVariable("id") List<Integer> fIDList,
@@ -148,7 +148,7 @@ public class DataValueController {
 
 	}
 
-	@RequestMapping(value = "/fishes/{id}/observations", params = { "year",
+	@RequestMapping(value = "/fishes/{id}/values", params = { "year",
 			"term" }, method = RequestMethod.GET)
 	public ResponseEntity<List<DataValues>> AnnualSearchByFishes(
 			@PathVariable("id") List<Integer> fIDList,
@@ -174,7 +174,7 @@ public class DataValueController {
 	/*
 	 * parameters in the path Angular JS calls API in this version
 	 */
-	@RequestMapping(value = "/observations/term/{year}/{term}", method = RequestMethod.GET)
+	@RequestMapping(value = "/values/term/{year}/{term}", method = RequestMethod.GET)
 	public List<DataValues> findByTerm(@PathVariable("year") int year,
 			@PathVariable("term") int term) {
 
@@ -182,14 +182,14 @@ public class DataValueController {
 		return this.dataValueService.findTermData(year, term);
 	}
 
-	@RequestMapping(value = "/observations/annual/{year}", method = RequestMethod.GET)
+	@RequestMapping(value = "/values/annual/{year}", method = RequestMethod.GET)
 	public List<DataValues> findAnnualData(int year) {
 
 		logger.debug("findAnnualData(year) proces has been called.");
 		return this.dataValueService.findAnnualData(year);
 	}
 
-	@RequestMapping(value = "/observations/{year}/sites/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/values/{year}/sites/{id}", method = RequestMethod.GET)
 	public List<DataValues> searchBySites(
 			@PathVariable("id") List<Integer> sIDList,
 			@PathVariable("year") int year) {
@@ -200,7 +200,7 @@ public class DataValueController {
 
 	}
 
-	@RequestMapping(value = "/observations/{year}/fishes/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/values/{year}/fishes/{id}", method = RequestMethod.GET)
 	public List<DataValues> searchByFish(
 			@PathVariable("id") List<Integer> fIDList,
 			@PathVariable("year") int year) {
@@ -211,7 +211,7 @@ public class DataValueController {
 
 	}
 
-	@RequestMapping(value = "/observations/{start}/{end}/sites/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/values/{start}/{end}/sites/{id}", method = RequestMethod.GET)
 	public List<DataValues> searchBySites(
 			@PathVariable("id") List<Integer> sIDList,
 			@PathVariable("start") String start, @PathVariable("end") String end) {
@@ -224,7 +224,7 @@ public class DataValueController {
 
 	// ---------------------get all value by (year/term +
 	// siteID)-------------------------------------
-	@RequestMapping(value = "/observations/term/{year}/{term}/sites/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/values/term/{year}/{term}/sites/{id}", method = RequestMethod.GET)
 	public List<DataValues> searchBySites(
 			@PathVariable("id") List<Integer> sIDList,
 			@PathVariable("year") int year, @PathVariable("term") int term) {
@@ -239,7 +239,7 @@ public class DataValueController {
 
 	// ----------------------get **fish** value by (year/term +
 	// siteID)------------------------------
-	@RequestMapping(value = "/observations/term/{year}/{term}/fish/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/values/term/{year}/{term}/fish/{id}", method = RequestMethod.GET)
 	public List<DataValues> searchByFish(
 			@PathVariable("id") List<Integer> fIDList,
 			@PathVariable("year") int year, @PathVariable("term") int term) {
@@ -250,7 +250,7 @@ public class DataValueController {
 
 	}
 
-	@RequestMapping(value = "/observations/years", method = RequestMethod.GET)
+	@RequestMapping(value = "/values/years", method = RequestMethod.GET)
 	public List<Integer> searchSurveyYears() {
 
 		logger.info("searchSurveyYears() proces has been called.");

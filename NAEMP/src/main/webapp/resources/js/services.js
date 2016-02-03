@@ -1,4 +1,4 @@
-var contextRoot = '/naemp/api/v1';
+var contextRoot = '/naemp';
 naempApp.factory('SiteByRiver', function($resource) {
 	return $resource(contextRoot + '/rivers/:id/sites', {}, {
 		find : {
@@ -22,7 +22,7 @@ naempApp.factory('SiteInfoByRiver', function($resource) {
 	})
 });
 naempApp.factory('ValueService', function($resource) {
-	return $resource(contextRoot + '/observations?start=:start&end=:end', {}, {
+	return $resource(contextRoot + '/values?start=:start&end=:end', {}, {
 		find : {
 			method: 'GET',
 			params : {
@@ -36,7 +36,7 @@ naempApp.factory('ValueService', function($resource) {
 	})
 });
 naempApp.factory('TermValueBySite', function($resource) {
-	return $resource(contextRoot + '/sites/:id/observations?year=:year&term=:term', {}, {
+	return $resource(contextRoot + '/sites/:id/values?year=:year&term=:term', {}, {
 		find : {
 			method: 'GET',
 			params : {
@@ -65,7 +65,7 @@ naempApp.factory('TermSpatialDataBySite', function($resource) {
 	})
 });
 naempApp.factory('ValueBySite', function($resource) {
-	return $resource(contextRoot + '/sites/:id/observations?start=:start&end=:end', {}, {
+	return $resource(contextRoot + '/sites/:id/values?start=:start&end=:end', {}, {
 		find : {
 			method: 'GET',
 			params : {
@@ -81,7 +81,7 @@ naempApp.factory('ValueBySite', function($resource) {
 
 
 naempApp.factory('TermValueByFish', function($resource) {
-	return $resource(contextRoot + '/fishes/:id/observations?year=:year&term=:term', {}, {
+	return $resource(contextRoot + '/fishes/:id/values?year=:year&term=:term', {}, {
 		find : {
 			method: 'GET',
 			params : {
@@ -94,7 +94,7 @@ naempApp.factory('TermValueByFish', function($resource) {
 	})
 });
 naempApp.factory('ValueByFish', function($resource) {
-	return $resource(contextRoot + '/fishes/:id/observations?start=:start&end=:end', {}, {
+	return $resource(contextRoot + '/fishes/:id/values?start=:start&end=:end', {}, {
 		find : {
 			method: 'GET',
 			params : {
@@ -109,7 +109,7 @@ naempApp.factory('ValueByFish', function($resource) {
 });
 
 naempApp.factory('SurveyYear', function($resource) {
-	return $resource(contextRoot + '/observations/years', {}, {
+	return $resource(contextRoot + '/valuess/years', {}, {
 		find : {
 			method: 'GET',
 			cache : true,
@@ -192,6 +192,9 @@ naempApp.factory('SitesService', function($resource) {
 	return $resource(contextRoot + '/sites', {}, {
 		create : {
 			method : 'POST'
+		},
+		update : {
+			method : 'PUT',
 		},
 		findall : {
 			method : 'GET',

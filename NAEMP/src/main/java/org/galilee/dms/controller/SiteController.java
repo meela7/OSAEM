@@ -1,14 +1,19 @@
 package org.galilee.dms.controller;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
+import java.util.HashMap;
 import java.util.List;
 
+import org.galilee.dms.model.SiteInfo;
 import org.galilee.dms.model.Sites;
 import org.galilee.dms.service.SiteService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +22,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
+@Api(value = "sites")
 @RestController
-@RequestMapping(value = "/api/v1")
 public class SiteController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(SiteController.class);
@@ -30,18 +36,21 @@ public class SiteController {
 	 * Services - basic site web resource
 	 */
 	@ApiOperation(value = "Creates a Site")
-	@RequestMapping(value = "/sites/new", method = RequestMethod.POST)
-	public ResponseEntity<Void> create(@RequestBody Sites site) {
+	@RequestMapping(value = "/sites", method = RequestMethod.POST)
+	public ResponseEntity<Void> create(@RequestBody Sites site, UriComponentsBuilder ucBuilder) {
 		logger.debug("Creating Site: {} ..." + site.getSiteName());
-		if(siteService.findByName(site.getSiteName()) != null){
+		if(siteService.isExist(site)){
 			logger.debug("A Site with name {} already exist.", site.getSiteName() );
 			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
 		}			
 		this.siteService.add(site);
+		
+		HttpHeaders header = new HttpHeaders();
+		header.setLocation(ucBuilder.path("/sites/{id}").buildAndExpand(site.getSiteID()).toUri());
 		return new ResponseEntity<Void>(HttpStatus.CREATED);
 	}	
 	
-	@ApiOperation(value = "Read a Site", response=Sites.class)
+	@ApiOperation(value = "Read a Site")
 	@RequestMapping(value = "/sites/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Sites> find(@PathVariable("id") int siteID) {
 		logger.debug("Fetching Site with ID: {} ...", siteID);
@@ -86,9 +95,9 @@ public class SiteController {
 	}	
 
 	/*
-	 * Services - collection site web resource
+	 * Service - collection site web resource
 	 */
-	@ApiOperation(value = "List all the Sites in the database")
+	@ApiOperation(value = "Read all the Sites.")
 	@RequestMapping(value = "/sites", method = RequestMethod.GET)
 	public ResponseEntity<List<Sites>> findAll() {
 		logger.debug("Fetchin All Sites ...");
@@ -98,8 +107,22 @@ public class SiteController {
 			return new ResponseEntity<List<Sites>>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<List<Sites>>(sites, HttpStatus.OK);
-	}	
+	}
 	
+	/*
+	 * Service - ReqestParam as Map
+	 */
+	@ApiOperation(value = "Retrieve Sites from a River based on its id")
+	@RequestMapping(value = "/sites/search", method = RequestMethod.GET)
+	public ResponseEntity<List<Sites>> searchSites(@RequestParam HashMap<String, String> map) {
+		
+		List<Sites> sites = this.siteService.findAll();
+		return new ResponseEntity<List<Sites>>(sites, HttpStatus.OK);
+	}
+	
+	/*
+	 * Services - RequestParam as key:value pair
+	 */
 	@ApiOperation(value = "Retrieve Sites from a River based on its id")
 	@RequestMapping(value = "/rivers/{id}/sites", method = RequestMethod.GET)
 	public ResponseEntity<List<Sites>> findByRiver(@PathVariable("id") int riverID) {
@@ -115,7 +138,7 @@ public class SiteController {
 	
 	@ApiOperation(value = "Retrieve Sites based their ids")
 	@RequestMapping(value = "/sites", params = "list", method = RequestMethod.GET)
-	public ResponseEntity<List<Sites>> findSites(@RequestParam("list") List<Integer> siteIDs) {
+	public ResponseEntity<List<Sites>> findSites(@ApiParam(value = "list of Site ID", required = false) @RequestParam("list") List<Integer> siteIDs) {
 		
 		logger.debug("Fetching Sites by {} IDs", siteIDs.size());
 		List<Sites> sites = this.siteService.findByIDs(siteIDs);
@@ -128,7 +151,7 @@ public class SiteController {
 		
 	@ApiOperation(value = "Retrieve Sites based on the name")
 	@RequestMapping(value = "/sites", params = "name", method = RequestMethod.GET)
-	public ResponseEntity<List<Sites>> find(@RequestParam("name") String name) {
+	public ResponseEntity<List<Sites>> find(@ApiParam(value = "Site Name", required = false) @RequestParam("name") String name) {
 
 		logger.debug("Searching Site by name: {}", name);
 		List<Sites> sites = this.siteService.findByName(name);
@@ -141,7 +164,7 @@ public class SiteController {
 
 	@ApiOperation(value = "Retrieve Sites based on the Basin")
 	@RequestMapping(value = "/sites", params = "basin", method = RequestMethod.GET)
-	public ResponseEntity<List<Sites>> findByBasin(@RequestParam("basin") String basin) {
+	public ResponseEntity<List<Sites>> findByBasin(@ApiParam(value = "Basin", required = false) @RequestParam("basin") String basin) {
 
 		logger.debug("Searching Site by Basin: {} ...", basin);
 		List<Sites> sites = this.siteService.findByBasin(basin);
@@ -208,33 +231,33 @@ public class SiteController {
 	 * Services - siteInfo 
 	 */
 	
-//	@RequestMapping(value = "/siteInfos", method = RequestMethod.GET)
-//	public List<SiteInfo> findAllSiteInfo() {
-//
-//		logger.debug("findAllSiteInfo() proces has been called.");
-//		return this.siteService.findAllSiteInfo();
-//	}
-	
-//	@RequestMapping(value = "/siteInfos", params = "list", method = RequestMethod.GET)
-//	public List<SiteInfo> findAllSiteInfos(@RequestParam("list") List<Integer> siIDs) {
-//		
-//		logger.debug("findSiteInfos() proces has been called.");
-//		return this.siteService.findInfoByIDs(siIDs);
-//	}	
-//
-//	@RequestMapping(value = "/siteInfos", params = {"basin"}, method = RequestMethod.GET)
-//	public List<SiteInfo> findSiteInfosByBasin(@RequestParam("basin") String basin) {
-//		
-//		logger.debug("findSiteInfoByBasin() proces has been called.");
-//		return this.siteService.findInfosByBasin( basin);
-//	}
+	@RequestMapping(value = "/siteInfos", method = RequestMethod.GET)
+	public List<SiteInfo> findAllSiteInfo() {
 
-//	@RequestMapping(value = "/rivers/{id}/siteInfos", method = RequestMethod.GET)
-//	public List<SiteInfo> findInfoByRiver(@PathVariable("id") List<Integer> rIDList) {
-//
-//		logger.debug("findInfoByRiver() proces has been called.");
-//
-//		logger.debug("RIVERIDS:{}",rIDList);
-//		return this.siteService.findInfoByRivers(rIDList);				
-//	}
+		logger.debug("findAllSiteInfo() proces has been called.");
+		return this.siteService.findAllSiteInfo();
+	}
+	
+	@RequestMapping(value = "/siteInfos", params = "list", method = RequestMethod.GET)
+	public List<SiteInfo> findAllSiteInfos(@RequestParam("list") List<Integer> siIDs) {
+		
+		logger.debug("findSiteInfos() proces has been called.");
+		return this.siteService.findInfoByIDs(siIDs);
+	}	
+
+	@RequestMapping(value = "/siteInfos", params = {"basin"}, method = RequestMethod.GET)
+	public List<SiteInfo> findSiteInfosByBasin(@RequestParam("basin") String basin) {
+		
+		logger.debug("findSiteInfoByBasin() proces has been called.");
+		return this.siteService.findInfosByBasin( basin);
+	}
+
+	@RequestMapping(value = "/rivers/{id}/siteInfos", method = RequestMethod.GET)
+	public List<SiteInfo> findInfoByRiver(@PathVariable("id") List<Integer> rIDList) {
+
+		logger.debug("findInfoByRiver() proces has been called.");
+
+		logger.debug("RIVERIDS:{}",rIDList);
+		return this.siteService.findInfoByRivers(rIDList);				
+	}
 }

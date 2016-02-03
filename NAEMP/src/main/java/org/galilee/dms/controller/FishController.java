@@ -1,5 +1,7 @@
 package org.galilee.dms.controller;
 
+import io.swagger.annotations.Api;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Api(value = "fishes")
 @RestController
 @RequestMapping(value = "/api/v1")
 public class FishController {

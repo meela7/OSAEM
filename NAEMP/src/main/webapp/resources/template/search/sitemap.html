@@ -15,12 +15,11 @@
 
 		<!-- <input ng-click="deleteMarkers()" type="button" value="Delete Markers"> -->
 
-		
 		<map center="36.1813, 127.3946" zoom="8" style="height: 830px; width: 100%; border: 2px solid #777777; margin: 3px; border: 1px solid">
 			<marker ng-repeat="pos in positions"
 				position="{{pos.latitude}}, {{pos.longitude}}"
 				icon="https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld={{getRadius(pos)}}|FF776B|000000"
-            shadow="https://chart.googleapis.com/chart?chst=d_map_pin_shadow"
+				shadow="https://chart.googleapis.com/chart?chst=d_map_pin_shadow"
 				on-click="showInfoWindow(event, pos)"></marker>
 			<!-- <shape ng-repeat="pos in positions"
 				center="{{pos.latitude}}, {{pos.longitude}}" stroke-weight="2"
@@ -30,6 +29,5 @@
 
 			</shape> -->
 		</map>
-
 	</div>
 </div>

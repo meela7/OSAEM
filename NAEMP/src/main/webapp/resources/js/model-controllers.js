@@ -99,7 +99,9 @@ naempApp.controller('SiteDetailCtrl', [ '$scope', '$routeParams','SiteService', 
 	function($scope, $routeParams, SiteService, $location) {
 		// callback for ng-click 'updateSite':
 		$scope.updateSite = function() {
-			SiteService.update($scope.site);
+			SiteService.update($scope.site, function(){
+				id : $routeParams.id
+			});
 			$location.path('/site-list');
 		};
 		// callback for ng-click 'cancel':

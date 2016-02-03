@@ -18,21 +18,18 @@ public class SiteServiceImpl implements SiteService {
 	
 	@Override
 	public void add(Sites site) {
-		// TODO Auto-generated method stub
 		
 		this.siteDao.insert(site);
 	}
 
 	@Override
 	public void update(Sites site) {
-		// TODO Auto-generated method stub
 		
 		this.siteDao.update(site);
 	}
 
 	@Override
 	public void delete(int siteID) {
-		// TODO Auto-generated method stub
 		
 		Sites site = this.siteDao.selectByID(siteID);
 		this.siteDao.delete(site);
@@ -40,7 +37,6 @@ public class SiteServiceImpl implements SiteService {
 
 	@Override
 	public List<Sites> findAll() {
-		// TODO Auto-generated method stub
 		
 		return this.siteDao.selectAll();
 	}
@@ -63,7 +59,7 @@ public class SiteServiceImpl implements SiteService {
 	
 	@Override
 	public List<Sites> findByRivers(List<Integer> riverIDs) {
-		// TODO Auto-generated method stub
+	
 		return this.siteDao.selectByRiverIDs(riverIDs);
 	}
 
@@ -133,5 +129,11 @@ public class SiteServiceImpl implements SiteService {
 		for(Sites s: siteList)
 			sIDList.add(s.getSiteID());
 		return this.siteDao.selectInfoByIDs(sIDList);
+	}
+
+	@Override
+	public boolean isExist(Sites site) {
+
+		return findByName(site.getSiteName())!=null;
 	}
 }

@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <%
 	response.setHeader("Cache-Control", "no-store");
 	response.setHeader("Pragma", "no-cache");
@@ -162,7 +162,7 @@ body .container {
 					<ul class="nav navbar-nav">
 						<li class="dropdown"><a href="#" class="dropdown-toggle"
 							data-toggle="dropdown"><span class="glyphicon glyphicon-list"></span>
-								Program Management <b class="caret"></b></a>
+								Project Management <b class="caret"></b></a>
 							<ul class="dropdown-menu inverse">
 								<li><a href="#site-list"> Site</a></li>
 								<li><a href="#river-list"> River</a></li>
@@ -181,8 +181,8 @@ body .container {
 								Search <b class="caret"></b></a>
 							<ul class="dropdown-menu inverse">
 								<!-- 							<li><a href="#river-search"> by River </a></li> -->
-								<li><a href="#site-search"> Location </a></li>
-								<li><a href="#fish-search"> Taxonomy </a></li>
+								<li><a href="#site-search"> Site </a></li>
+								<li><a href="#fish-search"> Species </a></li>
 							</ul></li>
 
 	<!-- 					<li class="dropdown"><a href="#" class="dropdown-toggle"

@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016. 1. 29 ???? 9:26:34 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.naemp.osaem.model.River" table="Rivers">
+        <id name="RiverID" type="int">
+            <column name="RiverID" />
+            <generator class="assigned" />
+        </id>
+        <property name="RiverName" type="java.lang.String">
+            <column name="RiverName" />
+        </property>
+        <property name="Basin" type="java.lang.String">
+            <column name="Basin" />
+        </property>
+        <property name="WaterSystem" type="java.lang.String">
+            <column name="WaterSystem" />
+        </property>
+        <property name="MidWatershed" type="java.lang.String">
+            <column name="MidWatershed" />
+        </property>
+        <property name="SubWatershed" type="java.lang.String">
+            <column name="SubWatershed" />
+        </property>
+        <property name="Classification" type="java.lang.String">
+            <column name="Classification" />
+        </property>
+        <property name="ImageLink" type="java.lang.String">
+            <column name="ImageLink" />
+        </property>
+        <property name="Description" type="java.lang.String">
+            <column name="Description" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016. 2. 1 ???? 9:09:15 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.naemp.osaem.model.Site" table="Sites">
+        <id name="SiteID" type="int">
+            <column name="SiteID" />
+            <generator class="assigned" />
+        </id>
+        <property name="SiteName" type="java.lang.String">
+            <column name="SiteName" />
+        </property>
+        <many-to-one name="River" class="com.naemp.osaem.model.River" lazy="false">
+            <column name="RiverID" not-null="true" />
+        </many-to-one>
+        <property name="Latitude" type="java.lang.String">
+            <column name="Latitude" />
+        </property>
+        <property name="Longitude" type="java.lang.String">
+            <column name="Longitude" />
+        </property>
+        <property name="StreamOrder" type="int">
+            <column name="StreamOrder" />
+        </property>
+        <property name="StreamGrade" type="java.lang.String">
+            <column name="StreamGrade" />
+        </property>
+        <property name="Address" type="java.lang.String">
+            <column name="Address" />
+        </property>
+        <property name="StandardStructure" type="java.lang.String">
+            <column name="StandardStructure" />
+        </property>
+        <property name="WQMN" type="java.lang.String">
+            <column name="WQMN" />
+        </property>
+        <property name="ImageLink" type="java.lang.String">
+            <column name="ImageLink" />
+        </property>
+        <property name="Description" type="java.lang.String">
+            <column name="Description" />
+        </property>
+    </class>
+</hibernate-mapping>

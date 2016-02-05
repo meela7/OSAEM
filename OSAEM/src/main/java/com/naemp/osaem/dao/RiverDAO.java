@@ -23,7 +23,12 @@ public interface RiverDAO {
 	public boolean delete(int riverID);
 	
 	public List<River> list();
-	public River getByUniqueKey(String name, String mid, String sub);
+	
+	/*
+	 * used to create new instance.
+	 * check with unique key sets in the database.
+	 */
+	public River getByUniqueKey(String name, String mid, String sub); 
 	public List<River> search(Map<String, String> map);
 //	public String[] getColumnNames();
 }

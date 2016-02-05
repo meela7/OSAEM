@@ -21,6 +21,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.naemp.osaem.model.Site;
 import com.naemp.osaem.service.SiteService;
 
+import io.swagger.annotations.Api;
+
+@Api(value = "Sites")
 @RestController
 public class SiteController {
 
@@ -40,11 +43,10 @@ public class SiteController {
 	@Autowired
 	private SiteService siteService;
 
-	// -------------------- Read and Search Site Collection Resource
-	// --------------------
+	// -------------------- Read and Search Site Collection Resource --------------------
 	@RequestMapping(value = "/sites", method = RequestMethod.GET)
 	public ResponseEntity<List<Site>> list(@RequestParam(required = false) Map<String, String> params) {
-		// read River collection resource when there is no param.
+		// read River collection resource when there is no parameter.
 		if (params.isEmpty()) {
 			logger.info("Reading Site Collection Resource ...");
 			List<Site> sites = siteService.readCollection();
@@ -54,18 +56,21 @@ public class SiteController {
 			}
 			return new ResponseEntity<List<Site>>(sites, HttpStatus.OK);
 		}
+		// search Site collection resource with parameters.
 		else {
 			logger.info("Searching Site Resource ...");
 
 			Map<String, String> map = new HashMap<String, String>();
 			for (String key : params.keySet()) {
+				// uppercase first letter of property name
 				String param = key.substring(0,1).toUpperCase();
 				param = param + key.substring(1);
 				String value = params.get(key);
+				
+				// decode parameters
 				try {
 					map.put(param, new String(value.getBytes("8859_1"), "UTF-8"));
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				// check if the URL encoded
@@ -74,7 +79,6 @@ public class SiteController {
 //					try {
 //						map.put(key, new String(value.getBytes("8859_1"), "UTF-8"));
 //					} catch (UnsupportedEncodingException e) {
-//						// TODO Auto-generated catch block
 //						e.printStackTrace();
 //					}
 //				}
@@ -93,6 +97,10 @@ public class SiteController {
 	@RequestMapping(value = "/sites/new", method = RequestMethod.POST)
 	public ResponseEntity<Integer> create(@RequestBody Site site, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating Site Instance Resource of Name: {} ..." + site.getSiteName());
+		
+		if (site.getSiteName() == null || site.getLatitude() == null || site.getLongitude() == null ) 
+			return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		
 		if (siteService.isInstanceExist(site.getSiteName(), site.getLatitude(), site.getLongitude())) {
 			logger.info("A Site with name {} already exist.", site.getSiteName());
 			return new ResponseEntity<Integer>(HttpStatus.CONFLICT);
@@ -128,21 +136,29 @@ public class SiteController {
 				return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
 			}
 		}
+		// set the null of Site with oldSite
+		
 		Boolean res = this.siteService.updateInstance(site);
-		return new ResponseEntity<Boolean>(res, HttpStatus.OK);
+		if(res)
+			return new ResponseEntity<Boolean>(res, HttpStatus.OK);
+		else
+			return new ResponseEntity<Boolean>(res, HttpStatus.CONFLICT);
 	}
 
 	// -------------------- Delete a Site Instance Resource --------------------
 	@RequestMapping(value = "/sites/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Boolean> delete(@PathVariable int siteID) {
+	public ResponseEntity<Boolean> delete(@PathVariable("id") int siteID) {
 		logger.info("Reading & Deleting Site Instance Resource of ID: {} ...", siteID);
 		Site site = this.siteService.readInstance(siteID);
 		if (site == null) {
 			logger.info("Unable to delete. Site Instance Resource of ID: {}, not found.", siteID);
-			return new ResponseEntity<Boolean>(false, HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
 		}
 		Boolean res = this.siteService.deleteInstance(siteID);
-		return new ResponseEntity<Boolean>(res, HttpStatus.OK);
+		if(res)
+			return new ResponseEntity<Boolean>(res, HttpStatus.OK);
+		else
+			return new ResponseEntity<Boolean>(res, HttpStatus.CONFLICT);
 	}
 
 	// -------------------- Search for Site Resource --------------------
@@ -154,6 +170,9 @@ public class SiteController {
 			logger.info("The search parameter: {} ", key);
 		}
 		List<Site> sites = this.siteService.search(map);
-		return new ResponseEntity<List<Site>>(sites, HttpStatus.OK);
+		if(sites == null || sites.isEmpty())
+			return new ResponseEntity<List<Site>>(sites, HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<List<Site>>(sites, HttpStatus.OK);
 	}
 }

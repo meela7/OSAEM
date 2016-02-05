@@ -11,7 +11,7 @@
         <property name="SiteName" type="java.lang.String">
             <column name="SiteName" />
         </property>
-        <many-to-one name="River" class="com.naemp.osaem.model.River" lazy="false">
+        <many-to-one name="River" class="com.naemp.osaem.model.River" fetch="join">
             <column name="RiverID" not-null="true" />
         </many-to-one>
         <property name="Latitude" type="java.lang.String">

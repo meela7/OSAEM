@@ -27,10 +27,10 @@ public class RiverServiceImpl implements RiverService {
 
 	@Override
 	public int newInstance(River river) {
-		River newRiver = null;
+		int newRiverID = 0;
 		if(riverDao.create(river))
-			newRiver = riverDao.getByUniqueKey(river.getRiverName(), river.getMidWatershed(), river.getSubWatershed());
-		return newRiver.getRiverID();		
+			newRiverID = riverDao.getByUniqueKey(river.getRiverName(), river.getMidWatershed(), river.getSubWatershed()).getRiverID();
+		return newRiverID;		
 	}
 
 	@Override

@@ -1,10 +1,10 @@
 package com.naemp.osaem.model;
 
 public class River {
-
+	
 	/**
 	 * Class Name:	River.java
-	 * Description: 	
+	 * Description: Hibernate Mapping pojo File	
 	 * 
 	 * @author Meilan Jiang
 	 * @since 2016.01.29
@@ -12,6 +12,7 @@ public class River {
 	 * 
 	 * Copyright(c) 2016 by CILAB All right reserved.
 	 */
+	
 	private int RiverID;
 	private String RiverName;
 	private String Basin;		//´ë±Ç¿ª

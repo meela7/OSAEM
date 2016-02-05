@@ -45,7 +45,7 @@ public class RiverController {
 	// -------------------- Read and Search River Collection Resource --------------------
 	@RequestMapping(value = "/rivers", method = RequestMethod.GET)
 	public ResponseEntity<List<River>> list(@RequestParam(required = false) Map<String, String> params) {
-		// read River collection resource when there is no param.
+		// read River collection resource when there is no parameter.
 		if (params.isEmpty()) {
 			logger.info("Reading River Collection Resource ...");
 			List<River> rivers = riverService.readCollection();
@@ -53,20 +53,23 @@ public class RiverController {
 				logger.info("No Rivers found.");
 				return new ResponseEntity<List<River>>(HttpStatus.NO_CONTENT);
 			}
-
 			return new ResponseEntity<List<River>>(rivers, HttpStatus.OK);
-		} else {
+		}
+		// search River collection resource with parameters.
+		else {
 			logger.info("Searching River Resource ...");
 
 			Map<String, String> map = new HashMap<String, String>();
-			for (String key : params.keySet()) {				
+			for (String key : params.keySet()) {
+				// uppercase first letter of property name
 				String param = key.substring(0,1).toUpperCase();
 				param = param + key.substring(1);
 				String value = params.get(key);
+				
+				// decode parameters
 				try {
 					map.put(param, new String(value.getBytes("8859_1"), "UTF-8"));
 				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				// check if the URL encoded
@@ -75,7 +78,6 @@ public class RiverController {
 //					try {
 //						map.put(key, new String(value.getBytes("8859_1"), "UTF-8"));
 //					} catch (UnsupportedEncodingException e) {
-//						// TODO Auto-generated catch block
 //						e.printStackTrace();
 //					}
 //				}
@@ -94,10 +96,16 @@ public class RiverController {
 	@RequestMapping(value = "/rivers/new", method = RequestMethod.POST)
 	public ResponseEntity<Integer> create(@RequestBody River river, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating River Instance Resource of Name: {} ..." + river.getRiverName());
+		// check if river contains the Not Null field in the database.
+		if (river.getRiverName() == null || river.getBasin() == null || river.getWaterSystem() == null || river.getMidWatershed() == null || river.getSubWatershed() == null || river.getClassification() == null ) 
+			return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
+		
+		// check the unique key value first. check if it's null
 		if (riverService.isInstanceExist(river.getRiverName(), river.getSubWatershed(), river.getSubWatershed())) {
 			logger.info("A River with name {} already exist.", river.getRiverName());
 			return new ResponseEntity<Integer>(HttpStatus.CONFLICT);
 		}
+		
 		int createdID = riverService.newInstance(river);
 		return new ResponseEntity<Integer>(createdID, HttpStatus.CREATED);
 	}
@@ -114,8 +122,7 @@ public class RiverController {
 		return new ResponseEntity<River>(river, HttpStatus.OK);
 	}
 
-	// -------------------- Update a River Instance Resource
-	// --------------------
+	// -------------------- Update a River Instance Resource ------------------
 	@RequestMapping(value = "/rivers/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Boolean> update(@RequestBody River river, @PathVariable("id") int riverID) {
 		logger.info("Updating River Instance Resource of ID: {} ...", river.getRiverID());
@@ -130,22 +137,29 @@ public class RiverController {
 				return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
 			}
 		}
+		// set the null of River with oldRiver		
+		
 		Boolean res = this.riverService.updateInstance(river);
-		return new ResponseEntity<Boolean>(res, HttpStatus.OK);
+		if(res)
+			return new ResponseEntity<Boolean>(res, HttpStatus.OK);
+		else
+			return new ResponseEntity<Boolean>(res, HttpStatus.CONFLICT);		
 	}
 
-	// -------------------- Delete a River Instance Resource
-	// --------------------
+	// -------------------- Delete a River Instance Resource ------------------
 	@RequestMapping(value = "/rivers/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<Boolean> delete(@PathVariable int riverID) {
+	public ResponseEntity<Boolean> delete(@PathVariable("id") int riverID) {
 		logger.info("Reading & Deleting River Instance Resource of ID: {} ...", riverID);
 		River river = this.riverService.readInstance(riverID);
 		if (river == null) {
 			logger.info("Unable to delete. River Instance Resource of ID: {}, not found.", riverID);
-			return new ResponseEntity<Boolean>(false, HttpStatus.NO_CONTENT);
+			return new ResponseEntity<Boolean>(false, HttpStatus.NOT_FOUND);
 		}
 		Boolean res = this.riverService.deleteInstance(riverID);
-		return new ResponseEntity<Boolean>(res, HttpStatus.OK);
+		if(res)
+			return new ResponseEntity<Boolean>(res, HttpStatus.OK);
+		else
+			return new ResponseEntity<Boolean>(res, HttpStatus.CONFLICT);		//  when River has existing related Sites
 	}
 
 	// -------------------- Search for River Resource --------------------
@@ -157,7 +171,10 @@ public class RiverController {
 			logger.info("The search parameter: {} ", key);
 		}
 		List<River> rivers = this.riverService.search(map);
-		return new ResponseEntity<List<River>>(rivers, HttpStatus.OK);
+		if(rivers.isEmpty() || rivers == null)
+			return new ResponseEntity<List<River>>(rivers, HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<List<River>>(rivers, HttpStatus.OK);
 	}
 
 }

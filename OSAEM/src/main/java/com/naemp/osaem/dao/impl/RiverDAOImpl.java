@@ -68,6 +68,7 @@ public class RiverDAOImpl implements RiverDAO {
 	}
 
 	@Override
+	@Transactional
 	public boolean delete(int riverID) {
 
 		// ---------- delete by Object
@@ -125,15 +126,10 @@ public class RiverDAOImpl implements RiverDAO {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery(
 				"FROM River WHERE RiverName = :riverName and MidWatershed = :midWatershed and SubWatershed = :subWatershed ");
-		if (name != null) {
-			query.setParameter("riverName", name);
-		}
-		if (mid != null) {
-			query.setParameter("midWatershed", mid);
-		}
-		if (sub != null) {
-			query.setParameter("subWatershed", sub);
-		}
+		query.setParameter("riverName", name);
+		query.setParameter("midWatershed", mid);
+		query.setParameter("subWatershed", sub);
+		
 		River river = (River) query.uniqueResult();
 		return river;
 	}
@@ -144,6 +140,7 @@ public class RiverDAOImpl implements RiverDAO {
 		Session session = sessionFactory.getCurrentSession();
 		String hqlQuery = "FROM River WHERE ";
 		
+		// 이것이 필요한지 확인 필요함. Map을 controller나 service에서 Site Object로 바꿔주면 된다.
 		// get all the columns of the River
 		// remove the parameters which doesn't match with column in the list
 		AbstractEntityPersister aep=((AbstractEntityPersister)sessionFactory.getClassMetadata(River.class));  
@@ -158,7 +155,6 @@ public class RiverDAOImpl implements RiverDAO {
 		// create HQL Statement
 		int index = 0;
 		for(String key : map.keySet()){
-//			logger.info("Parameter: {}, Value: {}", key, map.get(key));
 			if(index == 0 )
 				hqlQuery = hqlQuery + key + " = :" + key ;
 			else
@@ -167,6 +163,7 @@ public class RiverDAOImpl implements RiverDAO {
 		}
 		
 		// execute HQL Query
+		logger.info("Execute Query: {}", hqlQuery);
 		Query query = session.createQuery(hqlQuery);
 		for(String key : map.keySet()){
 			if(key.equals("RiverID"))

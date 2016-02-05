@@ -26,10 +26,11 @@ public class SiteServiceImpl implements SiteService {
 	}
 	@Override
 	public int newInstance(Site site) {
-		Site newSite = null;
-		if(siteDao.create(newSite))
-			newSite = siteDao.getByUniqueKey(site.getSiteName(), site.getLatitude(), site.getLongitude());
-		return newSite.getRiver().getRiverID();
+		int newSiteID = 0;
+		if(siteDao.create(site))
+			newSiteID = siteDao.getByUniqueKey(site.getSiteName(), site.getLatitude(), site.getLongitude()).getSiteID();
+
+		return newSiteID;
 	}
 
 	@Override

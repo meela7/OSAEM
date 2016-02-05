@@ -69,4 +69,58 @@
 		class="com.naemp.osaem.service.impl.SiteServiceImpl">
 		<beans:property name="siteDao" ref="siteDao" />
 	</beans:bean>
+	<beans:bean id="variableDao" class="com.naemp.osaem.dao.impl.VariableDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+	<beans:bean id="variableService"
+		class="com.naemp.osaem.service.impl.VariableServiceImpl">
+		<beans:property name="variableDao" ref="variableDao" />
+	</beans:bean>
+	<beans:bean id="unitDao" class="com.naemp.osaem.dao.impl.UnitDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+	<beans:bean id="unitService"
+		class="com.naemp.osaem.service.impl.UnitServiceImpl">
+		<beans:property name="unitDao" ref="unitDao" />
+	</beans:bean>
+	<beans:bean id="sourceDao" class="com.naemp.osaem.dao.impl.SourceDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+	<beans:bean id="sourceService"
+		class="com.naemp.osaem.service.impl.SourceServiceImpl">
+		<beans:property name="sourceDao" ref="sourceDao" />
+	</beans:bean>
+	<beans:bean id="methodDao" class="com.naemp.osaem.dao.impl.MethodDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+	<beans:bean id="methodService"
+		class="com.naemp.osaem.service.impl.MethodServiceImpl">
+		<beans:property name="methodDao" ref="methodDao" />
+	</beans:bean>
+	<beans:bean id="fishDao" class="com.naemp.osaem.dao.impl.FishDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+	<beans:bean id="fishService"
+		class="com.naemp.osaem.service.impl.FishServiceImpl">
+		<beans:property name="fishDao" ref="fishDao" />
+	</beans:bean>
+	<beans:bean id="dataValueDao" class="com.naemp.osaem.dao.impl.DataValueDAOImpl">
+		<beans:constructor-arg>
+			<beans:ref bean="sessionFactory" />
+		</beans:constructor-arg>
+	</beans:bean>
+	<beans:bean id="dataValueService"
+		class="com.naemp.osaem.service.impl.DataValueServiceImpl">
+		<beans:property name="dataValueDao" ref="dataValueDao" />
+	</beans:bean>
 </beans:beans>

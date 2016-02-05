@@ -7,5 +7,12 @@
   <property name="hibernate.show_sql">true</property>
   <mapping resource="META-INF/River.hbm.xml"/>
   <mapping resource="META-INF/Site.hbm.xml"/>
+  <mapping resource="META-INF/Variable.hbm.xml"/>
+  <mapping resource="META-INF/Unit.hbm.xml"/>
+  <mapping resource="META-INF/Source.hbm.xml"/>
+  <mapping resource="META-INF/Method.hbm.xml"/>
+  <mapping resource="META-INF/Feature.hbm.xml"/>
+  <mapping resource="META-INF/Fish.hbm.xml"/>
+  <mapping resource="META-INF/DataValue.hbm.xml"/>
  </session-factory>
 </hibernate-configuration>

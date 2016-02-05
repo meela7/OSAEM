@@ -38,7 +38,8 @@ public class SiteDAOImpl implements SiteDAO {
 	
 	@Override
 	@Transactional
-	public boolean create(Site site) {
+	public boolean create(Site site) {		
+		logger.info("Create a Site Named {}", site.getSiteName());
 		try {
 			sessionFactory.getCurrentSession().save(site);
 		} catch (Exception e) {
@@ -96,15 +97,10 @@ public class SiteDAOImpl implements SiteDAO {
 	public Site getByUniqueKey(String name, String lat, String lng) {
 		Session session = sessionFactory.getCurrentSession();
 		Query query = session.createQuery("FROM Site WHERE SiteName = :siteName and Latitude = :latitude and Longitude = :longitude ");
-		if (name != null) {
-			query.setParameter("siteName", name);
-		}
-		if (lat != null) {
-			query.setParameter("latitude", lat);
-		}
-		if (lng != null) {
-			query.setParameter("longitude", lng);
-		}
+		query.setParameter("siteName", name);
+		query.setParameter("latitude", lat);
+		query.setParameter("longitude", lng);
+		
 		Site site = (Site) query.uniqueResult();
 		return site;
 	}
@@ -114,7 +110,7 @@ public class SiteDAOImpl implements SiteDAO {
 	public List<Site> search(Map<String, String> map) {
 		Session session = sessionFactory.getCurrentSession();
 		String hqlQuery = "FROM Site WHERE ";
-		
+		 
 		// get all the columns of the Site
 		// remove the parameters which doesn't match with column in the list
 		AbstractEntityPersister aep=((AbstractEntityPersister)sessionFactory.getClassMetadata(Site.class));  
@@ -122,14 +118,12 @@ public class SiteDAOImpl implements SiteDAO {
 		List<String> columnNames = Arrays.asList(properties);
 		
 		for(String key : map.keySet()){
-			if(!columnNames.contains(key) && !key.equals("SiteID"))
+			if(!columnNames.contains(key) && !key.equals("SiteID") && !key.equals("River"))
 				map.remove(key);
 		}
 		
-		// get parameters from map and Uppercase the first letter
 		int index = 0;
 		for(String key : map.keySet()){
-//			logger.info("Parameter: {}, Value: {}", key, map.get(key));
 			if(index == 0 )
 				hqlQuery = hqlQuery + key + " = :" + key ;
 			else
@@ -138,6 +132,7 @@ public class SiteDAOImpl implements SiteDAO {
 		}
 		
 		// execute HQL Query
+		logger.info("Execute Query: {}", hqlQuery);
 		Query query = session.createQuery(hqlQuery);
 		for(String key : map.keySet()){
 			if(key.equals("SiteID") || key.equals("StreamOrder"))

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016. 2. 4 ???? 6:38:14 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.naemp.osaem.model.Method" table="Methods">
+        <id name="MethodID" type="int">
+            <column name="MethodID" />
+            <generator class="assigned" />
+        </id>
+        <property name="MethodName" type="java.lang.String">
+            <column name="MethodName" />
+        </property>
+        <property name="MethodLink" type="java.lang.String">
+            <column name="MethodLink" />
+        </property>
+    </class>
+</hibernate-mapping>

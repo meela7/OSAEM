@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016. 2. 4 ???? 5:41:51 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.naemp.osaem.model.Source" table="Sources">
+        <id name="SourceID" type="int">
+            <column name="SourceID" />
+            <generator class="assigned" />
+        </id>
+        <property name="Institution" type="java.lang.String">
+            <column name="Institution" />
+        </property>
+        <property name="Investigator" type="java.lang.String">
+            <column name="Investigator" />
+        </property>
+        <property name="Phone" type="java.lang.String">
+            <column name="Phone" />
+        </property>
+        <property name="Email" type="java.lang.String">
+            <column name="Email" />
+        </property>
+        <property name="Description" type="java.lang.String">
+            <column name="Description" />
+        </property>
+    </class>
+</hibernate-mapping>

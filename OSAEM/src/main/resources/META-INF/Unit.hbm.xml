@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016. 2. 4 ???? 5:14:15 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.naemp.osaem.model.Unit" table="Units">
+        <id name="UnitID" type="int">
+            <column name="UnitID" />
+            <generator class="assigned" />
+        </id>
+        <property name="UnitName" type="java.lang.String">
+            <column name="UnitName" />
+        </property>
+        <property name="UnitNameLong" type="java.lang.String">
+            <column name="UnitNameLong" />
+        </property>
+    </class>
+</hibernate-mapping>

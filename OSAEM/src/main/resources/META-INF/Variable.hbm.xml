@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016. 2. 5 ???? 1:58:29 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.naemp.osaem.model.Variable" table="Variables">
+        <id name="VariableID" type="int">
+            <column name="VariableID" />
+            <generator class="assigned" />
+        </id>
+        <property name="VariableName" type="java.lang.String">
+            <column name="VariableName" />
+        </property>
+        <many-to-one name="Unit" class="com.naemp.osaem.model.Unit" fetch="join">
+            <column name="UnitID" />
+        </many-to-one>
+        <property name="ValueType" type="java.lang.String">
+            <column name="ValueType" />
+        </property>
+        <property name="Description" type="java.lang.String">
+            <column name="Description" />
+        </property>
+    </class>
+</hibernate-mapping>

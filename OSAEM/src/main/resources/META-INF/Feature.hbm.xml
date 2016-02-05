@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016. 2. 5 ???? 12:05:30 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.naemp.osaem.model.Feature" table="Features">
+        <id name="FeatureID" type="int">
+            <column name="FeatureID" />
+            <generator class="assigned" />
+        </id>
+        <property name="FeatureType" type="java.lang.String">
+            <column name="FeatureType" />
+        </property>
+        <property name="FeatureName" type="java.lang.String">
+            <column name="FeatureName" />
+        </property>
+    </class>
+</hibernate-mapping>

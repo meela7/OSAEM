@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016. 2. 5 ???? 12:05:30 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.naemp.osaem.model.Fish" table="Fishes">
+    
+    	<id name="FishID" type="int">
+            <column name="FishID" />
+            <generator class="foreign">
+                <param name="property">Feature</param>
+            </generator>
+        </id>
+        <one-to-one name="Feature" class="com.naemp.osaem.model.Feature" fetch="join">
+        </one-to-one>
+        <property name="FishClass" type="java.lang.String">
+            <column name="Class" />
+        </property>
+        <property name="Order" type="java.lang.String">
+            <column name="Order" />
+        </property>
+        <property name="Family" type="java.lang.String">
+            <column name="Family" />
+        </property>
+        <property name="ScientificName" type="java.lang.String">
+            <column name="ScientificName" />
+        </property>
+        <property name="Species" type="java.lang.String">
+            <column name="Species" />
+        </property>
+        <property name="ToleranceGuild" type="java.lang.String">
+            <column name="ToleranceGuild" />
+        </property>
+        <property name="TrophicGuild" type="java.lang.String">
+            <column name="TrophicGuild" />
+        </property>
+        <property name="HabitatGuild" type="java.lang.String">
+            <column name="HabitatGuild" />
+        </property>
+        <property name="InvasiveSpecies" type="java.lang.String">
+            <column name="InvasiveSpecies" />
+        </property>
+        <property name="EndemicSpecies" type="java.lang.String">
+            <column name="EndemicSpecies" />
+        </property>
+        <property name="EndangeredSpecies" type="java.lang.String">
+            <column name="EndangeredSpecies" />
+        </property>
+        <property name="NaturalMonument" type="java.lang.String">
+            <column name="NaturalMonument" />
+        </property>
+        <property name="ImageLink" type="java.lang.String">
+            <column name="ImageLink" />
+        </property>
+        <property name="Description" type="java.lang.String">
+            <column name="Description" />
+        </property>
+        
+    </class>
+</hibernate-mapping>

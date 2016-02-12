@@ -1,5 +1,6 @@
 package com.naemp.osaem.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.naemp.osaem.dao.DataValueDAO;
 import com.naemp.osaem.model.DataValue;
+import com.naemp.osaem.model.River;
 import com.naemp.osaem.model.Site;
 
 public class DataValueDAOImpl implements DataValueDAO {
@@ -115,6 +117,71 @@ public class DataValueDAOImpl implements DataValueDAO {
 		@SuppressWarnings("unchecked")
 		List<DataValue> values = (List<DataValue>) query.list();
 		return values;
+	}
+
+	@Override
+	@Transactional
+	public List<DataValue> listSearch(Map<String, List<String>> map) {
+		Session session = sessionFactory.getCurrentSession();
+		String hqlQuery = "FROM DataValue WHERE ";
+		
+		int index = 0;
+		// create HQL Statement
+		for(String key : map.keySet()){
+			// check DateTime is period or list
+			if(key.equals("DateTime") && map.get(key).size() == 1 && map.get(key).get(0).contains(",")){
+					
+				if(index == 0)
+					hqlQuery = hqlQuery + key + " between :start and :end ";
+				else{						
+					hqlQuery = hqlQuery + " and " + key + " between :start and :end ";
+				}
+				index++;
+			}
+			else{
+				if(index == 0 )
+					hqlQuery = hqlQuery + key + " in :" + key ;
+				else
+					hqlQuery = hqlQuery + " and " + key + " in :" + key ;
+				index++;
+			}			
+		}
+		
+		// execute HQL Query
+		logger.info("Execute Query: {}", hqlQuery);
+		Query query = session.createQuery(hqlQuery);
+		for(String key : map.keySet()){
+			if(key.equals("Latitude") || key.equals("Longitude")){
+				
+				query.setParameterList(key, map.get(key));
+			}else if(key.equals("DateTime")){
+				
+				if(map.get(key).size() == 1 && map.get(key).get(0).contains(",")){
+					String[] period = map.get(key).get(0).split(",");
+					query.setParameter("start", period[0]);
+					query.setParameter("end", period[1]);
+				}
+				else{					
+					query.setParameterList(key, map.get(key));
+				}
+				
+			}else{
+				List<Integer> values = new ArrayList<Integer>();
+				for(String value: map.get(key)){
+					values.add(Integer.parseInt(value));
+				}
+				if(index == 0 )
+					hqlQuery = hqlQuery + key + " in :" + key ;
+				else
+					hqlQuery = hqlQuery + " and " + key + " in :" + key ;
+				index++;
+				query.setParameterList(key, values);
+			}
+		}
+		@SuppressWarnings("unchecked")
+		List<DataValue> dataValues = (List<DataValue>) query.list();
+		
+		return dataValues;
 	}
 
 }

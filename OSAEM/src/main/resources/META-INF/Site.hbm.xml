@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 2016. 2. 1 ???? 9:09:15 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="com.naemp.osaem.model.Site" table="Sites">
@@ -11,7 +11,7 @@
         <property name="SiteName" type="java.lang.String">
             <column name="SiteName" />
         </property>
-        <many-to-one name="River" class="com.naemp.osaem.model.River" fetch="join">
+        <many-to-one name="River" class="com.naemp.osaem.model.River" fetch="join" lazy="false">
             <column name="RiverID" not-null="true" />
         </many-to-one>
         <property name="Latitude" type="java.lang.String">

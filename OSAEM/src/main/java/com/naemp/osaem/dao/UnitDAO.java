@@ -25,5 +25,6 @@ public interface UnitDAO {
 	public List<Unit> list();
 	public Unit getByUniqueKey(String name);
 	public List<Unit> search(Map<String, String> map);
+	public List<Unit> listSearch(Map<String, List<String>> map);
 
 }

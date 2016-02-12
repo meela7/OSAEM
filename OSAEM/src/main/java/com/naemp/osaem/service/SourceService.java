@@ -25,5 +25,6 @@ public interface SourceService {
 	
 	public boolean isInstanceExist(String institution, String invastigator);
 	public List<Source> search(Map<String, String> map);
+	public List<Source> listSearch(Map<String, List<String>> map);
 
 }

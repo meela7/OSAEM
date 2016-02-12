@@ -1,5 +1,6 @@
 package com.naemp.osaem.dao.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -145,4 +146,37 @@ public class SiteDAOImpl implements SiteDAO {
 		return sites;
 	}
 
+	@Override
+	@Transactional
+	public List<Site> listSearch(Map<String, List<String>> map) {
+		Session session = sessionFactory.getCurrentSession();
+		String hqlQuery = "FROM Site WHERE ";
+		
+		int index = 0;
+		for(String key : map.keySet()){
+			if(index == 0 )
+				hqlQuery = hqlQuery + key + " in :" + key ;
+			else
+				hqlQuery = hqlQuery + " and " + key + " in :" + key ;
+			index++;
+		}
+		
+		// execute HQL Query
+		logger.info("Execute Query: {}", hqlQuery);
+		Query query = session.createQuery(hqlQuery);
+		for(String key : map.keySet()){
+			if(key.equals("StreamOrder")){
+				List<Integer> values = new ArrayList<Integer>();
+				for(String value: map.get(key)){
+					values.add(Integer.parseInt(value));
+				}
+				query.setParameterList(key, values);
+			}
+			else
+				query.setParameterList(key, map.get(key));
+		}
+		@SuppressWarnings("unchecked")
+		List<Site> sites = (List<Site>) query.list();
+		return sites;
+	}
 }

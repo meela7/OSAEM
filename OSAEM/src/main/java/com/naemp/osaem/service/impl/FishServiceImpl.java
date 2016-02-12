@@ -65,5 +65,10 @@ public class FishServiceImpl implements FishService {
 	public List<Fish> search(Map<String, String> map) {
 		return fishDao.search(map);
 	}
+	@Override
+	public List<Fish> listSearch(Map<String, List<String>> map) {
+		
+		return fishDao.listSearch(map);
+	}
 
 }

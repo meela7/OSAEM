@@ -67,4 +67,10 @@ public class RiverServiceImpl implements RiverService {
 		return riverDao.search(map);
 	}
 
+	@Override
+	public List<River> listSearch(Map<String, List<String>> map) {
+		
+		return riverDao.listSearch(map);
+	}
+
 }

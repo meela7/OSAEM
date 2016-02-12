@@ -25,5 +25,6 @@ public interface MethodDAO {
 	public List<Method> list();
 	public Method getByUniqueKey(String name);
 	public List<Method> search(Map<String, String> map);
+	public List<Method> listSearch(Map<String, List<String>> map);
 
 }

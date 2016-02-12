@@ -26,5 +26,5 @@ public interface DataValueDAO {
 //	public List<DataValues> list();
 	public DataValue getByUniqueKey(String dateTime, int siteID, int variableID, int featureID, int SourceID, int methodID);
 	public List<DataValue> search(Map<String, String> map);
-	
+	public List<DataValue> listSearch(Map<String, List<String>> map);
 }

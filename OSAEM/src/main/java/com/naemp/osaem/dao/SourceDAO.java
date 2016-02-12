@@ -25,5 +25,6 @@ public interface SourceDAO {
 	public List<Source> list();
 	public Source getByUniqueKey(String institution, String investigator);
 	public List<Source> search(Map<String, String> map);
+	public List<Source> listSearch(Map<String, List<String>> map);
 
 }

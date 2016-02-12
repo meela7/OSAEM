@@ -65,5 +65,9 @@ public class UnitServiceImpl implements UnitService {
 	public List<Unit> search(Map<String, String> map) {
 		return unitDao.search(map);
 	}
+	@Override
+	public List<Unit> listSearch(Map<String, List<String>> map) {
+		return unitDao.listSearch(map);
+	}
 
 }

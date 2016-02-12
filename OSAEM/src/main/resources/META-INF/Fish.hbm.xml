@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 2016. 2. 5 ???? 12:05:30 by Hibernate Tools 3.5.0.Final -->
 <hibernate-mapping>
     <class name="com.naemp.osaem.model.Fish" table="Fishes">
     
     	<id name="FishID" type="int">
             <column name="FishID" />
-            <generator class="foreign">
+            <generator class="assigned" />
+            <!-- <generator class="foreign">
                 <param name="property">Feature</param>
-            </generator>
+            </generator> -->
         </id>
-        <one-to-one name="Feature" class="com.naemp.osaem.model.Feature" fetch="join">
-        </one-to-one>
+        <!-- <one-to-one name="Feature" class="com.naemp.osaem.model.Feature" fetch="join" lazy="false">
+        </one-to-one> -->
         <property name="FishClass" type="java.lang.String">
             <column name="Class" />
         </property>

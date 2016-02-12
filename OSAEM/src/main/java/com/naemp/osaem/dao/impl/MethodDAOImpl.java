@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.naemp.osaem.dao.MethodDAO;
 import com.naemp.osaem.model.Method;
+import com.naemp.osaem.model.River;
 
 public class MethodDAOImpl implements MethodDAO {
 	
@@ -139,6 +140,35 @@ public class MethodDAOImpl implements MethodDAO {
 		}
 		@SuppressWarnings("unchecked")
 		List<Method> methods = (List<Method>) query.list();
+		return methods;
+	}
+
+	@Override
+	@Transactional
+	public List<Method> listSearch(Map<String, List<String>> map) {
+		Session session = sessionFactory.getCurrentSession();
+		String hqlQuery = "FROM Method WHERE ";
+		
+		// create HQL Statement
+		int index = 0;
+		for(String key : map.keySet()){
+			
+			if(index == 0 )
+				hqlQuery = hqlQuery + key + " in :" + key ;
+			else
+				hqlQuery = hqlQuery + " and " + key + " in :" + key ;
+			index++;
+		}
+		
+		// execute HQL Query
+		logger.info("Execute Query: {}", hqlQuery);
+		Query query = session.createQuery(hqlQuery);
+		for(String key : map.keySet()){
+			query.setParameterList(key, map.get(key));
+		}
+		@SuppressWarnings("unchecked")
+		List<Method> methods = (List<Method>) query.list();
+		
 		return methods;
 	}
 

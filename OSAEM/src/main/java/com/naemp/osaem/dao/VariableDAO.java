@@ -25,5 +25,5 @@ public interface VariableDAO {
 	public List<Variable> list();
 	public Variable getByUniqueKey(String name, int unitID);
 	public List<Variable> search(Map<String, String> map);
-
+	public List<Variable> listSearch(Map<String, List<String>> map);
 }

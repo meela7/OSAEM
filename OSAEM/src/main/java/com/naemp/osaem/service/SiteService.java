@@ -25,5 +25,6 @@ public interface SiteService {
 	
 	public boolean isInstanceExist(String name, String lat, String lng);
 	public List<Site> search(Map<String, String> map);
+	public List<Site> listSearch(Map<String, List<String>> map);
 
 }

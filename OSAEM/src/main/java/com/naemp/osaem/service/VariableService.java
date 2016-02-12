@@ -25,5 +25,6 @@ public interface VariableService {
 	
 	public boolean isInstanceExist(String name, int unitID);
 	public List<Variable> search(Map<String, String> map);
+	public List<Variable> listSearch(Map<String, List<String>> map);
 
 }

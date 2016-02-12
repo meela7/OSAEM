@@ -30,5 +30,5 @@ public interface RiverDAO {
 	 */
 	public River getByUniqueKey(String name, String mid, String sub); 
 	public List<River> search(Map<String, String> map);
-//	public String[] getColumnNames();
+	public List<River> listSearch(Map<String, List<String>> map);
 }

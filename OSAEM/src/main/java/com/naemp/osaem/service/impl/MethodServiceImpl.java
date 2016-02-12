@@ -65,5 +65,9 @@ public class MethodServiceImpl implements MethodService {
 	public List<Method> search(Map<String, String> map) {
 		return methodDao.search(map);
 	}
+	@Override
+	public List<Method> listSearch(Map<String, List<String>> map) {
+		return methodDao.listSearch(map);
+	}
 
 }

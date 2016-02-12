@@ -65,5 +65,10 @@ public class SiteServiceImpl implements SiteService {
 	public List<Site> search(Map<String, String> map) {
 		return siteDao.search(map);
 	}
+	@Override
+	public List<Site> listSearch(Map<String, List<String>> map) {
+		
+		return siteDao.listSearch(map);
+	}
 
 }

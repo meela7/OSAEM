@@ -65,5 +65,10 @@ public class SourceServiceImpl implements SourceService {
 	public List<Source> search(Map<String, String> map) {
 		return sourceDao.search(map);
 	}
+	@Override
+	public List<Source> listSearch(Map<String, List<String>> map) {
+		
+		return sourceDao.listSearch(map);
+	}
 
 }

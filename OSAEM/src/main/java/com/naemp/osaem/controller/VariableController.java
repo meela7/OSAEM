@@ -1,15 +1,19 @@
 package com.naemp.osaem.controller;
 
+import java.beans.PropertyDescriptor;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.naemp.osaem.model.River;
 import com.naemp.osaem.model.Variable;
 import com.naemp.osaem.service.VariableService;
 
@@ -45,7 +50,7 @@ public class VariableController {
 
 	// -------------------- Read and Search Variable Collection Resource --------------------
 	@RequestMapping(value = "/variables", method = RequestMethod.GET)
-	public ResponseEntity<List<Variable>> list(@RequestParam(required = false) Map<String, String> params) {
+	public ResponseEntity<List<Variable>> list(@RequestParam(required = false) MultiValueMap<String, String> params) {
 		// read River collection resource when there is no parameter.
 		if (params.isEmpty()) {
 			logger.info("Reading Variable Collection Resource ...");
@@ -60,36 +65,42 @@ public class VariableController {
 		else {
 			logger.info("Searching Variable Resource ...");
 
-			Map<String, String> map = new HashMap<String, String>();
-			for (String key : params.keySet()) {
-				// uppercase first letter of property name
-				String param = key.substring(0,1).toUpperCase();
-				param = param + key.substring(1);
-				String value = params.get(key);
-				
-				// decode parameters
-				try {
-					map.put(param, new String(value.getBytes("8859_1"), "UTF-8"));
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-				// check if the URL encoded
-//				if (value.contains("%")) {
-//					logger.info("Parameter value: {} is encoded", value);
-//					try {
-//						map.put(key, new String(value.getBytes("8859_1"), "UTF-8"));
-//					} catch (UnsupportedEncodingException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//				else{
-//					logger.info("Parameter value: {} is not encoded", value);
-//					map.put(key, value);
-//				}
+			PropertyDescriptor[] props = BeanUtils.getPropertyDescriptors(Variable.class);
+			List<String> paramList = new ArrayList<String>();
+			for (PropertyDescriptor desc : props) {
+				paramList.add(desc.getName());
 			}
 			
-			List<Variable> variables = this.variableService.search(map);
-			return new ResponseEntity<List<Variable>>(variables, HttpStatus.OK);
+			Map<String, List<String>> map = new HashMap<String, List<String>>();
+			for (String key : params.keySet()) {
+				if(paramList.contains(key)){
+					// uppercase first letter of property name
+					String param = key.substring(0,1).toUpperCase();
+					param = param + key.substring(1);				
+					
+					List<String> values = new ArrayList<String>();
+					for(String value: params.get(key)){
+						// decode parameters
+						try {
+							values.add(new String(value.getBytes("8859_1"), "UTF-8"));
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						}
+					}
+					map.put(param, params.get(key));			
+				}
+				else
+					logger.info("Unexpected Parameter :{} has been removed.", key);
+			}
+			if(map.keySet().size() == 0){
+				return new ResponseEntity<List<Variable>>(HttpStatus.BAD_REQUEST);
+			}else{
+				List<Variable> variables = this.variableService.listSearch(map);
+				if(variables == null || variables.isEmpty())
+					return new ResponseEntity<List<Variable>>(HttpStatus.NOT_FOUND);
+				else
+					return new ResponseEntity<List<Variable>>(variables, HttpStatus.OK);
+			}
 		}
 	}
 
@@ -163,16 +174,34 @@ public class VariableController {
 
 	// -------------------- Search for Variable Resource --------------------
 	@RequestMapping(value = "/variables", method = RequestMethod.POST)
-	public ResponseEntity<List<Variable>> search(@RequestBody HashMap<String, String> map) {
+	public ResponseEntity<List<Variable>> search(@RequestBody HashMap<String, List<String>> reqMap) {
 		logger.info("Searching Variable Resource ...");
 
-		for (String key : map.keySet()) {
-			logger.info("The search parameter: {} ", key);
+		PropertyDescriptor[] params = BeanUtils.getPropertyDescriptors(River.class);
+		List<String> paramList = new ArrayList<String>();
+		for (PropertyDescriptor desc : params) {
+			paramList.add(desc.getName());
 		}
-		List<Variable> variables = this.variableService.search(map);
-		if(variables == null || variables.isEmpty())
-			return new ResponseEntity<List<Variable>>(variables, HttpStatus.NOT_FOUND);
-		else
-			return new ResponseEntity<List<Variable>>(variables, HttpStatus.OK);
+			
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		for (String key : reqMap.keySet()) {
+			if(paramList.contains(key)){
+				String param = key.substring(0,1).toUpperCase();
+				param = param + key.substring(1);
+				map.put(param, reqMap.get(key));
+			}
+			else
+				logger.info("Unexpected Parameter :{} has been removed.", key);
+		}
+		if(map.keySet().size() == 0){
+			return new ResponseEntity<List<Variable>>(HttpStatus.BAD_REQUEST);
+		}else{
+			List<Variable> variables = this.variableService.listSearch(map);
+		
+			if(variables == null || variables.isEmpty())
+				return new ResponseEntity<List<Variable>>(HttpStatus.NOT_FOUND);
+			else
+				return new ResponseEntity<List<Variable>>(variables, HttpStatus.OK);
+		}
 	}
 }

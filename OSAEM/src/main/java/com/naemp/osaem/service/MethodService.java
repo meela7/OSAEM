@@ -25,5 +25,6 @@ public interface MethodService {
 	
 	public boolean isInstanceExist(String name);
 	public List<Method> search(Map<String, String> map);
+	public List<Method> listSearch(Map<String, List<String>> map);
 
 }

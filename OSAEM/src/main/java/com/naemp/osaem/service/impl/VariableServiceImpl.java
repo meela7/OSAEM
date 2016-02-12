@@ -65,5 +65,10 @@ public class VariableServiceImpl implements VariableService {
 	public List<Variable> search(Map<String, String> map) {
 		return variableDao.search(map);
 	}
+	@Override
+	public List<Variable> listSearch(Map<String, List<String>> map) {
+		
+		return variableDao.listSearch(map);
+	}
 
 }

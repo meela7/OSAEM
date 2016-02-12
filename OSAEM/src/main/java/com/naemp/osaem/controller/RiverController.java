@@ -1,22 +1,25 @@
 package com.naemp.osaem.controller;
 
+import java.beans.PropertyDescriptor;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.naemp.osaem.model.River;
 import com.naemp.osaem.service.RiverService;
@@ -43,8 +46,62 @@ public class RiverController {
 	private RiverService riverService;
 
 	// -------------------- Read and Search River Collection Resource --------------------
+//	@RequestMapping(value = "/rivers", method = RequestMethod.GET)
+//	public ResponseEntity<List<River>> list(@RequestParam(required = false) Map<String, String> params) {
+//		// read River collection resource when there is no parameter.
+//		if (params.isEmpty()) {
+//			logger.info("Reading River Collection Resource ...");
+//			List<River> rivers = riverService.readCollection();
+//			if (rivers.isEmpty()) {
+//				logger.info("No Rivers found.");
+//				return new ResponseEntity<List<River>>(HttpStatus.NO_CONTENT);
+//			}
+//			return new ResponseEntity<List<River>>(rivers, HttpStatus.OK);
+//		}
+//		// search River collection resource with parameters.
+//		else {
+//			logger.info("Searching River Resource ...");
+//
+//			Map<String, String> map = new HashMap<String, String>();
+//			for (String key : params.keySet()) {
+//				// uppercase first letter of property name
+//				String param = key.substring(0,1).toUpperCase();
+//				param = param + key.substring(1);
+//				String value = params.get(key);
+//				
+//				// decode parameters
+//				try {
+//					map.put(param, new String(value.getBytes("8859_1"), "UTF-8"));
+//				} catch (UnsupportedEncodingException e) {
+//					e.printStackTrace();
+//				}
+//				// check if the URL encoded
+////				if (value.contains("%")) {
+////					logger.info("Parameter value: {} is encoded", value);
+////					try {
+////						map.put(key, new String(value.getBytes("8859_1"), "UTF-8"));
+////					} catch (UnsupportedEncodingException e) {
+////						e.printStackTrace();
+////					}
+////				}
+////				else{
+////					logger.info("Parameter value: {} is not encoded", value);
+////					map.put(key, value);
+////				}
+//			}
+//			
+//			List<River> rivers = this.riverService.search(map);
+//			return new ResponseEntity<List<River>>(rivers, HttpStatus.OK);
+//		}
+//	}
+	
+	/* -------------------- Read and Search River Collection Resource --------------------
+	 * changed search to listSearch which get list as value 
+	 * @ 2016.02.11
+	 */
+	
 	@RequestMapping(value = "/rivers", method = RequestMethod.GET)
-	public ResponseEntity<List<River>> list(@RequestParam(required = false) Map<String, String> params) {
+	public ResponseEntity<List<River>> list(@RequestParam(required = false) MultiValueMap<String, String> params) {
 		// read River collection resource when there is no parameter.
 		if (params.isEmpty()) {
 			logger.info("Reading River Collection Resource ...");
@@ -59,42 +116,50 @@ public class RiverController {
 		else {
 			logger.info("Searching River Resource ...");
 
-			Map<String, String> map = new HashMap<String, String>();
-			for (String key : params.keySet()) {
-				// uppercase first letter of property name
-				String param = key.substring(0,1).toUpperCase();
-				param = param + key.substring(1);
-				String value = params.get(key);
-				
-				// decode parameters
-				try {
-					map.put(param, new String(value.getBytes("8859_1"), "UTF-8"));
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-				// check if the URL encoded
-//				if (value.contains("%")) {
-//					logger.info("Parameter value: {} is encoded", value);
-//					try {
-//						map.put(key, new String(value.getBytes("8859_1"), "UTF-8"));
-//					} catch (UnsupportedEncodingException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//				else{
-//					logger.info("Parameter value: {} is not encoded", value);
-//					map.put(key, value);
-//				}
+			PropertyDescriptor[] props = BeanUtils.getPropertyDescriptors(River.class);
+			List<String> variables = new ArrayList<String>();
+			for (PropertyDescriptor desc : props) {
+				variables.add(desc.getName());
 			}
 			
-			List<River> rivers = this.riverService.search(map);
-			return new ResponseEntity<List<River>>(rivers, HttpStatus.OK);
+			Map<String, List<String>> map = new HashMap<String, List<String>>();			
+			for (String key : params.keySet()) {
+				if(variables.contains(key)){
+					// uppercase first letter of property name
+					String param = key.substring(0,1).toUpperCase();
+					param = param + key.substring(1);				
+				
+					List<String> values = new ArrayList<String>();
+					// set forceEncodingFilter in the web.xml, therefore need decode every value.
+					for(String value: params.get(key)){
+						try {
+							values.add(new String(value.getBytes("8859_1"), "UTF-8"));
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						}
+					}
+					map.put(param, values);			
+				}
+				else
+					logger.info("Unexpected Parameter :{} has been removed.", key);
+			}
+			if(map.keySet().size() == 0){
+				return new ResponseEntity<List<River>>(HttpStatus.BAD_REQUEST);
+			}else{
+				List<River> rivers = this.riverService.listSearch(map);
+			
+				if(rivers.isEmpty() || rivers == null)
+					return new ResponseEntity<List<River>>(HttpStatus.NOT_FOUND);
+				else
+					return new ResponseEntity<List<River>>(rivers, HttpStatus.OK);
+			}
 		}
 	}
+	
 
 	// -------------------- Create a River Instance Resource ------------------
 	@RequestMapping(value = "/rivers/new", method = RequestMethod.POST)
-	public ResponseEntity<Integer> create(@RequestBody River river, UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<Integer> create(@RequestBody River river) {
 		logger.info("Creating River Instance Resource of Name: {} ..." + river.getRiverName());
 		// check if river contains the Not Null field in the database.
 		if (river.getRiverName() == null || river.getBasin() == null || river.getWaterSystem() == null || river.getMidWatershed() == null || river.getSubWatershed() == null || river.getClassification() == null ) 
@@ -162,19 +227,53 @@ public class RiverController {
 			return new ResponseEntity<Boolean>(res, HttpStatus.CONFLICT);		//  when River has existing related Sites
 	}
 
-	// -------------------- Search for River Resource --------------------
+	// -------------------- Search for River Resource (parameter map) --------------------
+//	@RequestMapping(value = "/rivers", method = RequestMethod.POST)
+//	public ResponseEntity<List<River>> search(@RequestBody Map<String, String> map) {
+//		logger.info("Searching River Resource ...");
+//
+//		for (String key : map.keySet()) {
+//			logger.info("The search parameter: {} ", key);
+//		}
+//		List<River> rivers = this.riverService.search(map);
+//		if(rivers.isEmpty() || rivers == null)
+//			return new ResponseEntity<List<River>>(rivers, HttpStatus.NOT_FOUND);
+//		else
+//			return new ResponseEntity<List<River>>(rivers, HttpStatus.OK);
+//	}
+
+	// -------------------- Search for River Resource (parameter map value is list) --------------------
 	@RequestMapping(value = "/rivers", method = RequestMethod.POST)
-	public ResponseEntity<List<River>> search(@RequestBody Map<String, String> map) {
+	public ResponseEntity<List<River>> listSearch(@RequestBody Map<String, List<String>> reqMap) {
 		logger.info("Searching River Resource ...");
-
-		for (String key : map.keySet()) {
-			logger.info("The search parameter: {} ", key);
+		
+		// get all the columns of the River
+		// remove the parameters which doesn't match with column in the list
+		PropertyDescriptor[] params = BeanUtils.getPropertyDescriptors(River.class);
+		List<String> variables = new ArrayList<String>();
+		for (PropertyDescriptor desc : params) {
+			variables.add(desc.getName());
 		}
-		List<River> rivers = this.riverService.search(map);
-		if(rivers.isEmpty() || rivers == null)
-			return new ResponseEntity<List<River>>(rivers, HttpStatus.NOT_FOUND);
-		else
-			return new ResponseEntity<List<River>>(rivers, HttpStatus.OK);
+			
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		for(String key : reqMap.keySet()){
+			if(variables.contains(key)){
+				String param = key.substring(0,1).toUpperCase();
+				param = param + key.substring(1);
+				map.put(param, reqMap.get(key));
+			}
+			else
+				logger.info("Unexpected Parameter :{} has been removed.", key);
+		}
+		if(map.keySet().size() == 0){
+			return new ResponseEntity<List<River>>(HttpStatus.BAD_REQUEST);
+		}else{
+			List<River> rivers = this.riverService.listSearch(map);
+		
+			if(rivers.isEmpty() || rivers == null)
+				return new ResponseEntity<List<River>>(rivers, HttpStatus.NOT_FOUND);
+			else
+				return new ResponseEntity<List<River>>(rivers, HttpStatus.OK);
+		}
 	}
-
 }

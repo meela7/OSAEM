@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.naemp.osaem.dao.FishDAO;
 import com.naemp.osaem.model.Fish;
+import com.naemp.osaem.model.River;
 
 public class FishDAOImpl implements FishDAO {
 	
@@ -140,6 +141,36 @@ public class FishDAOImpl implements FishDAO {
 		@SuppressWarnings("unchecked")
 		List<Fish> fishs = (List<Fish>) query.list();
 		return fishs;
+	}
+
+	@Override
+	@Transactional
+	public List<Fish> listSearch(Map<String, List<String>> map) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		String hqlQuery = "FROM Fish WHERE ";
+		
+		// create HQL Statement
+		int index = 0;
+		for(String key : map.keySet()){
+			
+			if(index == 0 )
+				hqlQuery = hqlQuery + key + " in :" + key ;
+			else
+				hqlQuery = hqlQuery + " and " + key + " in :" + key ;
+			index++;
+		}
+		
+		// execute HQL Query
+		logger.info("Execute Query: {}", hqlQuery);
+		Query query = session.createQuery(hqlQuery);
+		for(String key : map.keySet()){
+			query.setParameterList(key, map.get(key));
+		}
+		@SuppressWarnings("unchecked")
+		List<Fish> fishes = (List<Fish>) query.list();
+		
+		return fishes;
 	}
 
 }

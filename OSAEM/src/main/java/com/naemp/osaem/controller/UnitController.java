@@ -1,15 +1,19 @@
 package com.naemp.osaem.controller;
 
+import java.beans.PropertyDescriptor;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.naemp.osaem.model.River;
 import com.naemp.osaem.model.Unit;
 import com.naemp.osaem.service.UnitService;
 
@@ -28,14 +33,13 @@ import io.swagger.annotations.Api;
 public class UnitController {
 
 	/**
-	 * Class Name: UnitController.java 
-	 * Description: CRUD, Service
+	 * Class Name: UnitController.java Description: CRUD, Service
 	 * 
 	 * @author Meilan Jiang
 	 * @since 2016.02.04
 	 * @version 1.0
 	 * 
-	 * Copyright(c) 2016 by CILAB All right reserved.
+	 *          Copyright(c) 2016 by CILAB All right reserved.
 	 */
 	private static final Logger logger = LoggerFactory.getLogger(UnitController.class);
 
@@ -45,7 +49,7 @@ public class UnitController {
 	// -------------------- Read and Search Unit Collection Resource
 	// --------------------
 	@RequestMapping(value = "/units", method = RequestMethod.GET)
-	public ResponseEntity<List<Unit>> list(@RequestParam(required = false) Map<String, String> params) {
+	public ResponseEntity<List<Unit>> list(@RequestParam(required = false) MultiValueMap<String, String> params) {
 		// read Unit collection resource when there is no parameter.
 		if (params.isEmpty()) {
 			logger.info("Reading Unit Collection Resource ...");
@@ -60,37 +64,40 @@ public class UnitController {
 		else {
 			logger.info("Searching Unit Resource ...");
 
-			Map<String, String> map = new HashMap<String, String>();
-			for (String key : params.keySet()) {
-				logger.info("Parameter :{}", key);
-				// uppercase first letter of property name
-				String param = key.substring(0, 1).toUpperCase();
-				param = param + key.substring(1);
-				String value = params.get(key);
-
-				// decode parameters
-				try {
-					map.put(param, new String(value.getBytes("8859_1"), "UTF-8"));
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-				// check if the URL encoded
-				// if (value.contains("%")) {
-				// logger.info("Parameter value: {} is encoded", value);
-				// try {
-				// map.put(key, new String(value.getBytes("8859_1"), "UTF-8"));
-				// } catch (UnsupportedEncodingException e) {
-				// e.printStackTrace();
-				// }
-				// }
-				// else{
-				// logger.info("Parameter value: {} is not encoded", value);
-				// map.put(key, value);
-				// }
+			PropertyDescriptor[] props = BeanUtils.getPropertyDescriptors(Unit.class);
+			List<String> variables = new ArrayList<String>();
+			for (PropertyDescriptor desc : props) {
+				variables.add(desc.getName());
 			}
+			Map<String, List<String>> map = new HashMap<String, List<String>>();
+			for (String key : params.keySet()) {
+				if (variables.contains(key)) {
+					// uppercase first letter of property name
+					String param = key.substring(0, 1).toUpperCase();
+					param = param + key.substring(1);
 
-			List<Unit> units = this.unitService.search(map);
-			return new ResponseEntity<List<Unit>>(units, HttpStatus.OK);
+					List<String> values = new ArrayList<String>();
+					for(String value: params.get(key)){
+						// decode parameters
+						try {
+							values.add(new String(value.getBytes("8859_1"), "UTF-8"));
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						}
+					}
+					map.put(param, values);
+				} else
+					logger.info("Unexpected Parameter :{} has been removed.", key);
+			}
+			if (map.keySet().size() == 0) {
+				return new ResponseEntity<List<Unit>>(HttpStatus.BAD_REQUEST);
+			} else {
+				List<Unit> units = this.unitService.listSearch(map);
+				if (units.isEmpty() || units == null)
+					return new ResponseEntity<List<Unit>>(HttpStatus.NOT_FOUND);
+				else
+					return new ResponseEntity<List<Unit>>(units, HttpStatus.OK);
+			}
 		}
 	}
 
@@ -170,15 +177,29 @@ public class UnitController {
 
 	// -------------------- Search for Unit Resource --------------------
 	@RequestMapping(value = "/units", method = RequestMethod.POST)
-	public ResponseEntity<List<Unit>> search(@RequestBody Map<String, String> map) {
+	public ResponseEntity<List<Unit>> search(@RequestBody Map<String, List<String>> reqMap) {
 		logger.info("Searching Unit Resource ...");
 
-		for (String key : map.keySet()) {
-			logger.info("The search parameter: {} ", key);
+		// remove the parameters which doesn't match with column in the list
+		PropertyDescriptor[] params = BeanUtils.getPropertyDescriptors(Unit.class);
+		List<String> variables = new ArrayList<String>();
+		for (PropertyDescriptor desc : params) {
+			variables.add(desc.getName());
 		}
-		List<Unit> units = this.unitService.search(map);
+		
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		for (String key : reqMap.keySet()) {
+			if(variables.contains(key)){
+				String param = key.substring(0,1).toUpperCase();
+				param = param + key.substring(1);
+				map.put(param, reqMap.get(key));
+			}
+			else
+				logger.info("Unexpected Parameter :{} has been removed.", key);
+		}
+		List<Unit> units = this.unitService.listSearch(map);
 		if (units.isEmpty() || units == null)
-			return new ResponseEntity<List<Unit>>(units, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<List<Unit>>(HttpStatus.NOT_FOUND);
 		else
 			return new ResponseEntity<List<Unit>>(units, HttpStatus.OK);
 	}

@@ -25,5 +25,6 @@ public interface FishDAO {
 	public List<Fish> list();
 	public Fish getByUniqueKey(String name);
 	public List<Fish> search(Map<String, String> map);
+	public List<Fish> listSearch(Map<String, List<String>> map);
 
 }

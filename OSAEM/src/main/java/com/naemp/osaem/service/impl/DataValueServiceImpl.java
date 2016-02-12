@@ -51,5 +51,10 @@ public class DataValueServiceImpl implements DataValueService {
 	public List<DataValue> search(Map<String, String> map) {
 		return dataValueDao.search(map);
 	}
+	
+	@Override
+	public List<DataValue> listSearch(Map<String, List<String>> map) {
+		return dataValueDao.listSearch(map);
+	}
 
 }

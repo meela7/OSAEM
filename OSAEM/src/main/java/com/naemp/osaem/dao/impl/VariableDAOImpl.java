@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.naemp.osaem.dao.VariableDAO;
+import com.naemp.osaem.model.River;
 import com.naemp.osaem.model.Variable;
 
 public class VariableDAOImpl implements VariableDAO {
@@ -141,6 +142,35 @@ public class VariableDAOImpl implements VariableDAO {
 		}
 		@SuppressWarnings("unchecked")
 		List<Variable> variables = (List<Variable>) query.list();
+		return variables;
+	}
+
+	@Override
+	@Transactional
+	public List<Variable> listSearch(Map<String, List<String>> map) {
+		Session session = sessionFactory.getCurrentSession();
+		String hqlQuery = "FROM Variable WHERE ";
+		
+		// create HQL Statement
+		int index = 0;
+		for(String key : map.keySet()){
+			
+			if(index == 0 )
+				hqlQuery = hqlQuery + key + " in :" + key ;
+			else
+				hqlQuery = hqlQuery + " and " + key + " in :" + key ;
+			index++;
+		}
+		
+		// execute HQL Query
+		logger.info("Execute Query: {}", hqlQuery);
+		Query query = session.createQuery(hqlQuery);
+		for(String key : map.keySet()){
+			query.setParameterList(key, map.get(key));
+		}
+		@SuppressWarnings("unchecked")
+		List<Variable> variables = (List<Variable>) query.list();
+		
 		return variables;
 	}
 

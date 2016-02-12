@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.naemp.osaem.dao.UnitDAO;
+import com.naemp.osaem.model.River;
 import com.naemp.osaem.model.Unit;
 
 public class UnitDAOImpl implements UnitDAO {
@@ -139,6 +140,46 @@ public class UnitDAOImpl implements UnitDAO {
 		}
 		@SuppressWarnings("unchecked")
 		List<Unit> units = (List<Unit>) query.list();
+		return units;
+	}
+
+	@Override
+	@Transactional
+	public List<Unit> listSearch(Map<String, List<String>> map) {
+		Session session = sessionFactory.getCurrentSession();
+		String hqlQuery = "FROM Unit WHERE ";
+		
+		// get all the columns of the River
+		// remove the parameters which doesn't match with column in the list
+//		AbstractEntityPersister aep=((AbstractEntityPersister)sessionFactory.getClassMetadata(River.class));  
+//		String[] properties = aep.getPropertyNames();
+//		List<String> columnNames = Arrays.asList(properties);
+//		
+//		for(String key : map.keySet()){
+//			if(!columnNames.contains(key))
+//				map.remove(key);
+//		}
+		
+		// create HQL Statement
+		int index = 0;
+		for(String key : map.keySet()){
+			
+			if(index == 0 )
+				hqlQuery = hqlQuery + key + " in :" + key ;
+			else
+				hqlQuery = hqlQuery + " and " + key + " in :" + key ;
+			index++;
+		}
+		
+		// execute HQL Query
+		logger.info("Execute Query: {}", hqlQuery);
+		Query query = session.createQuery(hqlQuery);
+		for(String key : map.keySet()){
+			query.setParameterList(key, map.get(key));
+		}
+		@SuppressWarnings("unchecked")
+		List<Unit> units = (List<Unit>) query.list();
+		
 		return units;
 	}
 

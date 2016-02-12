@@ -1,15 +1,19 @@
 package com.naemp.osaem.controller;
 
+import java.beans.PropertyDescriptor;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,7 +49,7 @@ public class SiteController {
 
 	// -------------------- Read and Search Site Collection Resource --------------------
 	@RequestMapping(value = "/sites", method = RequestMethod.GET)
-	public ResponseEntity<List<Site>> list(@RequestParam(required = false) Map<String, String> params) {
+	public ResponseEntity<List<Site>> list(@RequestParam(required = false) MultiValueMap<String, String> params) {
 		// read River collection resource when there is no parameter.
 		if (params.isEmpty()) {
 			logger.info("Reading Site Collection Resource ...");
@@ -59,37 +63,43 @@ public class SiteController {
 		// search Site collection resource with parameters.
 		else {
 			logger.info("Searching Site Resource ...");
-
-			Map<String, String> map = new HashMap<String, String>();
-			for (String key : params.keySet()) {
-				// uppercase first letter of property name
-				String param = key.substring(0,1).toUpperCase();
-				param = param + key.substring(1);
-				String value = params.get(key);
-				
-				// decode parameters
-				try {
-					map.put(param, new String(value.getBytes("8859_1"), "UTF-8"));
-				} catch (UnsupportedEncodingException e) {
-					e.printStackTrace();
-				}
-				// check if the URL encoded
-//				if (value.contains("%")) {
-//					logger.info("Parameter value: {} is encoded", value);
-//					try {
-//						map.put(key, new String(value.getBytes("8859_1"), "UTF-8"));
-//					} catch (UnsupportedEncodingException e) {
-//						e.printStackTrace();
-//					}
-//				}
-//				else{
-//					logger.info("Parameter value: {} is not encoded", value);
-//					map.put(key, value);
-//				}
-			}
 			
-			List<Site> sites = this.siteService.search(map);
-			return new ResponseEntity<List<Site>>(sites, HttpStatus.OK);
+			PropertyDescriptor[] props = BeanUtils.getPropertyDescriptors(Site.class);
+			List<String> variables = new ArrayList<String>();
+			for (PropertyDescriptor desc : props) {
+				variables.add(desc.getName());
+			}
+
+			Map<String, List<String>> map = new HashMap<String, List<String>>();
+			for (String key : params.keySet()) {
+				if(variables.contains(key)){
+					// uppercase first letter of property name
+					String param = key.substring(0,1).toUpperCase();
+					param = param + key.substring(1);				
+				
+					List<String> values = new ArrayList<String>();
+					for(String value: params.get(key)){
+						// decode parameters
+						try {
+							values.add(new String(value.getBytes("8859_1"), "UTF-8"));
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						}
+					}
+					map.put(param, values);			
+				}
+				else
+					logger.info("Unexpected Parameter :{} has been removed.", key);
+			}
+			if(map.keySet().size() == 0){
+				return new ResponseEntity<List<Site>>(HttpStatus.BAD_REQUEST);
+			}else{
+				List<Site> sites = this.siteService.listSearch(map);
+				if(sites == null || sites.isEmpty())
+					return new ResponseEntity<List<Site>>(HttpStatus.NOT_FOUND);
+				else
+					return new ResponseEntity<List<Site>>(sites, HttpStatus.OK);
+			}
 		}
 	}
 
@@ -160,19 +170,37 @@ public class SiteController {
 		else
 			return new ResponseEntity<Boolean>(res, HttpStatus.CONFLICT);
 	}
-
-	// -------------------- Search for Site Resource --------------------
+	
+	// -------------------- Search for Site Resource (parameter map value is list) --------------------
 	@RequestMapping(value = "/sites", method = RequestMethod.POST)
-	public ResponseEntity<List<Site>> search(@RequestBody HashMap<String, String> map) {
+	public ResponseEntity<List<Site>> listSearch(@RequestBody HashMap<String, List<String>> reqMap) {
 		logger.info("Searching Site Resource ...");
 
-		for (String key : map.keySet()) {
-			logger.info("The search parameter: {} ", key);
+		PropertyDescriptor[] params = BeanUtils.getPropertyDescriptors(Site.class);
+		List<String> variables = new ArrayList<String>();
+		for (PropertyDescriptor desc : params) {
+			variables.add(desc.getName());
 		}
-		List<Site> sites = this.siteService.search(map);
-		if(sites == null || sites.isEmpty())
-			return new ResponseEntity<List<Site>>(sites, HttpStatus.NOT_FOUND);
-		else
-			return new ResponseEntity<List<Site>>(sites, HttpStatus.OK);
+		
+		Map<String, List<String>> map = new HashMap<String, List<String>>();
+		for (String key : reqMap.keySet()) {
+			
+			if(variables.contains(key)){	
+				String param = key.substring(0,1).toUpperCase();
+				param = param + key.substring(1);
+				map.put(param, reqMap.get(key));
+			}
+			else
+				logger.info("Unexpected Parameter :{} has been removed.", key);
+		}
+		if(map.keySet().size() == 0){
+			return new ResponseEntity<List<Site>>(HttpStatus.BAD_REQUEST);
+		}else{
+			List<Site> sites = this.siteService.listSearch(map);
+			if(sites == null || sites.isEmpty())
+				return new ResponseEntity<List<Site>>(HttpStatus.NOT_FOUND);
+			else
+				return new ResponseEntity<List<Site>>(sites, HttpStatus.OK);
+		}
 	}
 }

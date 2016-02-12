@@ -176,4 +176,45 @@ public class RiverDAOImpl implements RiverDAO {
 		
 		return rivers;
 	}
+
+	@Override
+	@Transactional
+	public List<River> listSearch(Map<String, List<String>> map) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		String hqlQuery = "FROM River WHERE ";
+		
+		// get all the columns of the River
+		// remove the parameters which doesn't match with column in the list
+//		AbstractEntityPersister aep=((AbstractEntityPersister)sessionFactory.getClassMetadata(River.class));  
+//		String[] properties = aep.getPropertyNames();
+//		List<String> columnNames = Arrays.asList(properties);
+//		
+//		for(String key : map.keySet()){
+//			if(!columnNames.contains(key))
+//				map.remove(key);
+//		}
+		
+		// create HQL Statement
+		int index = 0;
+		for(String key : map.keySet()){
+			
+			if(index == 0 )
+				hqlQuery = hqlQuery + key + " in :" + key ;
+			else
+				hqlQuery = hqlQuery + " and " + key + " in :" + key ;
+			index++;
+		}
+		
+		// execute HQL Query
+		logger.info("Execute Query: {}", hqlQuery);
+		Query query = session.createQuery(hqlQuery);
+		for(String key : map.keySet()){
+			query.setParameterList(key, map.get(key));
+		}
+		@SuppressWarnings("unchecked")
+		List<River> rivers = (List<River>) query.list();
+		
+		return rivers;
+	}
 }

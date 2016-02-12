@@ -25,4 +25,5 @@ public interface RiverService {
 	
 	public boolean isInstanceExist(String name, String mid, String sub);
 	public List<River> search(Map<String, String> map);
+	public List<River> listSearch(Map<String, List<String>> map);
 }

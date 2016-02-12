@@ -142,4 +142,33 @@ public class SourceDAOImpl implements SourceDAO {
 		return sources;
 	}
 
+	@Override
+	@Transactional
+	public List<Source> listSearch(Map<String, List<String>> map) {
+		
+		Session session = sessionFactory.getCurrentSession();
+		String hqlQuery = "FROM Source WHERE ";
+
+		// create HQL Statement
+		int index = 0;
+		for(String key : map.keySet()){
+			
+			if(index == 0 )
+				hqlQuery = hqlQuery + key + " in :" + key ;
+			else
+				hqlQuery = hqlQuery + " and " + key + " in :" + key ;
+			index++;
+		}
+		
+		// execute HQL Query
+		logger.info("Execute Query: {}", hqlQuery);
+		Query query = session.createQuery(hqlQuery);
+		for(String key : map.keySet()){
+			query.setParameterList(key, map.get(key));
+		}
+		@SuppressWarnings("unchecked")
+		List<Source> sources = (List<Source>) query.list();
+		
+		return sources;
+	}
 }

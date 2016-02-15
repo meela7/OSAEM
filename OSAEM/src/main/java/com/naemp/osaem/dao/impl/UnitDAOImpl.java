@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.naemp.osaem.dao.UnitDAO;
-import com.naemp.osaem.model.River;
 import com.naemp.osaem.model.Unit;
 
 public class UnitDAOImpl implements UnitDAO {

@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.naemp.osaem.model.DataValue;
-import com.naemp.osaem.model.River;
+import com.naemp.osaem.model.DataValueJoined;
 import com.naemp.osaem.service.DataValueService;
 
 import io.swagger.annotations.Api;
@@ -49,10 +49,11 @@ public class DataValueController {
 
 	// -------------------- Read and Search DataValue Collection Resource --------------------
 	@RequestMapping(value = "/values", method = RequestMethod.GET)
-	public ResponseEntity<List<DataValue>> list(@RequestParam(required = false) MultiValueMap<String, String> params) {
+	public ResponseEntity<List> list(@RequestParam(required = false) MultiValueMap<String, String> params) {
 		
 		logger.info("Searching DataValue Resource ...");
-
+		boolean joinFlag = false;
+		
 		PropertyDescriptor[] props = BeanUtils.getPropertyDescriptors(DataValue.class);
 		List<String> variables = new ArrayList<String>();
 		for (PropertyDescriptor desc : props) {
@@ -61,6 +62,8 @@ public class DataValueController {
 		
 		Map<String, List<String>> map = new HashMap<String, List<String>>();	
 		for (String key : params.keySet()) {
+			if(key.equals("join") && params.get(key).get(0).equals("on"))
+				joinFlag = true;
 			if(variables.contains(key)){
 				// uppercase first letter of property name
 				String param = key.substring(0,1).toUpperCase();
@@ -75,19 +78,32 @@ public class DataValueController {
 						e.printStackTrace();
 					}
 				}
-				map.put(param, values);			
+				map.put(param, values);		
 			}
 			else
 				logger.info("Unexpected Parameter :{} has been removed.", key);
 		}
 		if(map.keySet().size() == 0){
-			return new ResponseEntity<List<DataValue>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List>(HttpStatus.BAD_REQUEST);
 		}else{
-			List<DataValue> dataValues = this.dataValueService.listSearch(map);
-			if(dataValues.isEmpty() || dataValues == null)
-				return new ResponseEntity<List<DataValue>>(HttpStatus.NOT_FOUND);
-			else
-				return new ResponseEntity<List<DataValue>>(dataValues, HttpStatus.OK);
+			
+			if(joinFlag){
+				logger.info("JOIN ON");
+				List<DataValueJoined> dataValues = this.dataValueService.joinedSearch(map);
+				if(dataValues.isEmpty() || dataValues == null)
+					return new ResponseEntity<List>(HttpStatus.NOT_FOUND);
+				else
+					return new ResponseEntity<List>(dataValues, HttpStatus.OK);
+			}
+			else{
+				logger.info("JOIN OFF");
+				
+				List<DataValue> dataValues = this.dataValueService.listSearch(map);
+				if(dataValues.isEmpty() || dataValues == null)
+					return new ResponseEntity<List>(HttpStatus.NOT_FOUND);
+				else
+					return new ResponseEntity<List>(dataValues, HttpStatus.OK);
+			}
 		}
 	}
 
@@ -123,9 +139,10 @@ public class DataValueController {
 
 	// -------------------- Search for DataValue Resource --------------------
 	@RequestMapping(value = "/values", method = RequestMethod.POST)
-	public ResponseEntity<List<DataValue>> search(@RequestBody Map<String, List<String>> reqMap) {
+	public ResponseEntity<List> search(@RequestBody Map<String, List<String>> reqMap) {
 		logger.info("Searching DataValue Resource ...");
-
+		boolean joinFlag = false;
+		
 		PropertyDescriptor[] params = BeanUtils.getPropertyDescriptors(DataValue.class);
 		List<String> variables = new ArrayList<String>();
 		for (PropertyDescriptor desc : params) {
@@ -134,6 +151,8 @@ public class DataValueController {
 			
 		Map<String, List<String>> map = new HashMap<String, List<String>>();
 		for (String key : reqMap.keySet()) {
+			if(key.equals("join") && reqMap.get(key).get(0).equals("on"))
+				joinFlag = true;
 			if(variables.contains(key)){
 				String param = key.substring(0,1).toUpperCase();
 				param = param + key.substring(1);
@@ -142,14 +161,28 @@ public class DataValueController {
 			else
 				logger.info("Unexpected Parameter :{} has been removed.", key);
 		}
+		
 		if(map.keySet().size() == 0){
-			return new ResponseEntity<List<DataValue>>(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<List>(HttpStatus.BAD_REQUEST);
 		}else{
-			List<DataValue> values = this.dataValueService.listSearch(map);
-			if(values.isEmpty() || values == null)
-				return new ResponseEntity<List<DataValue>>(HttpStatus.NOT_FOUND);
-			else
-				return new ResponseEntity<List<DataValue>>(values, HttpStatus.OK);
+			
+			if(joinFlag){
+				logger.info("JOIN ON");
+				List<DataValueJoined> dataValues = this.dataValueService.joinedSearch(map);
+				if(dataValues.isEmpty() || dataValues == null)
+					return new ResponseEntity<List>(HttpStatus.NOT_FOUND);
+				else
+					return new ResponseEntity<List>(dataValues, HttpStatus.OK);
+			}
+			else{
+				logger.info("JOIN OFF");
+				
+				List<DataValue> dataValues = this.dataValueService.listSearch(map);
+				if(dataValues.isEmpty() || dataValues == null)
+					return new ResponseEntity<List>(HttpStatus.NOT_FOUND);
+				else
+					return new ResponseEntity<List>(dataValues, HttpStatus.OK);
+			}
 		}
 	}
 }

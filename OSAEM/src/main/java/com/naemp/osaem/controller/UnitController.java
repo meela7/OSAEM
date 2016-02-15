@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.naemp.osaem.model.River;
 import com.naemp.osaem.model.Unit;
 import com.naemp.osaem.service.UnitService;
 

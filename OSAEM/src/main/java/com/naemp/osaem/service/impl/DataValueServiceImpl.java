@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.naemp.osaem.dao.DataValueDAO;
 import com.naemp.osaem.model.DataValue;
+import com.naemp.osaem.model.DataValueJoined;
 import com.naemp.osaem.service.DataValueService;
 
 public class DataValueServiceImpl implements DataValueService {
@@ -55,6 +56,11 @@ public class DataValueServiceImpl implements DataValueService {
 	@Override
 	public List<DataValue> listSearch(Map<String, List<String>> map) {
 		return dataValueDao.listSearch(map);
+	}
+	@Override
+	public List<DataValueJoined> joinedSearch(Map<String, List<String>> map) {
+		
+		return dataValueDao.joinedSearch(map);
 	}
 
 }

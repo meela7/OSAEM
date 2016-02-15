@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.naemp.osaem.model.DataValue;
+import com.naemp.osaem.model.DataValueJoined;
 
 public interface DataValueService {
 	
@@ -26,5 +27,5 @@ public interface DataValueService {
 	public boolean isInstanceExist(String dateTime, int siteID, int variableID, int featureID, int SourceID, int methodID);
 	public List<DataValue> search(Map<String, String> map);
 	public List<DataValue> listSearch(Map<String, List<String>> map);
-
+	public List<DataValueJoined> joinedSearch(Map<String, List<String>> map);
 }

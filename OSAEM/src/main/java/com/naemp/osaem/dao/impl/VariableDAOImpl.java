@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.naemp.osaem.dao.VariableDAO;
-import com.naemp.osaem.model.River;
 import com.naemp.osaem.model.Variable;
 
 public class VariableDAOImpl implements VariableDAO {

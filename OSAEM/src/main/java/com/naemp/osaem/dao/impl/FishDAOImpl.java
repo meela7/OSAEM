@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.naemp.osaem.dao.FishDAO;
 import com.naemp.osaem.model.Fish;
-import com.naemp.osaem.model.River;
 
 public class FishDAOImpl implements FishDAO {
 	

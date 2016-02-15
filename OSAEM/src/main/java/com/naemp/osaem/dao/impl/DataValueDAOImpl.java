@@ -16,8 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.naemp.osaem.dao.DataValueDAO;
 import com.naemp.osaem.model.DataValue;
-import com.naemp.osaem.model.River;
-import com.naemp.osaem.model.Site;
+import com.naemp.osaem.model.DataValueJoined;
 
 public class DataValueDAOImpl implements DataValueDAO {
 	
@@ -178,10 +177,87 @@ public class DataValueDAOImpl implements DataValueDAO {
 				query.setParameterList(key, values);
 			}
 		}
-		@SuppressWarnings("unchecked")
-		List<DataValue> dataValues = (List<DataValue>) query.list();
 		
+		@SuppressWarnings("unchecked")
+		List<DataValue> dataValues = (List<DataValue>) query.list();		
 		return dataValues;
+	}
+
+	@Override
+	@Transactional
+	public List<DataValueJoined> joinedSearch(Map<String, List<String>> map) {
+		Session session = sessionFactory.getCurrentSession();
+		String hqlQuery = "FROM DataValue WHERE ";
+		
+		int index = 0;
+		// create HQL Statement
+		/*
+		 * DataValueJoined mapping model을 통하여 Query하는 것과 
+		 * Join 하지 않은 Query를 한 후 ID를 통하여 Query하는 것의 차이는 무엇인가?
+		 */
+		for(String key : map.keySet()){
+			// check DateTime is period or list
+			if(key.equals("DateTime") && map.get(key).size() == 1 && map.get(key).get(0).contains(",")){
+					
+				if(index == 0)
+					hqlQuery = hqlQuery + key + " between :start and :end ";
+				else{						
+					hqlQuery = hqlQuery + " and " + key + " between :start and :end ";
+				}
+				index++;
+			}
+			else{
+				if(index == 0 )
+					hqlQuery = hqlQuery + key + " in :" + key ;
+				else
+					hqlQuery = hqlQuery + " and " + key + " in :" + key ;
+				index++;
+			}			
+		}
+		
+		// execute HQL Query
+		logger.info("Execute Query: {}", hqlQuery);
+		Query query = session.createQuery(hqlQuery);
+		for(String key : map.keySet()){
+			if(key.equals("Latitude") || key.equals("Longitude")){
+				
+				query.setParameterList(key, map.get(key));
+			}else if(key.equals("DateTime")){
+				
+				if(map.get(key).size() == 1 && map.get(key).get(0).contains(",")){
+					String[] period = map.get(key).get(0).split(",");
+					query.setParameter("start", period[0]);
+					query.setParameter("end", period[1]);
+				}
+				else{					
+					query.setParameterList(key, map.get(key));
+				}
+				
+			}else{
+				List<Integer> values = new ArrayList<Integer>();
+				for(String value: map.get(key)){
+					values.add(Integer.parseInt(value));
+				}
+				if(index == 0 )
+					hqlQuery = hqlQuery + key + " in :" + key ;
+				else
+					hqlQuery = hqlQuery + " and " + key + " in :" + key ;
+				index++;
+				query.setParameterList(key, values);
+			}
+		}
+		@SuppressWarnings("unchecked")
+		List<DataValue> dataValues = query.list();
+		hqlQuery = "FROM DataValueJoined WHERE ValueID in :valueList";
+		List<Integer> valueIDs = new ArrayList<Integer>();
+		for(DataValue value : dataValues){
+			valueIDs.add(value.getValueID());
+		}
+		query =session.createQuery(hqlQuery);
+		query.setParameterList("valueList", valueIDs);
+		@SuppressWarnings("unchecked")
+		List<DataValueJoined> joinedValues = query.list();
+		return joinedValues;
 	}
 
 }

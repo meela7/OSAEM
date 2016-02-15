@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.naemp.osaem.dao.MethodDAO;
 import com.naemp.osaem.model.Method;
-import com.naemp.osaem.model.River;
 
 public class MethodDAOImpl implements MethodDAO {
 	

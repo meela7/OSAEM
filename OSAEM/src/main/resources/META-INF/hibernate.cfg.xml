@@ -14,5 +14,6 @@
   <mapping resource="META-INF/Feature.hbm.xml"/>
   <mapping resource="META-INF/Fish.hbm.xml"/>
   <mapping resource="META-INF/DataValue.hbm.xml"/>
+  <mapping resource="META-INF/DataValueJoined.hbm.xml"/>
  </session-factory>
 </hibernate-configuration>

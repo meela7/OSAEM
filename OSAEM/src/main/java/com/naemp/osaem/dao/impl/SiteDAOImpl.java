@@ -179,4 +179,15 @@ public class SiteDAOImpl implements SiteDAO {
 		List<Site> sites = (List<Site>) query.list();
 		return sites;
 	}
+
+	@Override
+	@Transactional
+	public List<Site> getByIDs(List<Integer> siteIDs) {
+		Session session = sessionFactory.getCurrentSession();
+		Query query = session.createQuery("FROM Site WHERE SiteID in :siteIDList ");
+		query.setParameterList("siteIDList", siteIDs);
+		
+		List<Site> sites = (List<Site>) query.list();
+		return sites;
+	}
 }

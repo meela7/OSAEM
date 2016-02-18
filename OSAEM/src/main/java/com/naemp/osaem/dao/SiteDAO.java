@@ -26,5 +26,7 @@ public interface SiteDAO {
 	public Site getByUniqueKey(String name, String lat, String lng);
 	public List<Site> search(Map<String, String> map);
 	public List<Site> listSearch(Map<String, List<String>> map);
+	
+	public List<Site> getByIDs(List<Integer> siteIDs);
 
 }

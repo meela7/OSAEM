@@ -248,7 +248,7 @@ public class DataValueDAOImpl implements DataValueDAO {
 		}
 		@SuppressWarnings("unchecked")
 		List<DataValue> dataValues = query.list();
-		hqlQuery = "FROM DataValueJoined WHERE ValueID in :valueList";
+		hqlQuery = " FROM DataValueJoined WHERE ValueID in :valueList ORDER BY ValueID ";
 		List<Integer> valueIDs = new ArrayList<Integer>();
 		for(DataValue value : dataValues){
 			valueIDs.add(value.getValueID());
@@ -259,5 +259,4 @@ public class DataValueDAOImpl implements DataValueDAO {
 		List<DataValueJoined> joinedValues = query.list();
 		return joinedValues;
 	}
-
 }

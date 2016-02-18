@@ -70,5 +70,10 @@ public class SiteServiceImpl implements SiteService {
 		
 		return siteDao.listSearch(map);
 	}
+	@Override
+	public List<Site> findByIDs(List<Integer> siteIDs) {
+		
+		return siteDao.getByIDs(siteIDs);
+	}
 
 }

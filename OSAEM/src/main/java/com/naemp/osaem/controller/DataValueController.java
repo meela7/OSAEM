@@ -151,6 +151,7 @@ public class DataValueController {
 			
 		Map<String, List<String>> map = new HashMap<String, List<String>>();
 		for (String key : reqMap.keySet()) {
+			logger.info("Parameter: {}, Value:{}", key, reqMap.get(key));
 			if(key.equals("join") && reqMap.get(key).get(0).equals("on"))
 				joinFlag = true;
 			if(variables.contains(key)){

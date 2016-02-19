@@ -1,0 +1,75 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<div class="row content">
+			<div class="col-sm-8 sideav">
+				<h4><strong>Unit List</strong></h4>
+			</div>
+			<div class="col-sm-4 form-inline text-right">
+				<label for="species">Search: </label> 
+				<input type="text" id="search" class="form-control" ng-model="search"
+				placeholder="search... ">
+				</div>
+		</div>
+						
+	</div>
+	<div class="panel-body">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-sm-2 sideav">
+					<div>
+						<h5></h5>
+					</div>
+					<form class="form">
+						<label for="basin" class="control-label">Unit Name: </label> <input
+							type="text" id="unit" class="form-control hasclear"
+							ng-model="search.unitName"> <label
+							for="river" class="control-label ">Unit Name Long: </label> <input
+							type="text" id="unitLong" class="form-control hasclear"
+							ng-model="search.unitNameLong"> 
+
+					</form>
+				</div>
+				<div class="col-sm-10 text-left">
+					<table class="table table-striped">
+						<thead>
+							<tr class="paginationclass">
+								<th>ID</th>
+								<th>Unit Name</th>
+								<th>Unit Name (Long)</th>
+								<th colspan="2">
+									<button ng-click="createUnit()" class="btn btn-sm btn-info pull-right">
+										<span class="glyphicon glyphicon-plus"></span> Create Unit
+									</button>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="paginationclass"
+								ng-repeat="unit in units | filter:search | pagination: (currentPage-1) * numPerPage | limitTo: numPerPage">
+								<td>{{ unit.unitID }}</td>
+								<td>{{ unit.unitName }}</td>
+								<td>{{ unit.unitNameLong }}</td>
+								<td>
+									<div class="form-inline pull-right">
+										<button type="button" ng-click="editUnit(unit.unitID )"
+											class="btn btn-sm btn-info">
+											<span class="glyphicon glyphicon-edit"></span> Edit
+										</button>
+										<button type="button" ng-click="deleteUnit(unit.unitID )"
+											class="btn btn-sm btn-warning">
+											<span class="glyphicon glyphicon-trash"></span> Delete
+										</button>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		<div align="center">
+			<pagination ng-model="currentPage" total-items="features.length"
+				max-size="maxSize" items-per-page="numPerPage" boundary-links="true">
+			</pagination>
+		</div>
+	</div>
+</div>

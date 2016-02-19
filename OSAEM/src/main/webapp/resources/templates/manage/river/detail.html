@@ -1,0 +1,76 @@
+<div class="panel panel-info">
+	<div class="panel-heading">River Detail</div>
+	<div class="panel-body">
+		<form novalidate="novalidate" class="form-horizontal">
+			<div class="form-group">
+				<label for="riverID" class="col-sm-2 control-label">RiverID:</label>
+				<div class="col-sm-10">
+					<p class="form-control-static">{{river.riverID}}</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="riverName" class="col-sm-2 control-label">RiverName:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="river.riverName"
+						   class="form-control" id="riverName" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="basin" class="col-sm-2 control-label">Basin:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="river.basin" class="form-control"
+						   id="basin" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="waterSystem" class="col-sm-2 control-label">WaterSystem:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="river.waterSystem" class="form-control"
+						   id="waterSystem" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="midWatershed" class="col-sm-2 control-label">Mid-Watershed:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="river.midWatershed" class="form-control"
+						   id="midWatershed" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="subWatershed" class="col-sm-2 control-label">Sub-Watershed:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="river.subWatershed" class="form-control"
+						   id="subWatershed" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="classification" class="col-sm-2 control-label">Classification:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="river.classification"
+						   class="form-control" id="classification" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="imageLink" class="col-sm-2 control-label">Image:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="river.image"
+						   class="form-control" id="imageLink" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="Description" class="col-sm-2 control-label">Description:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="river.description"
+						   class="form-control" id="Description" placeholder="" />
+				</div>
+			</div>
+			<div class="btn-group btn-md pull-right">
+				<button type="button" ng-click="updateRiver(river.riverID)"
+					class="btn btn-info">
+					<span class="glyphicon glyphicon-edit"></span> Save
+				</button>
+				<button type="button" ng-click="cancel()" class="btn btn-warning">Cancel</button>
+			</div>
+		</form>
+	</div>
+</div>

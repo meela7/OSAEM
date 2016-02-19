@@ -1,0 +1,121 @@
+
+<div class="panel panel-info">
+	<div class="panel-heading">Fish Detail</div>
+	<div class="panel-body">
+		<form novalidate="novalidate" class="form-horizontal">
+			<div class="form-group">
+				<label for="fishID" class="col-sm-2 control-label">FishID: </label>
+				<div class="col-sm-10">
+					<p class="form-control-static">{{fish.fishID}}</p>
+				</div>
+			</div>
+			
+			<div class="form-group">
+				<label for="fishClass" class="col-sm-2 control-label">Class: </label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.fishClass" class="form-control"
+						id="fishClass" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="order" class="col-sm-2 control-label">Order: </label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.order" class="form-control"
+						id="order" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="family" class="col-sm-2 control-label">Family: </label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.family" class="form-control"
+						id="family" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="scientifucName" class="col-sm-2 control-label">ScientificName: </label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.scientificName" class="form-control"
+						id="scientifucName" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="species" class="col-sm-2 control-label">Species:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.species" class="form-control"
+						id="species" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="toleranceGuild" class="col-sm-2 control-label">Tolerance Guild:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.toleranceGuild" class="form-control"
+						id="toleranceGuild" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="trophicGuild" class="col-sm-2 control-label">Trophic Guild:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.trophicGuild" class="form-control"
+						id="trophicGuild" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="habitatGuild" class="col-sm-2 control-label">Habitat Guild:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.habitatGuild" class="form-control"
+						id="habitatGuild" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="invasiveSpecies" class="col-sm-2 control-label">Invasive Species:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.invasiveSpecies" class="form-control"
+						id="invasiveSpecies" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="endemicSpecies" class="col-sm-2 control-label">Endemic Species:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.endemicSpecies" class="form-control"
+						id="endemicSpecies" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="endangeredSpecies" class="col-sm-2 control-label">EndangeredSpecies: </label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.endangeredSpecies" class="form-control"
+						id="endangeredSpecies" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="natureMonument" class="col-sm-2 control-label">Nature Monument:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.natureMonument" class="form-control"
+						id="natureMonument" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="imageLink" class="col-sm-2 control-label">Image:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.imageLink" class="form-control"
+						id="imageLink" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="description" class="col-sm-2 control-label">Description:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="fish.description" class="form-control"
+						id=""description"" placeholder="" />
+				</div>
+			</div>
+
+			<div class="btn-group btn-md pull-right">
+				<button type="button" ng-click="updateFish(fish)"
+					class="btn btn-info">
+					<span class="glyphicon glyphicon-edit"></span> Save
+				</button>
+				<button type="button" ng-click="cancel()" class="btn btn-warning">Cancel</button>
+			</div>
+		</form>
+	</div>
+</div>

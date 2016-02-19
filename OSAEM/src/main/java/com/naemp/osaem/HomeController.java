@@ -1,4 +1,4 @@
-package com.naemp.osaem.controller;
+package com.naemp.osaem;
 
 import java.text.DateFormat;
 import java.util.Date;

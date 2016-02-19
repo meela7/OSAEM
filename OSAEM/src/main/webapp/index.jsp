@@ -13,7 +13,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title> OSAEM - Open, Sharable and Extensible Data Management System </title>
 
-<link href="resources/css/naemp.css" rel="stylesheet">
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -45,27 +44,13 @@
 <!-- Smart Table -->
 <script	src="https://cdnjs.cloudflare.com/ajax/libs/angular-smart-table/2.1.7/smart-table.js"></script>
 
-<script type="text/javascript">
-	// Dropdown Menu Fade    
-	jQuery(document).ready(function() {
-		$(".dropdown").hover(function() {
-			$('.dropdown-menu', this).stop().fadeIn("fast");
-		}, function() {
-			$('.dropdown-menu', this).stop().fadeOut("fast");
-		});
-	});
+<!-- Fusion Chart -->
+<script	src="resources/js/fusioncharts/fusioncharts.js"></script>
+<script	src="resources/js/fusioncharts/angular-fusioncharts.min.js"></script>
 
-	// Needle in Haystack
-	function inArray(needle, haystack) {
-		var count = haystack.length;
-		for (var i = 0; i < count; i++) {
-			if (haystack[i] === needle) {
-				return true;
-			}
-		}
-		return false;
-	};
-</script>
+<link href="resources/css/naemp.css" rel="stylesheet">
+<script src="resources/js/naemp.js"></script>
+
 </head>
 <body>
 
@@ -104,6 +89,16 @@
 							<li><a href="#search-site"> Search By Site</a></li>
 							<li><a href="#search-fish"> Search By Species</a></li>
 						</ul></li>
+						
+					<li><a href="#/site-map"> <span
+							class="glyphicon glyphicon-globe"></span> Site Map
+					</a>
+					</li>
+					
+					<li><a href="#api"> <span
+							class="glyphicon glyphicon-list-alt"></span> API Doc
+					</a>
+					</li>
 
 				</ul>
 				<ul class="nav navbar-nav navbar-right">

@@ -1,0 +1,59 @@
+body .container {
+	width: 100%;
+}
+
+.navbar {
+	background: #4676B6 !important;
+}
+
+.navbar-inverse {
+	height: 100px;
+	padding-top: 20px
+}
+
+.navbar-brand {
+	font-weight: 800;
+	font-size: 28px;
+}
+
+.navbar-inverse a {
+	color: #ccc !important;
+}
+
+.navbar-inverse a:hover {
+	background: #4676B6 !important;
+}
+
+.navbar-nav a {
+	font-weight: 500;
+	font-size: 20px;
+}
+
+.dropdown-menu {
+	background: #4676B6;
+}
+
+.dropdown-menu.inverse {
+	background: #4676B6;
+}
+
+.dropdown-menu.inverse a {
+	font-weight: 300;
+	font-size: 18px;
+	color: #ccc;
+}
+
+.panel-heading {
+	height: 50px;
+}
+
+.full button span {
+    background-color: limegreen;
+    border-radius: 32px;
+    color: black;
+  }
+  .partially button span {
+    background-color: orange;
+    border-radius: 32px;
+    color: black;
+  }

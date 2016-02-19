@@ -1,0 +1,127 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<h4> Search Data by Fish </h4>
+	</div>
+	<div class="panel-body">
+		<div class="row content">
+			<div class="col-sm-2 sideav">
+				<div class="input-group">
+					<span class="input-group-addon"> <input type="radio"
+						ng-model="radioValue" ng-value="1">
+					</span> <label for="yearSearch" class="form-control"> Annual Data
+					</label>
+				</div>
+				<p></p>
+				<select class="form-control" ng-model="ddlYear"
+					ng-options="o as o for o in years" ng-change="getYear()">
+				</select> <select class="form-control" ng-model="ddlTerm"
+					ng-options="t as t for t in terms" ng-change="getTerm()">
+				</select>
+				<p></p>
+				<div class="input-group">
+					<span class="input-group-addon"> <input type="radio"
+						ng-model="radioValue" ng-value="2">
+					</span> <label for="periodSearch" class="form-control"> Long-Term
+						Data </label>
+				</div>
+				<p></p>
+				<div class="input-group date" id="startTime">
+					<input type="text" class="form-control" placeholder="Date from">
+					<span class="input-group-addon"> <span
+						class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+
+				<div class="input-group date" id="endTime">
+					<input type="text" class="form-control" placeholder="Date to">
+					<span class="input-group-addon"> <span
+						class="glyphicon glyphicon-calendar"></span>
+					</span>
+				</div>
+				<P></P>
+				<div class="btn-group pull-right">
+					<button type="button" ng-click="searchValue()"
+						class="btn btn-info btn-sm">
+						<span class="glyphicon glyphicon-search"></span> Search Value
+					</button>
+				</div>
+				<script type="text/javascript">
+					$(function() {
+						$('#startTime').datetimepicker({
+							format : 'YYYY-MM-DD'
+						});
+						$('#endTime').datetimepicker({
+							format : 'YYYY-MM-DD',
+							useCurrent : false
+						//Important! See issue #1075
+						});
+						$("#startTime").on(
+								"dp.change",
+								function(e) {
+									$('#endTime').data("DateTimePicker")
+											.minDate(e.date);
+								});
+						$("#endTime").on(
+								"dp.change",
+								function(e) {
+									$('#startTime').data("DateTimePicker")
+											.maxDate(e.date);
+								});
+					});
+				</script>
+			</div>
+			<div class="col-sm-10 text-left">
+				<table st-set-filter st-table="displayed"
+					st-safe-src="collection" class="table table-striped">
+					<thead>
+						<tr>
+							<th st-sort="fishClass">Class</th>
+							<th st-sort="order">Order</th>
+							<th st-sort="family">Family</th>
+							<th st-sort="species">Species</th>
+							<th st-sort="toleranceGuild">Tolerance</th>
+							<th st-sort="trophicGuild">Trophic</th>
+							<th st-sort="habitatGuild">Habitat</th>
+							<th st-sort="endemicSpecies">Endemic</th>
+							<th st-sort="endangeredSpecies">Endangered</th>
+						</tr>
+
+						<tr>
+							<th><input st-search="fishClass" class="form-control"
+								type="search"></th>
+							<th><input st-search="order" class="form-control"
+								type="search"></th>
+							<th><input st-search="family" class="form-control"
+								type="search"></th>
+							<th><input st-search="species" class="form-control"
+								type="search"></th>
+							<th><input st-search="toleranceGuild" class="form-control"
+								type="search"></th>
+							<th><input st-search="trophicGuild" class="form-control"
+								type="search"></th>
+							<th><input st-search="habitatGuild" class="form-control"
+								type="search"></th>
+							<th><input st-search="endemicSpecies"
+								class="form-control" type="search"></th>
+							<th><input st-search="endangeredSpecies"
+								class="form-control" type="search"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="fish in displayed">
+							<td>{{ fish.fishClass }}</td>
+							<td>{{ fish.order }}</td>
+							<td>{{ fish.family }}</td>
+							<td>{{ fish.species }}</td>
+							<td>{{ fish.toleranceGuild }}</td>
+							<td>{{ fish.trophicGuild }}</td>
+							<td>{{ fish.habitatGuild }}</td>
+							<td>{{ fish.endemicSpecies }}</td>
+							<td>{{ fish.endangeredSpecies }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

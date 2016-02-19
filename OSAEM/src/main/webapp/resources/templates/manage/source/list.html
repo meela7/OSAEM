@@ -1,0 +1,75 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<div class="row content">
+			<div class="col-sm-8 sideav">
+				<h4><strong>Source List</strong></h4>
+			</div>
+			<div class="col-sm-4 form-inline text-right">
+				<label for="species">Search: </label> 
+				<input type="text" id="search" class="form-control" ng-model="search"
+				placeholder="search... ">
+			</div>
+		</div>						
+	</div>
+	<div class="panel-body">
+		<div class="container-fluid">
+			<div class="row content">
+				<div class="col-sm-2 sideav">
+					<div>
+						<h5></h5>
+					</div>
+					<form class="form">
+						<label for="basin" class="control-label">Institution: </label> <input
+							type="text" id="institution" class="form-control hasclear"
+							ng-model="search.institution"> <label
+							for="river" class="control-label ">Investigator: </label> <input
+							type="text" id="investigator" class="form-control hasclear"
+							ng-model="search.investigator"> 
+					</form>
+				</div>
+				<div class="col-sm-10 text-left">
+					<table class="table table-striped">
+						<thead>
+							<tr class="paginationclass">
+								<th> ID </th>
+								<th>Institution</th>
+								<th>Investigator</th>
+								<th>Phone</th>
+								<th>Email</th>
+								<th colspan="2">
+									<button ng-click="createSource()" class="btn btn-sm btn-info pull-right">
+										<span class="glyphicon glyphicon-plus"></span> Add New Source
+									</button>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr class="paginationclass" ng-repeat="source in sources | filter:search | pagination: (currentPage-1) * numPerPage | limitTo: numPerPage">
+								<td>{{ source.sourceID }}</td>
+								<td>{{ source.institution }}</td>
+								<td>{{ source.investigator }}</td>
+								<td>{{ source.phone }}</td>
+								<td>{{ source.email }}</td>
+								<td><button type="button"
+										ng-click="editSource(source.sourceID)"
+										class="btn btn-sm btn-info">
+										<span class="glyphicon glyphicon-edit"></span> Edit
+									</button></td>
+								<td><button type="button"
+										confirmed-click="deleteSource(source.sourceID)"
+										ng-confirm-box-click="Are you sure to Delete?"
+										class="btn btn-sm btn-warning">
+										<span class="glyphicon glyphicon-trash"></span> Delete
+									</button></td>
+							</tr>
+						</tbody>
+					</table>
+					<div align="center">
+						<pagination ng-model="currentPage" total-items="sites.length"
+							max-size="maxSize" items-per-page="numPerPage"
+							boundary-links="true"> </pagination>
+					</div>
+				</div>
+			</div>
+	</div>
+</div>

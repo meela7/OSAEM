@@ -1,0 +1,90 @@
+<div class="panel panel-info">
+	<div class="panel-heading">Create New Site</div>
+	<div class="panel-body">
+		<form novalidate="novalidate" class="form-horizontal">
+			
+			<div class="form-group">
+				<label for="siteName" class="col-sm-2 control-label">SiteName:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="site.siteName" class="form-control"
+						id="siteName" placeholder="" />
+				</div>
+			</div>			
+			<div class="form-group">
+				<label for="riverName" class="col-sm-2 control-label">RiverName:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="site.river.riverName"
+						class="form-control" id="riverName" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="latitude" class="col-sm-2 control-label">Latitude:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="site.latitude"
+						class="form-control" id="latitude" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="longitude" class="col-sm-2 control-label">Longitude:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="site.longitude"
+						class="form-control" id="longitude" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="streamOrder" class="col-sm-2 control-label">StreamOrder:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="site.streamOrder" class="form-control"
+						id="streamOrder" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="streamGrade" class="col-sm-2 control-label">StreamGrade:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="site.streamGrade" class="form-control"
+						id="streamGrade" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="address" class="col-sm-2 control-label">Address:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="site.address" class="form-control"
+						id="address" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="standardStructure" class="col-sm-2 control-label">Structure:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="site.standardStructure"
+						class="form-control" id="standardStructure" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="WQMN" class="col-sm-2 control-label">WQMN:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="site.wqmn"
+						class="form-control" id="WQMN" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="image" class="col-sm-2 control-label">Image:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="site.image"
+						class="form-control" id="image" placeholder="" />
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="description" class="col-sm-2 control-label">Description:</label>
+				<div class="col-sm-10">
+					<input type="text" ng-model="site.description"
+						class="form-control" id="description" placeholder="" />
+				</div>
+			</div>
+
+			<div class="btn-group btn-md pull-right">
+				<button type="button" ng-click="createSite()" class="btn btn-info ">Create</button>
+				<button type="button" ng-click="cancel()" class="btn btn-warning">Cancel</button>
+			</div>
+		</form>
+	</div>
+</div>

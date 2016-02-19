@@ -1,0 +1,71 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<div class="row content">
+			<div class="col-sm-8 sideav">
+				<h4>Search Result</h4>
+			</div>
+			<div class="col-sm-4 form-inline text-right">
+				<button back class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-arrow-left"></span> Back
+				</button>
+				<button type="button" ng-click="viewInGraph()"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-stats"></span> Graph
+				</button>
+				<button type="button" ng-click="viewInMap()"
+					class="btn btn-default btn-sm">
+					<span class="glyphicon glyphicon-pushpin"></span> Map
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="panel-body">
+		<!-- <div id="chart-container" width="400" height="300"></div> -->
+		<div ng-show="barChart">
+			<fusioncharts
+			    width="100%"
+			    type="mscolumn2d"
+				categories="{{categories}}"
+				dataset="{{dataset}}"
+			></fusioncharts>
+		</div>
+		<table st-set-filter st-table="displayed" st-safe-src="collection"
+			class="table table-striped">
+			<thead>
+				<tr>
+					<th st-sort="siteID.siteName">Location</th>
+					<th st-sort="featureID.featureName">Species</th>
+					<th st-sort="variableID.variableName">Type</th>
+					<th st-sort="dateTime">Date Time</th>
+					<th st-sort="dataValue">Result Value</th>
+				</tr>
+
+				<tr>
+					<th><input class="form-control" st-search="siteID.siteName"></th>
+					<th><input class="form-control"
+						st-search="featureID.featureName"></th>
+					<th><input class="form-control"
+						st-search="variableID.variableName"></th>
+					<th><input class="form-control" st-search="dateTime"></th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="value in displayed">
+					<td>{{ value.siteID.siteName }}</td>
+					<td>{{ value.featureID.featureName }}</td>
+					<td>{{ value.variableID.variableName }}</td>
+					<td>{{ value.dateTime.slice(0,10) }}</td>
+					<td>{{ value.dataValue }}</td>
+				</tr>
+			</tbody>
+			<!-- <tfoot>
+				<tr>
+					<td colspan="5" class="text-center">
+						<div st-items-by-page="20" st-pagination=""></div>
+					</td>
+				</tr>
+			</tfoot> -->
+		</table>
+	</div>
+</div>

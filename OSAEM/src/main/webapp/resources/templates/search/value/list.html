@@ -20,11 +20,13 @@
 		</div>
 	</div>
 	<div class="panel-body">
-		<!-- <div id="chart-container" width="400" height="300"></div> -->
-		<div ng-show="barChart">
+		<div ng-show="fusionChart">
+			<select class="form-control" ng-model="selectedItem"
+						ng-options="item as item for item in items" ng-change="viewInGraph()"></select>
 			<fusioncharts
 			    width="100%"
-			    type="mscolumn2d"
+			    type="{{type}}"
+			    chart="{{chart}}"
 				categories="{{categories}}"
 				dataset="{{dataset}}"
 			></fusioncharts>

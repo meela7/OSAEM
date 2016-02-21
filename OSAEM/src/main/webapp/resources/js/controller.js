@@ -185,7 +185,7 @@ naempApp.controller('SiteValueMapCtrl',[
 	   		 			var msg = points[i].message;
 	   		 			var point = points[i];
 	   		 			var dateList = [];
-		   		 		for(var j = 0; j < data.length; ++j){	  						
+		   		 		for(var j = 0; j < data.length; j++){	  						
 	  						 var value = data[j];
 	  						if(value.siteID.siteID == point.id ){
 	  							if(!inArray(value.dateTime, dateList)){
@@ -309,7 +309,7 @@ naempApp.controller('TermSiteValueMapCtrl',[
 	   		 			var msg = points[i].message + '<hr/> <strong>' + $routeParams.year + ' / ' + $routeParams.term + '</strong><br/> ';
 	   		 			var point = points[i];
 	   		 		
-		   		 		for(var j = 0; j < data.length; ++j){	  						
+		   		 		for(var j = 0; j < data.length; j++){	  						
 	  						 var value = data[j];
 	  						if(value.siteID.siteID == point.id ){
 	  							
@@ -433,7 +433,7 @@ naempApp.controller('FishValueMapCtrl',[
 	   		 			var msg = points[i].message;
 	   		 			var point = points[i];
 	   		 			var dateList = [];
-		   		 		for(var j = 0; j < data.length; ++j){	  						
+		   		 		for(var j = 0; j < data.length; j++){	  						
 	  						 var value = data[j];
 	  						if(value.siteID.siteID == point.id ){
 	  							if(!inArray(value.dateTime, dateList)){
@@ -642,7 +642,7 @@ naempApp.controller('ValueSearchBySiteCtrl', [
 		'ValueSearchService',
 		'$location',
 		function($scope, $routeParams, ValueSearchService, $location) {
-
+			
 			var text = '{"join": ["on"], "dateTime" : ["' + $routeParams.start
 					+ ', ' + $routeParams.end + '"],"siteID" : ['
 					+ $routeParams.id + ']}';
@@ -651,9 +651,103 @@ naempApp.controller('ValueSearchBySiteCtrl', [
 
 			$scope.itemsByPage = 15;
 			$scope.displayed = [].concat($scope.collection);
-			
+
+			$scope.fusionChart = false;
+			$scope.type = "mscolumn2d";
+			$scope.chart = {
+ 		       "rotateValues": "1"
+ 		    };
+			$scope.categories = [{
+			     "category": [
+		         {
+		             "label": ""
+		         }]}];
+			$scope.dataset = [{ "seriesname": "", 
+				     "data": [
+				         {
+				             "value": ""
+				         }]}];
+					
 			$scope.viewInGraph = function() {
-				
+				$scope.fusionChart = true;
+				 
+				// setting line chart - default graph is for the first site
+				// x-axis: Year-Term y-axis: variable value spline: variable column: fish
+				var sIDs = [];
+		 		var siteNames = [];
+		 		var term = [];
+		 		var fvNames = [];
+		 		
+		 		for(var i = 0; i < $scope.displayed.length; i++){	  						
+					var value = $scope.displayed[i];
+					if(!inArray(value.siteID.siteID, sIDs)){
+						sIDs.push(value.siteID.siteID);
+						siteNames.push(value.siteID.siteName);
+					}
+		 		}
+		 		
+		 		$scope.items = siteNames;
+		 		if($scope.selectedItem == null || $scope.selectedItem == "")
+		 			$scope.selectedItem = siteNames[0];
+		 		
+		 		for(var i = 0; i < $scope.displayed.length; i++){	
+		 			var value = $scope.displayed[i];
+		 			console.log($scope.selectedItem);
+		 			if(value.siteID.siteName == $scope.selectedItem){
+						var timestamp = value.surveyYear + '-' + value.surveyTerm;
+						if(!inArray(timestamp, term)){
+							term.push(timestamp);
+						}
+						
+						if(value.featureID.featureType == "Water"){
+		 					if(!inArray(value.variableID.variableName, fvNames))
+		 						fvNames.push(value.variableID.variableName);
+		 				}else if(value.featureID.featureType == "Fish"){
+		 					if(!inArray(value.featureID.featureName, fvNames))
+		 						fvNames.push(value.featureID.featureName);
+		 				}
+		 			}
+		 		}
+		 		
+		 		var categoryText = '[{"category": [';
+		 		for(var i = 0; i<term.length; i++){
+		 			categoryText += '{"label": "' + term[i] + '"}';
+		 			if(i == term.length-1)
+		 				categoryText += ']}]';
+		 			else
+		 				categoryText += ',';
+		 				
+		 		}
+
+				var datasetText = '[';
+	 			for(var k = 0; k<fvNames.length; k++){
+	 				datasetText = datasetText + '{ "seriesname": "' + fvNames[k] + '", "data": [';
+	 				
+ 					for(var i = 0; i<term.length; i++){
+ 						var flag = false;
+		 				for(var j = 0; j < $scope.displayed.length; j++){
+				 			var value = $scope.displayed[j];
+				 			if(value.siteID.siteName == $scope.selectedItem && term[i] == (value.surveyYear + '-' + value.surveyTerm)){
+				 				if(value.variableID.variableName == fvNames[k] || value.featureID.featureName == fvNames[k]){
+				 					datasetText = datasetText + '{"value": ' + value.dataValue + '},';
+				 				}
+				 			}
+			 			}
+		 				if(!flag)
+		 					datasetText = datasetText + '{"value": "" },';
+	 				}
+		 			
+	 				var temp = datasetText.substring(0,datasetText.length-1);
+	 				
+	 				datasetText = temp + ']},';
+	 			}
+			 	
+		 		temp = datasetText.substring(0,datasetText.length-1);
+		 		datasetText = temp + ']';
+		 		
+		 		$scope.categories = JSON.parse(categoryText);
+		 		$scope.dataset = JSON.parse(datasetText);
+		 		
 			};
 			
 			$scope.viewInMap = function() {
@@ -667,7 +761,7 @@ naempApp.controller('TermValueSearchBySiteCtrl', [
 		'ValueSearchService',
 		'$location',
 		function($scope, $routeParams, ValueSearchService, $location) {
-			$scope.barChart = false;
+			
 			var text = '{"join": ["on"], "surveyYear" : [' + $routeParams.year
 					+ '], "surveyTerm" : [' + $routeParams.term
 					+ '], "siteID" : [' + $routeParams.id + ']}';
@@ -676,81 +770,36 @@ naempApp.controller('TermValueSearchBySiteCtrl', [
 
 			$scope.itemsByPage = 15;
 			$scope.displayed = [].concat($scope.collection);
-
 			
-//	 		var data = [
-//				[
-//				 {
-//				     "category": [
-//				         {
-//				             "label": "7/18/2014 9:30:01 AM"
-//				         },
-//				         {
-//				             "label": "7/18/2014 9:40:00 AM"
-//				         },
-//				         {
-//				             "label": "7/18/2014 9:50:00 AM"
-//				         }
-//				     ]
-//				 },
-//				 null,
-//				 null
-//				],
-//				[
-//				 null,
-//				 {
-//				     "seriesname": "Free_Memory",
-//				     "data": [
-//				         {
-//				             "value": "6632"
-//				         },
-//				         {
-//				             "value": "5136"
-//				         },
-//				         {
-//				             "value": "6376"
-//				         }
-//				     ]
-//				 },
-//				 {
-//				     "seriesname": "Page_Life_Exp",
-//				     "data": [
-//				         {
-//				             "value": "48859"
-//				         },
-//				         {
-//				             "value": "49458"
-//				         },
-//				         {
-//				             "value": "50057"
-//				         }
-//				     ]
-//				 }
-//				]
-//			];
+			$scope.fusionChart = false;
+			$scope.type = "mscolumn2d";
+			$scope.chart = {
+ 		       "rotateValues": "1"
+ 		    };
 			$scope.categories = [{
 			     "category": [
 		         {
-		             "label": "7/18/2014 9:30:01 AM"
+		             "label": ""
 		         }]}];
-			$scope.dataset = [{ "seriesname": "Free_Memory",
+			$scope.dataset = [{ "seriesname": "",
 				     "data": [
 				         {
-				             "value": "6632"
+				             "value": ""
 				         }]}];
 					
 			$scope.viewInGraph = function() {
-				$scope.barChart = true;
+				
+				$scope.fusionChart = true;
 				// setting bar chart
 				var sIDs = [];
-		 		var siteList = [];
+		 		var siteNames = [];
 		 		var fvNames = [];
-		 		var categoryText = '[{"category": [';
+		 		
 		 		for(var i = 0; i < $scope.displayed.length; i++){	  						
 					var value = $scope.displayed[i];
 					if(!inArray(value.siteID.siteID, sIDs)){
 						sIDs.push(value.siteID.siteID);
-						siteList.push(value.siteID);
+						siteNames.push(value.siteID.siteName);
 					}
 					if(value.featureID.featureType == "Water"){
 	 					if(!inArray(value.variableID.variableName, fvNames))
@@ -759,12 +808,12 @@ naempApp.controller('TermValueSearchBySiteCtrl', [
 	 					if(!inArray(value.featureID.featureName, fvNames))
 	 						fvNames.push(value.featureID.featureName);
 	 				}
-		 		}
+	 			}
 		 		
-		 		for(var i = 0; i<siteList.length; i++){
-//		 			$scope.categories.category[i].label = siteList[i].siteName;
-		 			categoryText += '{"label": "' + siteList[i].siteName + '"}';
-		 			if(i == siteList.length-1)
+		 		var categoryText = '[{"category": [';
+		 		for(var i = 0; i<siteNames.length; i++){
+		 			categoryText += '{"label": "' + siteNames[i] + '"}';
+		 			if(i == siteNames.length-1)
 		 				categoryText += ']}]';
 		 			else
 		 				categoryText += ',';
@@ -774,19 +823,21 @@ naempApp.controller('TermValueSearchBySiteCtrl', [
 				var datasetText = '[';
 		 		
 		 			for(var k = 0; k<fvNames.length; k++){
-//		 				$scope.dataset[k].seriesName = fvNames[k];
-		 				datasetText = datasetText + '{ "seriesname": "' + fvNames[k] + '", "data": ['
+		 				datasetText = datasetText + '{ "seriesname": "' + fvNames[k] + '", "data": [';
 				 		
 			 			for(var i = 0; i<sIDs.length; i++){
-			 				for(var j = 0; j < $scope.displayed.length; ++j){
+			 				var flag = false;
+			 				for(var j = 0; j < $scope.displayed.length; j++){
 					 			var value = $scope.displayed[j];
 					 			if(value.siteID.siteID == sIDs[i] ){
 					 				if(value.variableID.variableName == fvNames[k] || value.featureID.featureName == fvNames[k]){
-	//				 					$scope.dataset.data[k].value = value.dataValue;
 					 					datasetText += '{"value": ' + value.dataValue + '},';
+					 					flag = true;
 					 				}
 					 			}
 				 			}
+			 				if(!flag)
+			 					datasetText += '{"value": "" },';
 				 		}
 		 				var temp = datasetText.substring(0,datasetText.length-1);
 		 				datasetText = temp + ']},';
@@ -798,11 +849,11 @@ naempApp.controller('TermValueSearchBySiteCtrl', [
 		 		$scope.categories = JSON.parse(categoryText);
 		 		$scope.dataset = JSON.parse(datasetText);
 		 		
-			}
+			};
 			
 			$scope.viewInMap = function() {				
 				$location.path("/site-term/map/" + $routeParams.year + "/" + $routeParams.term + "/" + $routeParams.id );
-			}
+			};
 			
 		} ]);
 
@@ -861,13 +912,106 @@ naempApp.controller('SearchByFishCtrl', [
  		function($scope, $routeParams, ValueSearchService, $location) {
 
  			var text = '{"join": ["on"], "dateTime" : ["' + $routeParams.start
- 					+ ', ' + $routeParams.end + '"],"featureID" : ['
+ 					+ ', ' + $routeParams.end + '"], "featureID" : ['
  					+ $routeParams.id + ']}';
  			var obj = JSON.parse(text);
  			$scope.collection = ValueSearchService.query(obj);
 
  			$scope.itemsByPage = 15;
  			$scope.displayed = [].concat($scope.collection);
+			
+ 			$scope.fusionChart = false;
+			$scope.type = "mscolumn2d";
+			$scope.chart = {
+				"theme" : "fint",
+ 		       	"rotateValues": "1"
+ 		    };
+			$scope.categories = [{
+			     "category": [
+		         {
+		             "label": ""
+		         }]}];
+			$scope.dataset = [{ "seriesname": "", 
+				     "data": [
+				         {
+				             "value": ""
+				         }]}];
+					
+			$scope.viewInGraph = function() {
+				$scope.fusionChart = true;
+				 
+				// setting line chart - default graph is for the first site
+				// x-axis: Year-Term y-axis: variable value spline: variable column: fish
+				var fIDs = [];
+		 		var featureNames = [];
+		 		var term = [];
+		 		var sNames = [];
+		 		
+		 		for(var i = 0; i < $scope.displayed.length; i++){	  						
+					var value = $scope.displayed[i];
+					if(!inArray(value.featureID.featureID, fIDs)){
+						fIDs.push(value.featureID.featureID);
+						featureNames.push(value.featureID.featureName);
+					}
+					if(!inArray(value.siteID.siteName, sNames))
+	 					sNames.push(value.siteID.siteName);
+		 		}
+		 		
+		 		$scope.items = featureNames;
+		 		if($scope.selectedItem == null || $scope.selectedItem == "")
+		 			$scope.selectedItem = featureNames[0];
+		 		
+		 		for(var i = 0; i < $scope.displayed.length; i++){	
+		 			var value = $scope.displayed[i];
+		 			if(value.featureID.featureName == $scope.selectedItem){
+						var timestamp = value.surveyYear + '-' + value.surveyTerm;
+						if(!inArray(timestamp, term)){
+							term.push(timestamp);
+						}
+		 			}
+		 		}
+		 		
+		 		var categoryText = '[{"category": [';
+		 		for(var i = 0; i<term.length; i++){
+		 			categoryText += '{"label": "' + term[i] + '"}';
+		 			if(i == term.length-1)
+		 				categoryText += ']}]';
+		 			else
+		 				categoryText += ',';
+		 				
+		 		}
+
+				var datasetText = '[';
+	 			for(var k = 0; k<sNames.length; k++){
+	 				datasetText = datasetText + '{ "seriesname": "' + sNames[k] + '", "data": [';
+	 				
+ 					for(var i = 0; i<term.length; i++){
+ 						var flag = false;
+		 				for(var j = 0; j < $scope.displayed.length; j++){
+				 			var value = $scope.displayed[j];
+				 			if(value.featureID.featureName == $scope.selectedItem && term[i] == (value.surveyYear + '-' + value.surveyTerm)){
+				 				if(value.siteID.siteName == sNames[k]){
+				 					datasetText = datasetText + '{"value": ' + value.dataValue + '},';
+				 					flag = true;
+				 				}
+				 			}
+			 			}
+		 				if(!flag)
+		 					datasetText = datasetText + '{"value": "" },';
+	 				}
+		 			
+	 				var temp = datasetText.substring(0,datasetText.length-1);
+	 				
+	 				datasetText = temp + ']},';
+	 			}
+			 	
+		 		temp = datasetText.substring(0,datasetText.length-1);
+		 		datasetText = temp + ']';
+		 		console.log(datasetText);
+		 		$scope.categories = JSON.parse(categoryText);
+		 		$scope.dataset = JSON.parse(datasetText);
+		 		
+			};
 			
  			$scope.viewInMap = function() {
 				
@@ -889,6 +1033,81 @@ naempApp.controller('SearchByFishCtrl', [
 
  			$scope.itemsByPage = 15;
  			$scope.displayed = [].concat($scope.collection);
+ 			
+ 			$scope.fusionChart = false;
+			$scope.type = "mscolumn2d";
+			$scope.chart = {
+ 		       "rotateValues": "1"
+ 		    };
+ 				
+			$scope.categories = [{
+			     "category": [
+		         {
+		             "label": ""
+		         }]}];
+			$scope.dataset = [{ "seriesname": "",
+				     "data": [
+				         {
+				             "value": ""
+				         }]}];
+					
+			$scope.viewInGraph = function() {
+				
+				$scope.fusionChart = true;
+				// setting bar chart
+				var fIDs = [];
+		 		var featureNames = [];
+		 		var sNames = [];
+		 		
+		 		for(var i = 0; i < $scope.displayed.length; i++){	  						
+					var value = $scope.displayed[i];
+					if(!inArray(value.featureID.featureID, fIDs)){
+						fIDs.push(value.featureID.featureID);
+						featureNames.push(value.featureID.featureName);
+					}
+					if(!inArray(value.siteID.siteName, sNames))
+	 					sNames.push(value.siteID.siteName);
+		 		}
+		 		
+				var categoryText = '[{"category": [';
+		 		for(var i = 0; i<featureNames.length; i++){
+		 			categoryText += '{"label": "' + featureNames[i] + '"}';
+		 			if(i == featureNames.length-1)
+		 				categoryText += ']}]';
+		 			else
+		 				categoryText += ',';
+		 				
+		 		}
+				
+				var datasetText = '[';
+		 		
+	 			for(var k = 0; k<sNames.length; k++){
+	 				datasetText = datasetText + '{ "seriesname": "' + sNames[k] + '", "data": [';
+			 		console.log(sNames[k]);
+		 			for(var i = 0; i<featureNames.length; i++){
+		 				var flag = false;
+		 				for(var j = 0; j < $scope.displayed.length; j++){
+				 			var value = $scope.displayed[j];
+				 			if(value.featureID.featureName == featureNames[i] && value.siteID.siteName == sNames[k]){
+				 				datasetText += '{"value": ' + value.dataValue + '},';
+				 				flag = true;
+				 			}
+			 			}
+		 				if(!flag)
+		 					datasetText += '{"value": "" },';
+			 		}
+	 				var temp = datasetText.substring(0,datasetText.length-1);
+	 				datasetText = temp + ']},';
+	 			}
+			 	
+		 		temp = datasetText.substring(0,datasetText.length-1);
+		 		datasetText = temp + ']';
+		 		
+		 		$scope.categories = JSON.parse(categoryText);
+		 		$scope.dataset = JSON.parse(datasetText);
+		 		
+			};
+ 			
  			
  			$scope.viewInMap = function() {
 				

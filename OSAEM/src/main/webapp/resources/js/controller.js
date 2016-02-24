@@ -280,7 +280,7 @@ naempApp.controller('TermSiteValueMapCtrl',[
 						lat : parseFloat(d.latitude),
 						lng : parseFloat(d.longitude),
 						message : '<div class="panel panel-default"><div class="panel-heading"> <h4>'
-								+ d.siteName + '</h4></div><div class="panel-body"> <a href="#/site-period/' + $routeParams.start + '/' + $routeParams.end + '/' + $routeParams.id 
+								+ d.siteName + '</h4></div><div class="panel-body"> <a href="#/site-term/' + $routeParams.year + '/' + $routeParams.term + '/' + $routeParams.id 
 									+ '" > '+ d.river.midWatershed + ', '+ d.river.subWatershed + '</a>'
 
 						};
@@ -304,33 +304,30 @@ naempApp.controller('TermSiteValueMapCtrl',[
    		        headers: {'Content-Type': 'application/json'}
    		    }).success(function(data, status, headers, config) {
 	   		 	if( data ) {
-	   		 		console.log(data);
 	   		 		for(var i = 0; i<points.length; i++){
 	   		 			var msg = points[i].message + '<hr/> <strong>' + $routeParams.year + ' / ' + $routeParams.term + '</strong><br/> ';
 	   		 			var point = points[i];
 	   		 		
 		   		 		for(var j = 0; j < data.length; j++){	  						
-	  						 var value = data[j];
+	  						var value = data[j];
+	  						console.log(value.siteID.siteName);
 	  						if(value.siteID.siteID == point.id ){
 	  							
 	  							if (value.featureID.featureType == "Water"){	  								
-	  								msg = msg + value.variableID.variableName + ':' + value.dataValue + '</br>';
+	  								msg = msg + value.variableID.variableName + ':     ' + value.dataValue + '</br>';
 	  								
-	  							}
-	  							if  (value.featureID.featureType == "Fish"){
-	  								msg = msg + value.featureID.featureName + ':' + value.dataValue + '</br>';
+	  							}else if  (value.featureID.featureType == "Fish"){
+	  								msg = msg + value.featureID.featureName + ':     ' + value.dataValue + '</br>';
 	  							}
 	  						}
 	  					}
 		   		 		points[i].message = msg + '</div></div>';
 	   		 		}
-	   		 		
-	   		 		
+	   		 			   		 		
 	   		 		angular.extend($scope, {
 	   		 			markers : points
 	   		 		});	
-	   			}
-	   			else {
+	   			}else {
 	   				/* 통신한 URL에서 데이터가 넘어오지 않았을 때 처리 */
 	   				console.log("No Response Data");
 	   			}
@@ -697,6 +694,7 @@ naempApp.controller('ValueSearchBySiteCtrl', [
 						var timestamp = value.surveyYear + '-' + value.surveyTerm;
 						if(!inArray(timestamp, term)){
 							term.push(timestamp);
+							console.log(timestamp);
 						}
 						
 						if(value.featureID.featureType == "Water"){

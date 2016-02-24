@@ -18,7 +18,9 @@ var manageResource = resourceRoot + '/manage';
 //observation data search configuration
 
 naempApp.config([ '$routeProvider', function($routeProvider) {
-	$routeProvider.when('/api', {				
+	$routeProvider.when('/', {				
+		templateUrl : resourceRoot + '/home.jsp'
+	}).when('/api', {				
 		templateUrl : resourceRoot + '/api.jsp'
 	}).when('/search-site', {				// first page for search by site
 		templateUrl : searchResource + '/site/list.html',

@@ -126,6 +126,7 @@ public class Fish {
 	public void setFeature(Feature feature) {
 		Feature = feature;
 	}
+	
 	@Override
 	public String toString() {
 		return "Fish [FishID=" + FishID + ", FishClass=" + FishClass + ", Order=" + Order + ", Family=" + Family

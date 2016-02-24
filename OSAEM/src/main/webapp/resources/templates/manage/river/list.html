@@ -1,93 +1,85 @@
 <div class="panel panel-info">
 	<div class="panel-heading">
-		<div class="row content">
-			<div class="col-sm-8 sideav">
-				<h4>
-					<strong>River List</strong>
-				</h4>
-			</div>
-			<div class="col-sm-4 form-inline text-right">
-
-				<label for="species"> Search: </label> <input
-					type="text" id="search" class="form-control" ng-model="search"
-					placeholder="search... ">
-			</div>
+		River List
+		<div class="form-inline pull-right">
+			<label for="search"> Search: </label> <input type="text" id="search"
+				class="form-control" ng-model="search" placeholder="search... " />
 		</div>
 	</div>
 	<div class="panel-body">
-		<div class="container-fluid">
-			<div class="row content">
-				<div class="col-sm-2 sideav">
-					<div><h5> </h5></div>
-					<form class="form">
-						<label for="basinSearch">Basin:</label> <input type="text"
-							id="basinSearch" class="form-control" ng-model="search.basin"> 
-						<label for="midSearch">Mid-Watershed:</label> <input
-							type="text" id="midSearch" class="form-control"
-							ng-model="search.midWatershed"> 
-						<label
-							for="subSearch">Sub-Watershed:</label> <input type="text" id="subSearch"
-							class="form-control" ng-model="search.subWatershed"> 
-						<label for="classSearch">Stream Type:</label>
-						<input type="text" id="classSearch" class="form-control"
-							ng-model="search.classification">
-				
-					</form>
+		<div class="row content">
+			<div class="col-sm-2 sideav">
+				<div>
+					<h5></h5>
 				</div>
-				<div class="col-sm-10 text-left">
-					<table class="table table-striped">
-						<thead>
-							<tr class="paginationclass">
-								<th>ID</th>
-								<th>Basin</th>
-								<th>Water System</th>
-								<th>Mid-Watershed</th>
-								<th>Sub-Watershed</th>
-								<th>River</th>
-								<th>Stream Type</th>
-			
-								<th colspan="2">
-									<button ng-click="createRiver()" class="btn btn-sm btn-info pull-right">
-										<span class="glyphicon glyphicon-plus"></span> Add New River
-									</button>
-								</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr class="paginationclass "
-								ng-repeat="river in rivers | filter:search | pagination: (currentPage-1) * numPerPage | limitTo: numPerPage">
-								<td>{{ river.riverID }}</td>
-								<td>{{ river.basin }}</td>
-								<td>{{ river.waterSystem }}</td>
-								<td>{{ river.midWatershed }}</td>
-								<td>{{ river.subWatershed }}</td>
-								<td>{{ river.riverName }}</td>
-								<td>{{ river.classification }}</td>
-								
-								<td colspan="2">
+				<form class="form">
+					<label for="basinSearch">Basin:</label> <input type="text"
+						id="basinSearch" class="form-control" ng-model="search.basin">
+					<label for="midSearch">Mid-Watershed:</label> <input type="text"
+						id="midSearch" class="form-control" ng-model="search.midWatershed">
+					<label for="subSearch">Sub-Watershed:</label> <input type="text"
+						id="subSearch" class="form-control" ng-model="search.subWatershed">
+					<label for="classSearch">Stream Type:</label> <input type="text"
+						id="classSearch" class="form-control"
+						ng-model="search.classification">
+
+				</form>
+			</div>
+			<div class="col-sm-10 text-left">
+				<table class="table table-striped">
+					<thead>
+						<tr class="paginationclass">
+							<th>ID</th>
+							<th>Basin</th>
+							<th>Water System</th>
+							<th>Mid-Watershed</th>
+							<th>Sub-Watershed</th>
+							<th>River</th>
+							<th>Stream Type</th>
+
+							<th colspan="2">
+								<button ng-click="createRiver()"
+									class="btn btn-sm btn-info pull-right">
+									<span class="glyphicon glyphicon-plus"></span> Add New River
+								</button>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr class="paginationclass "
+							ng-repeat="river in rivers | filter:search | pagination: (currentPage-1) * numPerPage | limitTo: numPerPage">
+							<td>{{ river.riverID }}</td>
+							<td>{{ river.basin }}</td>
+							<td>{{ river.waterSystem }}</td>
+							<td>{{ river.midWatershed }}</td>
+							<td>{{ river.subWatershed }}</td>
+							<td>{{ river.riverName }}</td>
+							<td>{{ river.classification }}</td>
+
+							<td colspan="2">
 								<div class="form-inline pull-right">
-								
+
 									<button type="button" ng-click="editRiver(river.riverID)"
-											class="btn btn-sm btn-info">
-											<span class="glyphicon glyphicon-edit"></span> Detail
-										</button><button type="button"
-											confirmed-click="deleteRiver(river.riverID)"
-											ng-confirm-box-click="Are you sure to Delete?"
-											class="btn btn-sm btn-warning">
-											<span class="glyphicon glyphicon-trash"></span> Delete
-										</button>
-									</div>
-								</td>			
-							</tr>
-						</tbody>
-					</table>
+										class="btn btn-sm btn-info">
+										<span class="glyphicon glyphicon-edit"></span> Detail
+									</button>
+									<button type="button"
+										confirmed-click="deleteRiver(river.riverID)"
+										ng-confirm-box-click="Are you sure to Delete?"
+										class="btn btn-sm btn-warning">
+										<span class="glyphicon glyphicon-trash"></span> Delete
+									</button>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div align="center">
+					<uib-pagination ng-model="currentPage" total-items="rivers.length"
+						max-size="maxSize" items-per-page="numPerPage"
+						boundary-links="true"> </uib-pagination>
 				</div>
 			</div>
-		</div>
-		<div align="center">
-			<pagination ng-model="currentPage" total-items="rivers.length"
-				max-size="maxSize" items-per-page="numPerPage" boundary-links="true">
-			</pagination>
 		</div>
 	</div>
 </div>

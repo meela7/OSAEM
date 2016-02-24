@@ -63,7 +63,7 @@
 					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="#"> NAEMP </a>
+				<a class="navbar-brand" href="#/"> NAEMP </a>
 			</div>
 			<div class="collapse navbar-collapse" id="myNavBar">
 				<ul class="nav navbar-nav">
@@ -102,8 +102,7 @@
 
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#"><span class="glyphicon glyphicon-user"></span>
-							Sign Up</a></li>
+					
 					<li><a href="#"><span class="glyphicon glyphicon-log-in"></span>
 							Login</a></li>
 				</ul>
@@ -119,5 +118,11 @@
 	<script src="resources/js/service.js"></script>
 	<script src="resources/js/filter.js"></script>
 	<script src="resources/js/directive.js"></script>
+	
+
+	<footer class="container-fluid text-center">
+	  <p> Copyright 1999-2016 by <a href="http://www.cilaboratory.org" title="Visit CI Lab">CI Lab</a>. All Rights Reserved</p>		
+	</footer>
+
 </body>
 </html>

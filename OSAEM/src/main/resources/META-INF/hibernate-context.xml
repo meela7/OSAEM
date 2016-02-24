@@ -26,7 +26,7 @@
 		</beans:property>
 
 		<beans:property name="configLocation"
-			value="classpath:/META-INF/hibernate.cfg.xml">
+			value="classpath:META-INF/hibernate.cfg.xml">
 		</beans:property>
 	</beans:bean>
 

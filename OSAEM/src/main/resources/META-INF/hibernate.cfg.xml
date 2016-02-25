@@ -3,7 +3,7 @@
                                          "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
  <session-factory>
-  <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
   <property name="hibernate.show_sql">true</property>
   <mapping resource="META-INF/River.hbm.xml"/>
   <mapping resource="META-INF/Site.hbm.xml"/>

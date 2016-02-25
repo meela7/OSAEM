@@ -117,7 +117,7 @@ naempApp.config([ '$routeProvider', function($routeProvider) {
 		templateUrl : manageResource + '/unit/list.html',
 		controller : 'UnitListCtrl'
 	}).when('/unit-detail/:id', {
-		templateUrl : manageResource + '//unit/detail.html',
+		templateUrl : manageResource + '/unit/detail.html',
 		controller : 'UnitDetailCtrl'
 	}).when('/unit-creation', {
 		templateUrl : manageResource + '/unit/creation.html',

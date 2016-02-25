@@ -47,8 +47,7 @@ public class FishController {
 	@Autowired
 	private FishService fishService;
 
-	// -------------------- Read and Search Fish Collection Resource
-	// --------------------
+	// -------------------- Read and Search Fish Collection Resource --------------------
 	@RequestMapping(value = "/fishes", method = RequestMethod.GET)
 	public ResponseEntity<List<Fish>> list(@RequestParam(required = false) MultiValueMap<String, String> params) {
 		// read Fish collection resource when there is no parameter.

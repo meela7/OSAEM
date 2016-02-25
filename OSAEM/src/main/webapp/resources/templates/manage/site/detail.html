@@ -17,10 +17,12 @@
 				</div>
 			</div>			
 			<div class="form-group">
-				<label for="riverName" class="col-sm-2 control-label">RiverName:</label>
+				<label for="river" class="col-sm-2 control-label">RiverName:</label>
 				<div class="col-sm-10">
-					<input type="text" ng-model="site.river.riverName"
-						class="form-control" id="riverName" placeholder="" />
+					<p class="form-control-static">{{site.river.riverName}}</p>
+					<select class="form-control" ng-model="site.river"
+						ng-options="item as item.riverName for item in items">
+					</select>
 				</div>
 			</div>
 			<div class="form-group">
@@ -90,7 +92,7 @@
 			
 			<div class="btn-group btn-md pull-right">
 
-				<button type="button" ng-click="updateSite(site.siteID)"
+				<button type="button" ng-click="updateSite(site)"
 					class="btn btn-info">
 					<span class="glyphicon glyphicon-edit"></span> Save
 				</button>

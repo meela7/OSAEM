@@ -89,7 +89,7 @@ naempApp.factory('NewSiteService', function($resource) {
 	})
 });
 naempApp.factory('SiteService', function($resource) {
-	return $resource(contextRoot + '/sites/:id', {}, {
+	return $resource(contextRoot + '/sites/:id', {id : '@id'}, {
 		find : {
 			method : 'GET',
 			params : {
@@ -97,16 +97,10 @@ naempApp.factory('SiteService', function($resource) {
 			}
 		},
 		update : {
-			method : 'PUT',
-			params : {
-				id : '@id'
-			}
+			method : 'PUT'
 		},
 		remove : {
-			method : 'DELETE',
-			params : {
-				id : '@id'
-			}
+			method : 'DELETE'
 		}
 	})
 });
@@ -130,7 +124,7 @@ naempApp.factory('NewRiverService', function($resource) {
 	})
 });
 naempApp.factory('RiverService', function($resource) {
-	return $resource(contextRoot + '/rivers/:id', {}, {
+	return $resource(contextRoot + '/rivers/:id', {id : '@id'}, {
 		find : {
 			method : 'GET',
 			params : {
@@ -138,16 +132,10 @@ naempApp.factory('RiverService', function($resource) {
 			}
 		},
 		update : {
-			method : 'PUT',
-			params : {
-				id : '@id'
-			}
+			method : 'PUT'
 		},
 		remove : {
-			method : 'DELETE',
-			params : {
-				id : '@id'
-			}
+			method : 'DELETE'
 		}
 	})
 });
@@ -172,7 +160,7 @@ naempApp.factory('NewFishService', function($resource) {
 	})
 });
 naempApp.factory('FishService', function($resource) {
-	return $resource(contextRoot + '/fishes/:id', {}, {
+	return $resource(contextRoot + '/fishes/:id', {id : '@id'}, {
 		find : {
 			method : 'GET',
 			params : {
@@ -180,16 +168,10 @@ naempApp.factory('FishService', function($resource) {
 			}
 		},
 		update : {
-			method : 'PUT',
-			params : {
-				id : '@id'
-			}
+			method : 'PUT'
 		},
 		remove : {
-			method : 'DELETE',
-			params : {
-				id : '@id'
-			}
+			method : 'DELETE'
 		}
 	})
 });
@@ -213,7 +195,7 @@ naempApp.factory('NewMethodService', function($resource) {
 	})
 });
 naempApp.factory('MethodService', function($resource) {
-	return $resource(contextRoot + '/methods/:id', {}, {
+	return $resource(contextRoot + '/methods/:id', {id: '@id'}, {
 		find : {
 			method : 'GET',
 			params : {
@@ -221,16 +203,10 @@ naempApp.factory('MethodService', function($resource) {
 			}
 		},
 		update : {
-			method : 'PUT',
-			params : {
-				id : '@id'
-			}
+			method : 'PUT'
 		},
 		remove : {
-			method : 'DELETE',
-			params : {
-				id : '@id'
-			}
+			method : 'DELETE'
 		}
 	})
 });
@@ -254,7 +230,7 @@ naempApp.factory('NewVariableService', function($resource) {
 	})
 });
 naempApp.factory('VariableService', function($resource) {
-	return $resource(contextRoot + '/variables/:id', {}, {
+	return $resource(contextRoot + '/variables/:id', {id: '@id'}, {
 		find : {
 			method : 'GET',
 			params : {
@@ -262,16 +238,10 @@ naempApp.factory('VariableService', function($resource) {
 			}
 		},
 		update : {
-			method : 'PUT',
-			params : {
-				id : '@id'
-			}
+			method : 'PUT'
 		},
 		remove : {
-			method : 'DELETE',
-			params : {
-				id : '@id'
-			}
+			method : 'DELETE'
 		}
 	})
 });
@@ -295,7 +265,7 @@ naempApp.factory('NewUnitService', function($resource) {
 	})
 });
 naempApp.factory('UnitService', function($resource) {
-	return $resource(contextRoot + '/units/:id', {}, {
+	return $resource(contextRoot + '/units/:id', {id: '@id'}, {
 		find : {
 			method : 'GET',
 			params : {
@@ -303,16 +273,10 @@ naempApp.factory('UnitService', function($resource) {
 			}
 		},
 		update : {
-			method : 'PUT',
-			params : {
-				id : '@id'
-			}
+			method : 'PUT'			
 		},
 		remove : {
-			method : 'DELETE',
-			params : {
-				id : '@id'
-			}
+			method : 'DELETE'
 		}
 	})
 });

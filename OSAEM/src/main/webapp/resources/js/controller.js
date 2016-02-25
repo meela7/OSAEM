@@ -1196,10 +1196,8 @@ naempApp
 								$location.path('/site-detail/' + siteID);
 							};
 							// callback for ng-click 'deleteSite':
-							$scope.deleteSite = function(siteID) {
-								SiteService.remove({
-									id : siteID
-								});
+							$scope.deleteSite = function(site) {
+								SiteService.remove({id: site.siteID});
 								$location.path('/site-list');
 							};
 							// callback for ng-click 'createSite':
@@ -1220,13 +1218,11 @@ naempApp
 						} ]);
 
 naempApp.controller('SiteDetailCtrl', [ '$scope', '$routeParams',
-		'SiteService', '$location',
-		function($scope, $routeParams, SiteService, $location) {
+		'SiteService', 'RiverCollectionService', '$location',
+		function($scope, $routeParams, SiteService, RiverCollectionService, $location) {
 			// callback for ng-click 'updateSite':
-			$scope.updateSite = function() {
-				SiteService.update($scope.site, function() {
-					id: site.siteID
-				});
+			$scope.updateSite = function(site) {
+				SiteService.update({id: site.siteID}, site);
 				$location.path('/site-list');
 			};
 			// callback for ng-click 'cancel':
@@ -1236,12 +1232,14 @@ naempApp.controller('SiteDetailCtrl', [ '$scope', '$routeParams',
 			$scope.site = SiteService.find({
 				id : $routeParams.id
 			});
+			$scope.items = RiverCollectionService.find();
 		} ]);
-naempApp.controller('SiteCreationCtrl', [ '$scope', 'NewSiteService',
-		'$location', function($scope, NewSiteService, $location) {
+naempApp.controller('SiteCreationCtrl', [ '$scope', 'NewSiteService', 'RiverCollectionService',
+		'$location', function($scope, NewSiteService,RiverCollectionService, $location) {
+			$scope.items = RiverCollectionService.find();
 			// callback for ng-click 'createSite':
-			$scope.createSite = function() {
-				NewSiteService.create($scope.site);
+			$scope.createSite = function(site) {
+				NewSiteService.create(site);
 				$location.path('/site-list');
 			};
 			$scope.cancel = function() {
@@ -1266,17 +1264,16 @@ naempApp.controller('RiverListCtrl',
 						$location.path('/river-detail/' + riverID);
 					};
 					// callback for ng-click 'deleteRiver':
-					$scope.deleteRiver = function(riverID) {
-						RiverService.remove(riverID);
+					$scope.deleteRiver = function(river) {
+						RiverService.remove({id:river.riverID});
 						$location.path('/river-list');
 					};
 					// callback for ng-click 'createRiver':
-					$scope.createRiver = function() {
+					$scope.createRiver = function(river) {
 						$location.path('/river-creation');
 					};
 
 					$scope.cancel = function() {
-
 						$scope.search = "";
 					};
 
@@ -1292,8 +1289,8 @@ naempApp.controller('RiverDetailCtrl', [ '$scope', '$routeParams',
 		'RiverService', '$location',
 		function($scope, $routeParams, RiverService, $location) {
 			// callback for ng-click 'updateRiver':
-			$scope.updateRiver = function() {
-				RiverService.update($scope.river);
+			$scope.updateRiver = function(river) {
+				RiverService.update({id:river.riverID}, river);
 				$location.path('/river-list');
 			};
 			// callback for ng-click 'cancel':
@@ -1307,8 +1304,8 @@ naempApp.controller('RiverDetailCtrl', [ '$scope', '$routeParams',
 naempApp.controller('RiverCreationCtrl', [ '$scope', 'NewRiverService',
 		'$location', function($scope, NewRiverService, $location) {
 			// callback for ng-click 'createRiver':
-			$scope.createRiver = function() {
-				NewRiverService.create($scope.river);
+			$scope.createRiver = function(river) {
+				NewRiverService.create(river);
 				$location.path('/river-list');
 			};
 			$scope.cancel = function() {
@@ -1336,8 +1333,8 @@ naempApp
 								$location.path('/fish-detail/' + fishID);
 							};
 							// callback for ng-click 'deleteFish':
-							$scope.deleteFish = function(fishID) {
-								FishService.remove(fishID);
+							$scope.deleteFish = function(fish) {
+								FishService.remove({id:fish.fishID});
 								$location.path('/fish-list');
 							};
 							// callback for ng-click 'createFish':
@@ -1355,8 +1352,8 @@ naempApp.controller('FishDetailCtrl', [ '$scope', '$routeParams',
 		'FishService', '$location',
 		function($scope, $routeParams, FishService, $location) {
 			// callback for ng-click 'updateFish':
-			$scope.updateFish = function() {
-				FishService.update($scope.fish);
+			$scope.updateFish = function(fish) {
+				FishService.update({id:fish.fishID},fish);
 				$location.path('/fish-list');
 			};
 			// callback for ng-click 'cancel':
@@ -1370,8 +1367,8 @@ naempApp.controller('FishDetailCtrl', [ '$scope', '$routeParams',
 naempApp.controller('FishCreationCtrl', [ '$scope', 'NewFishService',
 		'$location', function($scope, NewFishService, $location) {
 			// callback for ng-click 'createNewFish':
-			$scope.createFish = function() {
-				NewFishService.create($scope.fish);
+			$scope.createFish = function(fish) {
+				NewFishService.create(fish);
 				$location.path('/fish-list');
 			};
 			$scope.cancel = function() {
@@ -1400,8 +1397,8 @@ naempApp.controller('MethodListCtrl',
 					};
 
 					// callback for ng-click 'deleteMethod':
-					$scope.deleteMethod = function(methodID) {
-						MethodService.remove(methodID);
+					$scope.deleteMethod = function(method) {
+						MethodService.remove({id:method.methodID});
 						$location.path('/method-list');
 					};
 					// callback for ng-click 'createMethod':
@@ -1419,8 +1416,8 @@ naempApp.controller('MethodDetailCtrl', [ '$scope', '$routeParams',
 		'MethodService', '$location',
 		function($scope, $routeParams, MethodService, $location) {
 			// callback for ng-click 'updateFish':
-			$scope.updateMethod = function() {
-				MethodService.update($scope.method);
+			$scope.updateMethod = function(method) {
+				MethodService.update({id:method.methodID}, method);
 				$location.path('/method-list');
 			};
 			// callback for ng-click 'cancel':
@@ -1434,8 +1431,8 @@ naempApp.controller('MethodDetailCtrl', [ '$scope', '$routeParams',
 naempApp.controller('MethodCreationCtrl', [ '$scope', 'NewMethodService',
 		'$location', function($scope, NewMethodService, $location) {
 			// callback for ng-click 'createNewFish':
-			$scope.createMethod = function() {
-				NewMethodService.create($scope.method);
+			$scope.createMethod = function(method) {
+				NewMethodService.create(method);
 				$location.path('/method-list');
 			};
 			$scope.cancel = function() {
@@ -1458,13 +1455,13 @@ naempApp.controller('VariableListCtrl',
 						$scope.search = "";
 					}
 					// callback for ng-click 'editVariable':
-					$scope.editVariable = function(variableID) {
-						$location.path('/variable-detail/' + variableID);
+					$scope.editVariable = function(variable) {
+						$location.path('/variable-detail/' + variable.variableID);
 					};
 
 					// callback for ng-click 'deleteVariable':
 					$scope.deleteVariable = function(variableID) {
-						VariableService.remove(variableID);
+						VariableService.remove({id:variableID});
 						$location.path('/variable-list');
 					};
 					// callback for ng-click 'createVariable':
@@ -1479,11 +1476,11 @@ naempApp.controller('VariableListCtrl',
 
 				} ]);
 naempApp.controller('VariableDetailCtrl', [ '$scope', '$routeParams',
-		'VariableService', '$location',
-		function($scope, $routeParams, VariableService, $location) {
+		'VariableService', 'UnitCollectionService', '$location',
+		function($scope, $routeParams, VariableService, UnitCollectionService, $location) {
 			// callback for ng-click 'updateFeaturee':
-			$scope.updateVariable = function() {
-				VariableService.update($scope.variable);
+			$scope.updateVariable = function(variable) {
+				VariableService.update({id:variable.variableID}, variable);
 				$location.path('/variable-list');
 			};
 			// callback for ng-click 'cancel':
@@ -1493,13 +1490,16 @@ naempApp.controller('VariableDetailCtrl', [ '$scope', '$routeParams',
 			$scope.variable = VariableService.find({
 				id : $routeParams.id
 			});
-
+			$scope.items = UnitCollectionService.find();
 		} ]);
-naempApp.controller('VariableCreationCtrl', [ '$scope', 'NewVariableService',
-		'$location', function($scope, NewVariableService, $location) {
+naempApp.controller('VariableCreationCtrl', [ '$scope', 'NewVariableService', 'UnitCollectionService',
+		'$location', function($scope, NewVariableService, UnitCollectionService, $location) {
+			
+			$scope.items = UnitCollectionService.find();
+			
 			// callback for ng-click 'createNewFeature':
-			$scope.createVariable = function() {
-				NewVariableService.create($scope.variable);
+			$scope.createVariable = function(variable) {
+				NewVariableService.create(variable);
 				$location.path('/variable-list');
 			};
 			$scope.cancel = function() {
@@ -1529,8 +1529,8 @@ naempApp
 							};
 
 							// callback for ng-click 'deleteUnit':
-							$scope.deleteUnit = function(unitID) {
-								UnitService.del(unitID);
+							$scope.deleteUnit = function(unit) {
+								UnitService.remove({id:unit.unitID});
 								$location.path('/unit-list');
 							};
 							// callback for ng-click 'createUnit':
@@ -1548,8 +1548,8 @@ naempApp.controller('UnitDetailCtrl', [ '$scope', '$routeParams',
 		'UnitService', '$location',
 		function($scope, $routeParams, UnitService, $location) {
 			// callback for ng-click 'updateFeaturee':
-			$scope.updateUnit = function() {
-				UnitService.update($scope.unit);
+			$scope.updateUnit = function(unit) {
+				UnitService.update({id:unit.unitID}, unit);
 				$location.path('/unit-list');
 			};
 			// callback for ng-click 'cancel':
@@ -1563,8 +1563,8 @@ naempApp.controller('UnitDetailCtrl', [ '$scope', '$routeParams',
 naempApp.controller('UnitCreationCtrl', [ '$scope', 'NewUnitService',
 		'$location', function($scope, NewUnitService, $location) {
 			// callback for ng-click 'createNewFeature':
-			$scope.createUnit = function() {
-				NewUnitService.create($scope.unit);
+			$scope.createUnit = function(unit) {
+				NewUnitService.create(unit);
 				$location.path('/unit-list');
 			};
 			$scope.cancel = function() {

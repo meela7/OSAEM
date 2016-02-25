@@ -166,12 +166,7 @@ public class UnitController {
 		if (res)
 			return new ResponseEntity<Boolean>(res, HttpStatus.OK);
 		else
-			return new ResponseEntity<Boolean>(res, HttpStatus.CONFLICT); // when
-																			// Unit
-																			// has
-																			// existing
-																			// related
-																			// Sites
+			return new ResponseEntity<Boolean>(res, HttpStatus.CONFLICT); // when Unit has existing related Sites
 	}
 
 	// -------------------- Search for Unit Resource --------------------

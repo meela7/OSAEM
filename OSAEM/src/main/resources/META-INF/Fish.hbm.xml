@@ -15,10 +15,10 @@
         <!-- <one-to-one name="Feature" class="com.naemp.osaem.model.Feature" fetch="join" lazy="false">
         </one-to-one> -->
         <property name="FishClass" type="java.lang.String">
-            <column name="Class" />
+            <column name="`Class`" />
         </property>
         <property name="Order" type="java.lang.String">
-            <column name="Order" />
+            <column name="`Order`" />
         </property>
         <property name="Family" type="java.lang.String">
             <column name="Family" />

@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.naemp.osaem.dao.FishDAO;
+import com.naemp.osaem.model.Feature;
 import com.naemp.osaem.model.Fish;
 
 public class FishDAOImpl implements FishDAO {
@@ -41,6 +42,20 @@ public class FishDAOImpl implements FishDAO {
 	public boolean create(Fish fish) {		
 		logger.info("Create a Fish Named {}", fish.getSpecies());
 		try {
+			String species = fish.getSpecies();
+			Session session = sessionFactory.getCurrentSession();
+			Query query = session.createSQLQuery("INSERT INTO Features (FeatureType, FeatureName) VALUES('Fish' , :species )");
+			
+			query.setParameter("species", species);			
+			int result = query.executeUpdate();
+			if(result > 0){
+				query = session.createQuery("FROM Feature WHERE FeatureName = :species ");
+				
+				query.setParameter("species", species);
+				
+				Feature feature = (Feature) query.uniqueResult();
+				fish.setFeature(feature);
+			}			
 			sessionFactory.getCurrentSession().save(fish);
 		} catch (Exception e) {
 			e.printStackTrace();

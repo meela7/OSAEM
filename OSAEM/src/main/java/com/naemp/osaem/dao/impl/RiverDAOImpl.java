@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -105,7 +106,7 @@ public class RiverDAOImpl implements RiverDAO {
 
 		@SuppressWarnings("unchecked")
 		List<River> listRiver = (List<River>) sessionFactory.getCurrentSession().createCriteria(River.class)
-				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+				.addOrder(Order.asc("RiverID")).list();
 				/*
 				 * HQL을 이용한 방법. HQL은 SQL과 비슷한 방법으로 데이터를 조회할 수 있도록 해주는 Hibernate가
 				 * 제공하는 쿼리 언어이다. Join을 할 경우 배열에 저장하여 모두 Return Pros: high

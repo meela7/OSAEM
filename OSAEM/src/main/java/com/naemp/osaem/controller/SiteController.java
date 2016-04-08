@@ -131,17 +131,17 @@ public class SiteController {
 		return new ResponseEntity<Site>(site, HttpStatus.OK);
 	}
 	
-	// -------------------- Read a list of Sites(used by Value Map) --------------------
-	@RequestMapping(value = "/sites/list/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<Site>> findByIDSet(@PathVariable("id") List<Integer> siteIDs) {
-		logger.debug("Fetching Sites by {} IDs", siteIDs.size());
-		List<Site> sites = this.siteService.findByIDs(siteIDs);
-		if(sites.size() == 0){
-			logger.debug("Fetching Sites by the list of IDs have no result.");
-			return new ResponseEntity<List<Site>>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<List<Site>>(sites, HttpStatus.OK);
-	}
+//	// -------------------- Read a list of Sites(used by Value Map) --------------------
+//	@RequestMapping(value = "/sites/list/{id}", method = RequestMethod.GET)
+//	public ResponseEntity<List<Site>> findByIDSet(@PathVariable("id") List<Integer> siteIDs) {
+//		logger.debug("Fetching Sites by {} IDs", siteIDs.size());
+//		List<Site> sites = this.siteService.findByIDs(siteIDs);
+//		if(sites.size() == 0){
+//			logger.debug("Fetching Sites by the list of IDs have no result.");
+//			return new ResponseEntity<List<Site>>(HttpStatus.NO_CONTENT);
+//		}
+//		return new ResponseEntity<List<Site>>(sites, HttpStatus.OK);
+//	}
 
 	// -------------------- Update a Site Instance Resource --------------------
 	@RequestMapping(value = "/sites/{id}", method = RequestMethod.PUT)

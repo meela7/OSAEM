@@ -27,6 +27,6 @@ public interface SiteService {
 	public List<Site> search(Map<String, String> map);
 	public List<Site> listSearch(Map<String, List<String>> map);
 	
-	public List<Site> findByIDs(List<Integer> siteIDs);
+//	public List<Site> findByIDs(List<Integer> siteIDs);
 
 }

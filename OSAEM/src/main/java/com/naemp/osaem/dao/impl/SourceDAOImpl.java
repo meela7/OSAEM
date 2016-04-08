@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +88,7 @@ public class SourceDAOImpl implements SourceDAO {
 	public List<Source> list() {
 		@SuppressWarnings("unchecked")
 		List<Source> sourceList = (List<Source>) sessionFactory.getCurrentSession().createCriteria(Source.class)
-				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+		.addOrder(Order.asc("SourceID")).list();
 		
 		return sourceList;
 	}

@@ -27,6 +27,6 @@ public interface SiteDAO {
 	public List<Site> search(Map<String, String> map);
 	public List<Site> listSearch(Map<String, List<String>> map);
 	
-	public List<Site> getByIDs(List<Integer> siteIDs);
+//	public List<Site> getByIDs(List<Integer> siteIDs); //2016.04.04 it can be removed by using search function
 
 }

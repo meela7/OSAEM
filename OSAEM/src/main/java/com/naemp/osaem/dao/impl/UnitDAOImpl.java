@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.persister.entity.AbstractEntityPersister;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,7 +88,7 @@ public class UnitDAOImpl implements UnitDAO {
 	public List<Unit> list() {
 		@SuppressWarnings("unchecked")
 		List<Unit> unitList = (List<Unit>) sessionFactory.getCurrentSession().createCriteria(Unit.class)
-				.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY).list();
+				.addOrder(Order.asc("UnitID")).list();
 		
 		return unitList;
 	}
